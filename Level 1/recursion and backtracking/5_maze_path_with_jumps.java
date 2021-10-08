@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /*
 1. You are given a number n and a number m representing number of rows and columns in a maze.
 2. You are standing in the top-left corner and have to reach the bottom-right corner. Only two moves are allowed 'h' (1-step horizontal) and 'v' (1-step vertical).
@@ -27,7 +25,7 @@ Sample Output
 
 import java.util.*;
 
-class maze_paths {
+class maze_path_with_jumps {
     public static void main(String[] args) throws Exception {
         Scanner s = new Scanner(System.in);
         int m = s.nextInt();
@@ -49,7 +47,7 @@ class maze_paths {
         if(sr > dr || sc > dc){
             return ans;
         }
-
+        
         ArrayList<String> h_paths = getMazePaths(sr+1, sc, dr, dc);
         ArrayList<String> v_paths = getMazePaths(sr, sc+1, dr, dc);
 
