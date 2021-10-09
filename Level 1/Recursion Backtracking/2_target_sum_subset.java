@@ -56,15 +56,14 @@ class target_sum_subset {
     // sos is sum of subset
     // tar is target
     public static void printTargetSumSubsets(int[] arr, int idx, int sos, int tar, boolean[] taken) {
-        if(sos > tar || idx >= arr.length){
+        if(idx >= arr.length){    
+            if(sos == tar){
+                print(arr, taken);
+                return ;
+            }
+
             return ;
         }
-
-        if(sos == tar){
-            print(arr, taken);
-            return ;
-        }
-
         taken[idx] = true;
         printTargetSumSubsets(arr, idx+1, sos+arr[idx], tar, taken);
         taken[idx] = false;
