@@ -25,6 +25,32 @@ class linear_diphantine_equation {
 		int a = scn.nextInt();
 		int b = scn.nextInt();
         int k = scn.nextInt();
-        		
+        coefs c = gcd(a,b);
+        System.out.println(c.x*k +" " + c.y*k);
 	}
+
+    public static coefs gcd(int a,int b){
+        if(b == 0){
+            return new coefs(1,0,a);
+        }
+
+        coefs c = gcd(b, a%b);
+        int x1 = c.x;
+        int y1 = c.y;
+        c.x = y1;
+        c.y = x1 - ((a/b)*y1);
+        return c;
+    }
+}
+
+class coefs{
+    int x; 
+    int y;
+    int gcd;
+
+    public coefs(int x, int y, int gcd){
+        this.x = x;
+        this.y = y;
+        this.gcd = gcd;
+    }
 }

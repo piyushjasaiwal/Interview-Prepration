@@ -23,29 +23,29 @@ class extended_euclidean_algorithm{
       Scanner s = new Scanner(System.in);
       int a = s.nextInt();
       int b = s.nextInt();
-      coef c = new coef(0,0);
-      int g = gcd(a,b,c);
-      System.out.println(c.x+" "+c.y);
+      coef g = gcd(a,b);
+      System.out.println(g.x+" "+g.y);
     }
 
-    public static int gcd(int a, int b, coef c){
+    public static coef gcd(int a, int b){
       if(b == 0){
-        c.x = 1;
-        c.y = 0;
-        return a;
+        return new coef(1, 0, a);
       }
-      coef new_c = new coef(0,0);
-      int g = gcd(b, a%b, new_c);
-      c.x = new_c.y;
-      new_c.y = new_c.x - (new_c.y*(a/b));
-      return g;
+      
+      coef c = gcd(b, a%b);
+      int x1 = c.x;
+      int y1 = c.y;
+      c.x = y1;
+      c.y = x1 - ((a/b)*y1);
+      return c;
     }
 }
 
 class coef{
-  int x,y;
-  coef(int x, int y){
+  int x,y,gcd;
+  coef(int x, int y, int gcd){
     this.x = x;
     this.y = y;
+    this.gcd = gcd;
   }
 }
