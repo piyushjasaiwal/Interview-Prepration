@@ -29,20 +29,21 @@ import java.util.*;
 
 class i_hate_111 {
     public static void main(String[] args) {
+        // the only two useful numbers are 11 and 111 other can be made up using 11 and 111
         Scanner s = new Scanner(System.in);
         int t = s.nextInt();
-        long [] ar = {11, 111, 1111, 11111, 111111, 1111111, 11111111, 111111111};
         while(t-->0){
             long n = s.nextLong();
-            for(int i = ar.length-1;i>=0;i--){
-                if(ar[i] < n){
-                    while(n > 0 && ar[i] <= n){
-                        n -= ar[i];
-                    }
+            long a = n%11;
+            if(n >= 111*a){
+                if((n-(111*a))%11 == 0){
+                    System.out.println("YES");
+                }else{
+                    System.out.println("NO");
                 }
+            }else{
+                System.out.println("NO");
             }
-            System.out.println(n);
-            System.out.println(n == 0 ? "YES" : "NO");
         }
     }
 }
