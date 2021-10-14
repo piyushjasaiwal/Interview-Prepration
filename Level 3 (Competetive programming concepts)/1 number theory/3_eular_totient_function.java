@@ -14,8 +14,26 @@ Sample Output
 6
 */
 
+import java.util.*;
+
 class eular_totient_function {
     public static void main(String[] args) {
-        
+        Scanner s = new Scanner(System.in);
+        long n = s.nextInt();
+        long ans = n;
+        for(int i = 2;i*i<=n;i++){
+          if(n%i == 0){
+            ans = ans - ans/i;
+
+            while(n%i == 0){
+              n = n/i;
+            }
+          }
+        }
+
+        if(n>1){
+          ans = ans - ans/n;
+        }
+        System.out.println(ans);
     }
 }
