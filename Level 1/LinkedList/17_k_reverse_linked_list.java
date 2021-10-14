@@ -26,7 +26,7 @@ Sample Output
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
   public static class Node {
     int data;
     Node next;
@@ -356,7 +356,36 @@ public class Main {
 
     public void kReverse(int k) {
       // write your code here
-    	Node head
+    	LinkedList prev = null;
+      Node temp = head;
+      while(temp != null){
+        LinkedList curr = new LinkedList();
+        int i = 0;
+         for(i = 0;i<k && temp != null;i++){
+          curr.addFirst(temp.data);
+          temp = temp.next;
+         }
+         if(i == k){
+            if(prev == null){
+            prev = curr;
+           }else{
+            prev.tail.next = curr.head;
+            prev.tail = curr.tail;
+           }
+         }else{
+          curr.reverseDI();
+          if(prev == null){
+            prev = curr;
+          }else{
+            prev.tail.next = curr.head;
+            prev.tail = curr.tail;
+           }
+         }
+         
+      }
+
+      this.head = prev.head;
+      this.tail = prev.tail;
     }
   }
 

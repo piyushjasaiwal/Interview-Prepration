@@ -1,7 +1,9 @@
 /*
 1. You are given a partially written LinkedList class.
-2. You are required to complete the body of oddEven function. The function is expected to tweak the list such that all odd values are followed by all even values. The relative order of elements should not change. Also, take care of the cases when there are no odd or no even elements. Make sure to properly set head, tail and size as the function will be tested by calling addFirst and addLast.
-3. Input and Output is managed for you.
+2. You are required to complete the body of reversePR and reversePRHelper functions. The functions are expected to reverse the linked list by using recursion and changing the "next" data member of nodes.
+3. Input and Output is managed for you. 
+
+Note -> The online judge can't force you to write recursive function, nor can it check if you changed the "next" data member or not. But that is what the expectation is, the intention in to help you learn.
 Input Format
 Input is managed for you
 Output Format
@@ -10,16 +12,15 @@ Question Video
 
   COMMENTConstraints
 1. Time complexity -> O(n)
-2. Space complexity -> constant
+2. Space complexity -> O(n)
 Sample Input
-7
-2 8 9 1 5 4 3
-10
+11
+1 2 3 4 5 6 7 8 9 10 11
 100
+200
 Sample Output
-2 8 9 1 5 4 3 
-9 1 5 3 2 8 4 
-10 9 1 5 3 2 8 4 100 
+1 2 3 4 5 6 7 8 9 10 11 
+200 11 10 9 8 7 6 5 4 3 2 1 100 
 */
 
 import java.io.*;
@@ -187,9 +188,9 @@ class Main {
       return temp;
     }
 
-    public void reverseDI(int i, int j) {
-      int li = i;
-      int ri = j;
+    public void reverseDI() {
+      int li = 0;
+      int ri = size - 1;
       while (li < ri) {
         Node left = getNodeAt(li);
         Node right = getNodeAt(ri);
@@ -278,11 +279,11 @@ class Main {
       return ml;
     }
 
-    public static Node midNode(Node head, Node tail){
+    public static Node midNode(Node head, Node tail) {
       Node f = head;
       Node s = head;
 
-      while(f != tail && f.next != tail){
+      while (f != tail && f.next != tail) {
         f = f.next.next;
         s = s.next;
       }
@@ -290,8 +291,8 @@ class Main {
       return s;
     }
 
-    public static LinkedList mergeSort(Node head, Node tail){
-      if(head == tail){
+    public static LinkedList mergeSort(Node head, Node tail) {
+      if (head == tail) {
         LinkedList br = new LinkedList();
         br.addLast(head.data);
         return br;
@@ -303,15 +304,15 @@ class Main {
       LinkedList sl = mergeTwoSortedLists(fsh, ssh);
       return sl;
     }
-  
-    public void removeDuplicates(){
+
+    public void removeDuplicates() {
       LinkedList res = new LinkedList();
 
-      while(this.size() > 0){
+      while (this.size() > 0) {
         int val = this.getFirst();
         this.removeFirst();
-        
-        if(res.size() == 0 || val != res.tail.data){
+
+        if (res.size() == 0 || val != res.tail.data) {
           res.addLast(val);
         }
       }
@@ -320,36 +321,104 @@ class Main {
       this.tail = res.tail;
       this.size = res.size;
     }
-    
-    public void oddEven(){
-      // write your code here
+
+    public void oddEven() {
       LinkedList odd = new LinkedList();
       LinkedList even = new LinkedList();
 
-      Node temp = this.head;
-      while(temp != null){
-        if(temp.data%2 == 0){
-          even.addLast(temp.data);
-        }else{
-          odd.addLast(temp.data);
+      while (this.size > 0) {
+        int val = this.getFirst();
+        this.removeFirst();
+
+        if (val % 2 == 0) {
+          even.addLast(val);
+        } else {
+          odd.addLast(val);
         }
-        temp = temp.next;
       }
 
-      if(odd.size>0 && even.size>0){
+      if (odd.size > 0 && even.size > 0) {
         odd.tail.next = even.head;
+
         this.head = odd.head;
         this.tail = even.tail;
-        this.size = odd.size() + even.size();
-      }else if(odd.size == 0){
-        this.head = even.head;
-        this.tail = even.tail;
-        this.size = even.size();
-      }else{
+        this.size = odd.size + even.size;
+      } else if (odd.size > 0) {
         this.head = odd.head;
         this.tail = odd.tail;
-        this.size = odd.size();
+        this.size = odd.size;
+      } else if (even.size > 0) {
+        this.head = even.head;
+        this.tail = even.tail;
+        this.size = even.size;
       }
+    }
+
+    public void kReverse(int k) {
+      LinkedList prev = null;
+
+      while (this.size > 0) {
+        LinkedList curr = new LinkedList();
+
+        if (this.size >= k) {
+          for (int i = 0; i < k; i++) {
+            int val = this.getFirst();
+            this.removeFirst();
+            curr.addFirst(val);
+          }
+        } else {
+          int sz = this.size;
+          for (int i = 0; i < sz; i++) {
+            int val = this.getFirst();
+            this.removeFirst();
+            curr.addLast(val);
+          }
+        }
+
+        if (prev == null) {
+          prev = curr;
+        } else {
+          prev.tail.next = curr.head;
+          prev.tail = curr.tail;
+          prev.size += curr.size;
+        }
+      }
+
+      this.head = prev.head;
+      this.tail = prev.tail;
+      this.size = prev.size;
+    }
+
+    private void displayReverseHelper(Node node){
+      if(node == null){
+        return;
+      }
+      displayReverseHelper(node.next);
+      System.out.print(node.data + " ");
+    }
+
+    public void displayReverse(){
+      displayReverseHelper(head);
+      System.out.println();
+    }
+ 
+    private void reversePRHelper(Node node){
+      // write your code here
+      if(node == null){
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+        return ;
+      }
+      int data = node.data;
+      reversePRHelper(node.next);
+      addLast(data);
+      size+=1;
+    }
+
+    public void reversePR(){
+      // write your code here
+      reversePRHelper(head);
     }
   }
 
@@ -368,10 +437,9 @@ class Main {
     int b = Integer.parseInt(br.readLine());
 
     l1.display();
-    l1.oddEven();
-    l1.display();
-    l1.addFirst(a);
-    l1.addLast(b);
+    l1.reversePR();
+    l1.addLast(a);
+    l1.addFirst(b);
     l1.display();
   }
 }
