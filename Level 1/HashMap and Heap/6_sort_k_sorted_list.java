@@ -59,21 +59,19 @@ class sort_k_sorted_list {
         for(int i = 0;i<k+1;i++){
             pq.add(arr[i]);
         }
-        System.out.println(pq);
+        // System.out.println(pq);
 
         for(int i = k+1;i<arr.length;i++){
-            arr[i-k+1] = pq.poll();
+            System.out.println(pq.poll());
             pq.add(arr[i]);
         }
-        System.out.println(pq);
-        int i = arr.length-k-1;
+        // System.out.println(pq);
         while(!pq.isEmpty()){
-            arr[i] = pq.poll();
-            i++;
+            System.out.println(pq.poll());
         }
 
-        for(int val:arr){
-            System.out.println(val);
-        }
+        // for(int val:arr){
+        //     System.out.println(val);
+        // }
      }
 }
