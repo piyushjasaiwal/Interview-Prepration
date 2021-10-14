@@ -41,6 +41,11 @@ class Main {
          this.nbr = nbr;
          this.wt = wt;
       }
+
+      @Override
+      public String toString(){
+         return src + " " + nbr + " " + wt;
+      }
    }
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -65,8 +70,25 @@ class Main {
       int dest = Integer.parseInt(br.readLine());
 
       // write your code here
+      for(ArrayList<Edge> e:graph){
+         for(Edge ee: e){
+            System.out.println(ee);
+         }
+      }
     }
 
-    public static boolean haspath()
+    // public static boolean haspath(int src, int dest, Set<Integer> visited){
+    //   if(src == dest){
+    //      return false;
+    //   }
+
+    //   if(visited.contains(src)){
+    //      return false;
+    //   }
+
+    //   visited.add(src);
+
+    //   return false;
+    // }
 
 }

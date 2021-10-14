@@ -1,15 +1,9 @@
 /*
 1. You are given a partially written LinkedList class.
-2. You are required to complete the body of fold function. The function is expected to place last element after 1st element, 2nd last element after 2nd element and so on. For more insight check the example
+2. You are required to complete the body of findIntersection function. The function is passed two linked lists which start separately but merge at a node and become common thereafter. The function is expected to find the point where two linked lists merge. You are not allowed to use arrays to solve the problem.
+3. Input and Output is managed for you. 
 
-Example 1
-1->2->3->4->5
-will fold as
-1->5->2->4->3
-
-Example 2
-1->2->3->4->5->6
-1->6->2->5->3->4
+intersection-of-linked-list
 Input Format
 Input is managed for you
 Output Format
@@ -18,16 +12,16 @@ Question Video
 
   COMMENTConstraints
 1. Time complexity -> O(n)
-2. Space complexity -> Recursion space, O(n)
+2. Space complexity -> constant
 Sample Input
 5
 1 2 3 4 5
-10
-20
+8
+11 22 33 44 55 66 77 88
+2
+3
 Sample Output
-1 2 3 4 5 
-1 5 2 4 3 
-10 1 5 2 4 3 20 
+44
 */
 
 import java.io.*;
@@ -424,28 +418,24 @@ class Main {
       tail = temp;
       tail.next = null;
     }
-    Node pleft;
-    public void fold() {
-      // write your code here
-    	LinkedList temp = new LinkedList();
-    	pleft = head;
-    	Node pright = head;
-    	fold_helper(pright, 0);
-    }
 
-    public void fold_helper(Node pright, int floor){
-    	if(pright == null){
-    		return ;
-    	}
-    	fold_helper(pright.next, floor+1);
-    	if(floor > size/2){
-        pright.next = pleft.next;
-        pleft.next = pright;
-        pleft = pright.next;
-      }else if(floor == size/2){
-        tail = pright;
-        tail.next = null;
+    public static int findIntersection(LinkedList one, LinkedList two){
+      // write your code here
+      Node a = one.head;
+      Node b = two.head;
+
+      while(a != b){
+        a = a.next;
+        b = b.next;
+        if(a == null){
+          a = two.head;
+        }
+
+        if(b == null){
+          b = one.head;
+        }
       }
+      return a.data;
     }
   }
 
@@ -460,14 +450,29 @@ class Main {
       l1.addLast(d);
     }
 
-    int a = Integer.parseInt(br.readLine());
-    int b = Integer.parseInt(br.readLine());
+    int n2 = Integer.parseInt(br.readLine());
+    LinkedList l2 = new LinkedList();
+    String[] values2 = br.readLine().split(" ");
+    for (int i = 0; i < n2; i++) {
+      int d = Integer.parseInt(values2[i]);
+      l2.addLast(d);
+    }
 
-    l1.display();
-    l1.fold();
-    l1.display();
-    l1.addFirst(a);
-    l1.addLast(b);
-    l1.display();
+    int li = Integer.parseInt(br.readLine());
+    int di = Integer.parseInt(br.readLine());
+    if(li == 1){
+      Node n = l1.getNodeAt(di);
+      l2.tail.next = n;
+      l2.tail = l1.tail;
+      l2.size += l1.size - di;
+    } else {
+      Node n = l2.getNodeAt(di);
+      l1.tail.next = n;
+      l1.tail = l2.tail;
+      l1.size += l2.size - di;
+    }
+
+    int inter = LinkedList.findIntersection(l1, l2);
+    System.out.println(inter);
   }
 }

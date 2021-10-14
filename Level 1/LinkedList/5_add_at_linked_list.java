@@ -170,7 +170,10 @@ class Main {
       }else{
         int i = 0;
         Node temp = head;
-        while(temp != null && i<idx-1);
+        while(temp != null && i<idx-1){
+          temp = temp.next;
+          i++;
+        }
         Node nn = new Node();
         nn.data = val;
 

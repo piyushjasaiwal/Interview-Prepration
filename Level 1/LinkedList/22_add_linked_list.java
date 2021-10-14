@@ -1,15 +1,19 @@
 /*
 1. You are given a partially written LinkedList class.
-2. You are required to complete the body of fold function. The function is expected to place last element after 1st element, 2nd last element after 2nd element and so on. For more insight check the example
+2. You are required to complete the body of addLinkedLists function. The function is passed two linked lists which represent two numbers - the first element is the most significant digit and the last element is the least significant digit. The function is expected to add the two linked list and return a new linked list.
 
-Example 1
-1->2->3->4->5
-will fold as
-1->5->2->4->3
+The following approaches are not allowed :
+    1. Don't reverse the linked lists in order to access them from least significant digit 
+     to most significant.
+     2. Don't use arrays or explicit extra memory.
+     3. Don't convert linked lists to number, add them up and convert the result back 
+     to a linked list.
 
-Example 2
-1->2->3->4->5->6
-1->6->2->5->3->4
+Hint - You are expected to take help of recursion to access digits from least significant to most significant. You have to tackle the challenge of unequal size of lists and manage carry where required.
+
+3. Input and Output is managed for you. 
+
+Note-> Make sure to set head and tail appropriately because addFirst and addLast has been used to test their values in the input-output code.
 Input Format
 Input is managed for you
 Output Format
@@ -20,15 +24,19 @@ Question Video
 1. Time complexity -> O(n)
 2. Space complexity -> Recursion space, O(n)
 Sample Input
-5
-1 2 3 4 5
+1
+1
+3
+9 9 9
 10
 20
 Sample Output
-1 2 3 4 5 
-1 5 2 4 3 
-10 1 5 2 4 3 20 
+1 
+9 9 9 
+1 0 0 0 
+10 1 0 0 0 20 
 */
+
 
 import java.io.*;
 import java.util.*;
@@ -424,28 +432,44 @@ class Main {
       tail = temp;
       tail.next = null;
     }
-    Node pleft;
-    public void fold() {
+
+    public static LinkedList addTwoLists(LinkedList one, LinkedList two) {
       // write your code here
-    	LinkedList temp = new LinkedList();
-    	pleft = head;
-    	Node pright = head;
-    	fold_helper(pright, 0);
+    	if(two.size > one.size){
+    		LinkedList temp = one;
+    		one = two;
+    		two = temp;
+    	}
+
+    	int dif = one.size - two.size;
+    	LinkedList ans = new LinkedList();
+    	int c = add(one.head, two.head, ans, dif, 0);
+    	if(c>0){
+    		ans.addFirst(c);
+    	}
+    	return ans;
     }
 
-    public void fold_helper(Node pright, int floor){
-    	if(pright == null){
-    		return ;
+    public static int add(Node one, Node two, LinkedList ans, int dif, int cnt){
+    	if(one == null && two == null){
+    		return 0;
     	}
-    	fold_helper(pright.next, floor+1);
-    	if(floor > size/2){
-        pright.next = pleft.next;
-        pleft.next = pright;
-        pleft = pright.next;
-      }else if(floor == size/2){
-        tail = pright;
-        tail.next = null;
-      }
+    	int c = 0;
+    	if(cnt<dif){
+    		c = add(one.next, two, ans, dif, cnt+1);
+    	}else{
+    		c = add(one.next, two.next, ans, dif, cnt+1);
+    	}
+    	int sum = 0;
+    	if(cnt >= dif){
+    		sum = one.data+two.data+c;
+    	}else{
+    		sum = one.data+c;
+    	}
+    	c = sum/10;
+    	sum = sum%10;
+    	ans.addFirst(sum);
+    	return c;
     }
   }
 
@@ -460,14 +484,24 @@ class Main {
       l1.addLast(d);
     }
 
+    int n2 = Integer.parseInt(br.readLine());
+    LinkedList l2 = new LinkedList();
+    String[] values2 = br.readLine().split(" ");
+    for (int i = 0; i < n2; i++) {
+      int d = Integer.parseInt(values2[i]);
+      l2.addLast(d);
+    }
+
+    LinkedList sum = LinkedList.addTwoLists(l1, l2);
+
     int a = Integer.parseInt(br.readLine());
     int b = Integer.parseInt(br.readLine());
 
     l1.display();
-    l1.fold();
-    l1.display();
-    l1.addFirst(a);
-    l1.addLast(b);
-    l1.display();
+    l2.display();
+    sum.display();
+    sum.addFirst(a);
+    sum.addLast(b);
+    sum.display();
   }
 }
