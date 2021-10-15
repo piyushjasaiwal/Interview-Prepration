@@ -1,11 +1,19 @@
 /*
-1. You are given a graph, a src vertex and a destination vertex.
-2. You are required to find if a path exists between src and dest. If it does, print true 
-     otherwise print false.
+1. You are given a graph, a source vertex and a destination vertex.
+2. You are required to find and print all paths between source and destination. Print 
+     them in lexicographical order.
+    
+    E.g. Check the following paths
+             012546
+             01256
+             032546
+             03256
+
+    The lexicographically smaller path is printed first.
 Input Format
 Input has been managed for you
 Output Format
-true if path exists, false otherwise
+Check sample output
 Question Video
 
   COMMENTConstraints
@@ -24,7 +32,10 @@ Sample Input
 0
 6
 Sample Output
-true
+0123456
+012346
+03456
+0346
 */
 
 import java.io.*;
@@ -36,28 +47,24 @@ class Main {
       int nbr;
       int wt;
 
-      Edge(int src, int nbr, int wt){
+      Edge(int src, int nbr, int wt) {
          this.src = src;
          this.nbr = nbr;
          this.wt = wt;
       }
-
-      @Override
-      public String toString(){
-         return src + " " + nbr + " " + wt;
-      }
    }
+
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
       int vtces = Integer.parseInt(br.readLine());
       ArrayList<Edge>[] graph = new ArrayList[vtces];
-      for(int i = 0; i < vtces; i++){
+      for (int i = 0; i < vtces; i++) {
          graph[i] = new ArrayList<>();
       }
 
       int edges = Integer.parseInt(br.readLine());
-      for(int i = 0; i < edges; i++){
+      for (int i = 0; i < edges; i++) {
          String[] parts = br.readLine().split(" ");
          int v1 = Integer.parseInt(parts[0]);
          int v2 = Integer.parseInt(parts[1]);
@@ -69,26 +76,28 @@ class Main {
       int src = Integer.parseInt(br.readLine());
       int dest = Integer.parseInt(br.readLine());
 
-      // write your code here
-      System.out.println(has_path(src, dest, graph, new HashSet<>()));
-    }
+      // write all your codes here
+      print_path(src, dest, graph, new HashSet<>(), "");
+   }
 
-    public static boolean has_path(int src, int dest, ArrayList<Edge>[] graph, Set<Integer> visited){
-      if(src == dest){
-         return true;
-      }
+   public static void print_path(int src, int dest, ArrayList<Edge>[] graph, Set<Integer> visited, String psf){
+	   	if(src == dest){
+	   		System.out.println(psf+src);
+	   		return ;
+	   	}
 
-      if(visited.contains(src)){
-         return false;
-      }
-      visited.add(src);
+	   	if(visited.contains(src)){
+	   		return ;
+	   	}
 
-      for(Edge e:graph[src]){
-         if(has_path(e.nbr, dest, graph, visited)){
-            return true;
-         }
-      }
+	   	
 
-      return false;
-    }
+	   	for(Edge e:graph[src]){
+	   		visited.add(src);
+	   		print_path(e.nbr, dest, graph, visited, psf+src);
+	   		visited.remove(src);
+	   	}
+   }
+
+
 }
