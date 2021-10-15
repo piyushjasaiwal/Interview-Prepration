@@ -1,6 +1,6 @@
 /*
 1. You are given a partially written GenericTree class.
-2. You are required to complete the body of nodeToRootPath function. The function is expected to return in form of linked list the path from element to root, if the element with data is found.
+2. You are required to complete the body of IsSymmetric function. The function is expected to check if the tree is symmetric, if so return true otherwise return false. For knowing symmetricity think of face and hand. Face is symmetric while palm is not. Also, we are check only smmetricity of shape and not content. Check the question video for clarity.
 3. Input and Output is managed for you.
 Input Format
 Input is managed for you
@@ -11,17 +11,16 @@ Question Video
   COMMENTConstraints
 None
 Sample Input
-24
-10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
-120
+20
+10 20 50 -1 60 -1 -1 30 70 -1 80 -1 90 -1 -1 40 100 -1 110 -1 -1 -1
 Sample Output
-[120, 80, 30, 10]
+true
 */
 
 import java.io.*;
 import java.util.*;
 
-class Main {
+public class Main {
   private static class Node {
     int data;
     ArrayList<Node> children = new ArrayList<>();
@@ -64,49 +63,46 @@ class Main {
     return root;
   }
 
- public static ArrayList<Integer> nodeToRootPath(Node node, int data){
-    // write your code here
-    if(!find(node, data)){
-      return new ArrayList<>();
-    }
+  public static int size(Node node) {
+    int s = 0;
 
-    ArrayList<Integer> ans_list = new ArrayList<>();
-    boolean ans = nodetoRoot(node, data, ans_list);
-    return ans_list;
- }
+    for (Node child : node.children) {
+      s += size(child);
+    }
+    s += 1;
 
-  public static boolean nodetoRoot(Node node ,int data, ArrayList<Integer> ans){
-    if(node == null){
-       return false;
-    }
-    // boolean temp = false;
-    if(node.data == data){
-      ans.add(node.data);
-      return true;
-    }
-    for(Node ch:node.children){
-      boolean temp = nodetoRoot(ch, data, ans);
-      if(temp){
-        ans.add(node.data);
-        return true;
-      }
-    }
-    return false;
+    return s;
   }
 
- public static boolean find(Node node, int data){
-    if(node == null){
-      return false;
+  public static int max(Node node) {
+    int m = Integer.MIN_VALUE;
+
+    for (Node child : node.children) {
+      int cm = max(child);
+      m = Math.max(m, cm);
     }
-    if(node.data == data){
-      return true;
+    m = Math.max(m, node.data);
+
+    return m;
+  }
+
+  public static int height(Node node) {
+    int h = -1;
+
+    for (Node child : node.children) {
+      int ch = height(child);
+      h = Math.max(h, ch);
     }
-    boolean ans = false;
-    for(Node ch : node.children){
-      ans = ans || find(ch, data);
-    }
-    return ans;
- }
+    h += 1;
+
+    return h;
+  }
+
+  public static boolean IsSymmetric(Node node) {
+    // write your code here
+    
+  }
+
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
@@ -116,11 +112,9 @@ class Main {
       arr[i] = Integer.parseInt(values[i]);
     }
 
-    int data = Integer.parseInt(br.readLine());
-
     Node root = construct(arr);
-    ArrayList<Integer> path = nodeToRootPath(root, data);
-    System.out.println(path);
+    boolean sym = IsSymmetric(root);
+    System.out.println(sym);
     // display(root);
   }
 

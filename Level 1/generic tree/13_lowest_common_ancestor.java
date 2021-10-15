@@ -1,6 +1,7 @@
 /*
 1. You are given a partially written GenericTree class.
-2. You are required to complete the body of nodeToRootPath function. The function is expected to return in form of linked list the path from element to root, if the element with data is found.
+2. You are required to complete the body of lca function. The function is expected to return the lowest common ancestor of two data values that are passed to it. 
+Please watch the question video to understand what lca is.
 3. Input and Output is managed for you.
 Input Format
 Input is managed for you
@@ -14,8 +15,9 @@ Sample Input
 24
 10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
 120
+80
 Sample Output
-[120, 80, 30, 10]
+80
 */
 
 import java.io.*;
@@ -64,49 +66,56 @@ class Main {
     return root;
   }
 
- public static ArrayList<Integer> nodeToRootPath(Node node, int data){
-    // write your code here
-    if(!find(node, data)){
-      return new ArrayList<>();
+  public static ArrayList<Integer> nodeToRootPath(Node node, int data) {
+    if (node.data == data) {
+      ArrayList<Integer> path = new ArrayList<>();
+      path.add(node.data);
+      return path;
     }
 
-    ArrayList<Integer> ans_list = new ArrayList<>();
-    boolean ans = nodetoRoot(node, data, ans_list);
-    return ans_list;
- }
-
-  public static boolean nodetoRoot(Node node ,int data, ArrayList<Integer> ans){
-    if(node == null){
-       return false;
-    }
-    // boolean temp = false;
-    if(node.data == data){
-      ans.add(node.data);
-      return true;
-    }
-    for(Node ch:node.children){
-      boolean temp = nodetoRoot(ch, data, ans);
-      if(temp){
-        ans.add(node.data);
-        return true;
+    for (Node child : node.children) {
+      ArrayList<Integer> ptc = nodeToRootPath(child, data);
+      if (ptc.size() > 0) {
+        ptc.add(node.data);
+        return ptc;
       }
     }
-    return false;
+
+    return new ArrayList<>();
   }
 
- public static boolean find(Node node, int data){
+  public static int lca(Node node, int d1, int d2) {
+    // write your code here
+    Node ans = lca_helper(node, d1, d2);
+    return ans.data;
+  }
+
+  public static Node lca_helper(Node node, int d1, int d2){
     if(node == null){
-      return false;
+      return null;
     }
-    if(node.data == data){
-      return true;
+    if(node.data == d1 || node.data == d2){
+      return node;
     }
-    boolean ans = false;
-    for(Node ch : node.children){
-      ans = ans || find(ch, data);
+    int cnt = 0;
+    Node ans = null;
+    for(Node nn : node.children){
+      Node temp = lca_helper(nn, d1, d2);
+      if(temp != null){
+        ans = temp;
+        cnt += 1;
+      }
     }
-    return ans;
- }
+
+    if(cnt == 0){
+      return null;
+    }else if(cnt == 1){
+      return ans;
+    }else{
+      return node;
+    }
+  }
+
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
@@ -116,11 +125,12 @@ class Main {
       arr[i] = Integer.parseInt(values[i]);
     }
 
-    int data = Integer.parseInt(br.readLine());
+    int d1 = Integer.parseInt(br.readLine());
+    int d2 = Integer.parseInt(br.readLine());
 
     Node root = construct(arr);
-    ArrayList<Integer> path = nodeToRootPath(root, data);
-    System.out.println(path);
+    int lca = lca(root, d1, d2);
+    System.out.println(lca);
     // display(root);
   }
 
