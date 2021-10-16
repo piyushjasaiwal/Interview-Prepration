@@ -1,23 +1,28 @@
 /*
 1. You are given a graph.
-2. You are required to find and print if the graph is cyclic.
+2. You are required to find and print if the graph is bipartite
+
+Note -> A graph is called bipartite if it is possible to split it's vertices in two sets of mutually 
+               exclusive and exhaustive vertices such that all edges are across sets.
 Input Format
 Input has been managed for you
 Output Format
-true if the graph is cyclic, false otherwise
+true if the graph is bipartite, false otherwise
 Question Video
 
   COMMENTConstraints
 None
 Sample Input
 7
-6
+8
 0 1 10
 1 2 10
 2 3 10
+0 3 10
 3 4 10
 4 5 10
 5 6 10
+4 6 10
 Sample Output
 false
 */
@@ -58,37 +63,35 @@ class Main {
       }
 
       // write your code here
-      boolean ans = false;
-      Set<Integer> s = new HashSet<>();
+
+      HashMap<Integer, Boolean> map = new HashMap<>();
+      // boolean [] visited = new 
+
+      boolean ans = true;
       for(int i = 0;i<vtces;i++){
-      	if(!s.contains(i)){
-            if(is_cycle(i, graph, s)){
-               ans = true;
-               break;
-            }
-         }
+      	if(!map.containsKey(i)){
+      		ans = ans&&is_bipertite(i, graph, map, true);
+      	}
       }
-
-      System.out.println(ans);
+   		System.out.println(ans);
    }
 
-   public static boolean is_cycle(int src, ArrayList<Edge>[] graph, Set<Integer> set){
-   	LinkedList<Integer> q = new LinkedList<>();
+   public static boolean is_bipertite(int src, ArrayList<Edge>[] graph, HashMap<Integer, Boolean> map, boolean color){
+   	if(map.containsKey(src)){
+   		if(map.get(src) == color){
+   			return true;
+   		}else{
+   			return false;
+   		}
+   	}
 
-      while(!q.isEmpty()){
-         int curr = q.removeFirst();
-         if(set.contains(curr)){
-            return true;
-         }
+   	map.put(src, color);
 
-         set.add(curr);
-
-         for(Edge e:graph[curr]){
-            if(!set.contains(e.nbr)){
-               q.add(e.nbr);
-            }
-         }
-      }
-      return false;
+   	boolean ans = true;
+   	for(Edge e:graph[src]){
+   		ans = ans&&is_bipertite(e.nbr, graph, map, !color);
+   	}
+   	return ans;
    }
+
 }
