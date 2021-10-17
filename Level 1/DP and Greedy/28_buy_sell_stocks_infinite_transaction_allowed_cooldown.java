@@ -45,22 +45,24 @@ class buy_sell_stocks_infinite_transaction_allowed_cooldown {
 
         int bsp = -ar[0];
         int ssp = 0;
-        int ssp_a_day_before = -1;
+        int csp = 0;
         for(int i = 1;i<ar.length;i++){
+            // System.out.println(bsp+" "+ssp+" "+csp);
             if(i == 1){
-                int nbsp = Math.max(bsp, ssp - ar[i]);
-                int nssp = Math.max(ssp, ar[i]-bsp);
-                ssp_a_day_before = ssp;
+                int nbsp = Math.max(bsp, csp-ar[i]);
+                int nssp = Math.max(ssp, bsp+ar[i]);
                 bsp = nbsp;
                 ssp = nssp;
             }else{
-                int nbsp = Math.max(bsp, ssp_a_day_before - ar[i]);
-                int nssp = Math.max(ssp, ar[i]-bsp);
-                ssp_a_day_before = ssp;
+                int nbsp = Math.max(bsp, csp-ar[i]);
+                int nssp = Math.max(ssp, bsp+ar[i]);
+                int ncsp = Math.max(ssp, csp);
                 bsp = nbsp;
                 ssp = nssp;
+                csp = ncsp;
             }
         }
+        // System.out.println(bsp+" "+ssp+" "+csp);
         System.out.println(ssp);
     }
 }
