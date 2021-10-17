@@ -45,10 +45,14 @@ class monkey_tradition {
         //Code Here
         Scanner s = new Scanner(System.in);
         int t = s.nextInt();
-        for(int i = 1;i<=t;i++){
+        while(t-->0){
             int n = s.nextInt();
-            int pi = s.nextInt();
+            node [] ar = new node[n];
+            for(int i = 0;i<n;i++){
+              ar[i] = new node(s.nextLong(), s.nextLong());
+            }
 
+            
         }
     }
     
@@ -73,5 +77,15 @@ class monkey_tradition {
         Pair dash = euclids(b, a % b);
     
         return new Pair(dash.y, dash.x - ((a / b) * dash.y), dash.gcd);
+    }
+
+    static class node{
+      long pi;
+      long ri;
+
+      node(long p, long r){
+        pi = p;
+        ri = r;
+      }
     }
 }
