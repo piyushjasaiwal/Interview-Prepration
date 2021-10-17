@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 
 /*
 1. You are given a number n, representing the size of a n * n chess board.
@@ -60,6 +61,10 @@ class N_queen_permutation_2d_as_1d_queen_chooses {
         int r = row;
         int c = col;
 
+        if(chess[r][c] != 0){
+            return false;
+        }
+
         while(r >= 0){
             if(chess[r][col] != 0){
                 return false;
@@ -74,7 +79,7 @@ class N_queen_permutation_2d_as_1d_queen_chooses {
             if(chess[row][c] != 0){
                 return false;
             }
-            r--;
+            c--;
         }
         
         r = row;
@@ -99,12 +104,76 @@ class N_queen_permutation_2d_as_1d_queen_chooses {
             c++;
         }
 
+        r = row;
+        c = col;
+
+        while(c < chess[0].length){
+            if(chess[r][c] != 0){
+                return false;
+            }
+            c++;
+        }
+
+        r = row;
+        c = col;
+
+        while(c < chess[0].length && r < chess.length){
+            if(chess[r][c] != 0){
+                return false;
+            }
+            c++;
+            r++;
+        }
+
+        r = row;
+        c = col;
+
+        while(r < chess.length){
+            if(chess[r][c] != 0){
+                return false;
+            }
+            r++;
+        }
+
+        r = row;
+        c = col;
+
+        while(r < chess.length && c >= 0){
+            if(chess[r][c] != 0){
+                return false;
+            }
+            r++;
+            c--;
+        }        
+
         return true;
     }
 
     public static void nqueens(int qpsf, int tq, int[][] chess) {
         // write your code here
-        
+        if(qpsf > tq){
+            for(int i = 0;i<chess.length;i++){
+                for(int j = 0;j<chess[0].length;j++){
+                    if(chess[i][j] == 0){
+                        System.out.print("-"+'\t');
+                    }else{
+                        System.out.print("q"+chess[i][j]+'\t');
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+            return ;
+        }
+        for(int i = 0;i<chess.length;i++){
+            for(int j = 0;j<chess.length;j++){
+                if(IsQueenSafe(chess, i, j)){
+                    chess[i][j] = qpsf;
+                    nqueens(qpsf+1, tq, chess);
+                    chess[i][j] = 0;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -112,6 +181,6 @@ class N_queen_permutation_2d_as_1d_queen_chooses {
         int n = Integer.parseInt(br.readLine());
         int[][] chess = new int[n][n];
 
-        nqueens(0, n, chess);
+        nqueens(1, n, chess);
     }
 }
