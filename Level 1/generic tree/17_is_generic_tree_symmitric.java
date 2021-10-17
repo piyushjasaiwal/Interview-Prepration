@@ -17,10 +17,12 @@ Sample Output
 true
 */
 
+//note for solution symmetric things are mirror images with themselves
+
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
   private static class Node {
     int data;
     ArrayList<Node> children = new ArrayList<>();
@@ -98,9 +100,34 @@ public class Main {
     return h;
   }
 
+// symmetric things are mirror images of itself;
   public static boolean IsSymmetric(Node node) {
     // write your code here
-    
+    return is_mirror(node, node);
+  }
+
+  public static boolean is_mirror(Node n1, Node n2){
+    if(n1 == null && n2 == null){
+      return true;
+    }
+
+    if(n1 == null || n2 == null){
+      return false;
+    }
+
+    if(n1.children.size() != n2.children.size()){
+      return false;
+    }
+
+    int i = 0, j = n1.children.size()-1;
+    while(i <= j){
+      if(!is_mirror(n1.children.get(i), n2.children.get(j))){
+        return false;
+      }
+      i++;
+      j--;
+    }
+    return true;
   }
 
   public static void main(String[] args) throws Exception {

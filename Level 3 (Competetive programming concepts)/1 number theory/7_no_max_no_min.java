@@ -33,6 +33,18 @@ class no_max_no_min {
             arr[z] = scn.nextInt();
         }
 
-        
-    }  
+        arr = sort(arr);        
+    }
+
+    public static long[] sort(long []ar){
+        ArrayList<Long> list = new ArrayList<>();
+        for(long val:ar){
+            list.add(val);
+        }
+        Collections.sort(list);
+        for(int i = 0;i<ar.length;i++){
+            ar[i] = list.get(i);
+        }
+        return ar;
+    }
 }
