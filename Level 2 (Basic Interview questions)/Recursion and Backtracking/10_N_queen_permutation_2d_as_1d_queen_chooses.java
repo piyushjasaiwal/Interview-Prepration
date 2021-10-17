@@ -1,3 +1,5 @@
+import java.io.*;
+
 /*
 1. You are given a number n, representing the size of a n * n chess board.
 2. You are required to calculate and print the permutations in which n queens (distinct) can be 
@@ -17,6 +19,7 @@ Question Video
 Sample Input
 4
 Sample Output
+{
 -	q1	-	-	
 -	-	-	q2	
 q3	-	-	-	
@@ -47,215 +50,7 @@ q4	-	-	-
 q3	-	-	-	
 -	-	q2	-	
 
--	-	q1	-	
-q2	-	-	-	
--	-	-	q3	
--	q4	-	-	
-
--	-	q1	-	
-q2	-	-	-	
--	-	-	q4	
--	q3	-	-	
-
--	-	q1	-	
-q3	-	-	-	
--	-	-	q2	
--	q4	-	-	
-
--	-	q1	-	
-q4	-	-	-	
--	-	-	q2	
--	q3	-	-	
-
--	-	q1	-	
-q3	-	-	-	
--	-	-	q4	
--	q2	-	-	
-
--	-	q1	-	
-q4	-	-	-	
--	-	-	q3	
--	q2	-	-	
-
--	-	q2	-	
-q1	-	-	-	
--	-	-	q3	
--	q4	-	-	
-
--	-	q2	-	
-q1	-	-	-	
--	-	-	q4	
--	q3	-	-	
-
--	-	q3	-	
-q1	-	-	-	
--	-	-	q2	
--	q4	-	-	
-
--	-	q4	-	
-q1	-	-	-	
--	-	-	q2	
--	q3	-	-	
-
--	-	q3	-	
-q1	-	-	-	
--	-	-	q4	
--	q2	-	-	
-
--	-	q4	-	
-q1	-	-	-	
--	-	-	q3	
--	q2	-	-	
-
--	q2	-	-	
--	-	-	q1	
-q3	-	-	-	
--	-	q4	-	
-
--	q2	-	-	
--	-	-	q1	
-q4	-	-	-	
--	-	q3	-	
-
--	q3	-	-	
--	-	-	q1	
-q2	-	-	-	
--	-	q4	-	
-
--	q4	-	-	
--	-	-	q1	
-q2	-	-	-	
--	-	q3	-	
-
--	q3	-	-	
--	-	-	q1	
-q4	-	-	-	
--	-	q2	-	
-
--	q4	-	-	
--	-	-	q1	
-q3	-	-	-	
--	-	q2	-	
-
--	q2	-	-	
--	-	-	q3	
-q1	-	-	-	
--	-	q4	-	
-
--	q2	-	-	
--	-	-	q4	
-q1	-	-	-	
--	-	q3	-	
-
--	q3	-	-	
--	-	-	q2	
-q1	-	-	-	
--	-	q4	-	
-
--	q4	-	-	
--	-	-	q2	
-q1	-	-	-	
--	-	q3	-	
-
--	q3	-	-	
--	-	-	q4	
-q1	-	-	-	
--	-	q2	-	
-
--	q4	-	-	
--	-	-	q3	
-q1	-	-	-	
--	-	q2	-	
-
--	-	q2	-	
-q3	-	-	-	
--	-	-	q1	
--	q4	-	-	
-
--	-	q2	-	
-q4	-	-	-	
--	-	-	q1	
--	q3	-	-	
-
--	-	q3	-	
-q2	-	-	-	
--	-	-	q1	
--	q4	-	-	
-
--	-	q4	-	
-q2	-	-	-	
--	-	-	q1	
--	q3	-	-	
-
--	-	q3	-	
-q4	-	-	-	
--	-	-	q1	
--	q2	-	-	
-
--	-	q4	-	
-q3	-	-	-	
--	-	-	q1	
--	q2	-	-	
-
--	-	q2	-	
-q3	-	-	-	
--	-	-	q4	
--	q1	-	-	
-
--	-	q2	-	
-q4	-	-	-	
--	-	-	q3	
--	q1	-	-	
-
--	-	q3	-	
-q2	-	-	-	
--	-	-	q4	
--	q1	-	-	
-
--	-	q4	-	
-q2	-	-	-	
--	-	-	q3	
--	q1	-	-	
-
--	-	q3	-	
-q4	-	-	-	
--	-	-	q2	
--	q1	-	-	
-
--	-	q4	-	
-q3	-	-	-	
--	-	-	q2	
--	q1	-	-	
-
--	q2	-	-	
--	-	-	q3	
-q4	-	-	-	
--	-	q1	-	
-
--	q2	-	-	
--	-	-	q4	
-q3	-	-	-	
--	-	q1	-	
-
--	q3	-	-	
--	-	-	q2	
-q4	-	-	-	
--	-	q1	-	
-
--	q4	-	-	
--	-	-	q2	
-q3	-	-	-	
--	-	q1	-	
-
--	q3	-	-	
--	-	-	q4	
-q2	-	-	-	
--	-	q1	-	
-
--	q4	-	-	
--	-	-	q3	
-q2	-	-	-	
--	-	q1	-	
+and so on
 */
 
 
@@ -304,12 +99,12 @@ class N_queen_permutation_2d_as_1d_queen_chooses {
             c++;
         }
 
-        
-        
+        return true;
     }
 
     public static void nqueens(int qpsf, int tq, int[][] chess) {
         // write your code here
+        
     }
 
     public static void main(String[] args) throws Exception {
