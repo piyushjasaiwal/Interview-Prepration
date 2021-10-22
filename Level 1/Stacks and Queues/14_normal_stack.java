@@ -94,7 +94,7 @@ class normal_stack {
 
     int size() {
       // write ur code here
-      return tos;
+      return tos+1;
     }
 
     void display() {
@@ -117,7 +117,7 @@ class normal_stack {
     int pop() {
       // write ur code here
       if(tos == -1){
-        System.out.println("Stack overflow");
+        System.out.println("Stack underflow");
         return -1;
       }
       int val = data[tos--];
@@ -127,7 +127,7 @@ class normal_stack {
     int top() {
        // write ur code here
        if(tos == -1){
-        System.out.println("Stack overflow");
+        System.out.println("Stack underflow");
         return -1;
        }
        return data[tos];

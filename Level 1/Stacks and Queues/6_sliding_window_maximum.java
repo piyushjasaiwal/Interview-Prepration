@@ -68,5 +68,42 @@ class sliding_window_maximum {
         int k = Integer.parseInt(br.readLine());
     
         // code
-     }    
+        int [] greater = next_greater(a);
+        ArrayList<Integer> ans = slidingWindowMaximum(greater, k, a);
+        for(int val:ans){
+           System.out.println(val);
+        }
+     }
+
+     public static int [] next_greater(int [] ar){
+        int [] ans = new int[ar.length];
+        int i = 1;
+        Stack<Integer> s = new Stack<>();
+        s.push(0);
+        while(i < ar.length){
+           while(!s.empty() && ar[i] > ar[s.peek()]){
+              ans[s.pop()] = i;
+           }
+           s.push(i);
+           i++;
+        }
+
+        while(!s.empty()){
+           ans[s.pop()] = Integer.MAX_VALUE;
+        }
+
+        return ans;
+     }
+
+     public static ArrayList<Integer> slidingWindowMaximum(int [] ar, int k, int [] arr){
+      ArrayList<Integer> list = new ArrayList<>();
+        for(int i = 0;i<ar.length-k+1;i++){
+           int max = i;
+           while(ar[max] < (i+k) && ar[max] != Integer.MAX_VALUE){
+              max = ar[max];
+           }
+           list.add(arr[max]);
+        }
+        return list;
+     }
 }

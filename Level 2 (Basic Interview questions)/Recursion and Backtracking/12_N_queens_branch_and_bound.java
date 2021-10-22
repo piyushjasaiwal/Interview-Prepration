@@ -42,7 +42,7 @@ class N_queens_branch_and_bound {
 
   public static boolean IsQueenSafe(boolean[][] chess, int row, int col) {
     // write your code here
-    int r = row;
+        int r = row;
         int c = col;
 
         while(r >= 0){
@@ -89,7 +89,6 @@ class N_queens_branch_and_bound {
 
   public static void n_queens(int r, int c, boolean [][] chess, int qpsf, int tq){
     if(qpsf == tq){
-        System.out.println("hello");
         for (int row = 0; row < chess.length; row++) {
             for (int col = 0; col < chess[0].length; col++) {
                 if(chess[row][col]){
@@ -112,7 +111,7 @@ class N_queens_branch_and_bound {
 
     if(IsQueenSafe(chess, r, c)){
         chess[r][c] = true;
-        n_queens(r+1, c, chess, qpsf+1, tq);
+        n_queens(r+1, 0, chess, qpsf+1, tq);
         chess[r][c] = false;
     }
     n_queens(r, c+1, chess, qpsf, tq);
