@@ -74,7 +74,7 @@ class Main {
 
    public static boolean is_cycle(int src, ArrayList<Edge>[] graph, Set<Integer> set){
    	LinkedList<Integer> q = new LinkedList<>();
-
+      q.add(src);
       while(!q.isEmpty()){
          int curr = q.removeFirst();
          if(set.contains(curr)){

@@ -1,6 +1,6 @@
 /*
 1. You are given an array(arr) of integers.
-2. You have to sort the given array in increasing order using bubble sort.
+2. You have to sort the given array in increasing order using selection sort.
 Input Format
 An Integer n 
 arr1
@@ -22,21 +22,19 @@ Sample Input
 3
 Sample Output
 Comparing -2 and 7
-Swapping -2 and 7
-Comparing 4 and 7
-Swapping 4 and 7
-Comparing 1 and 7
-Swapping 1 and 7
-Comparing 3 and 7
-Swapping 3 and 7
 Comparing 4 and -2
+Comparing 1 and -2
+Comparing 3 and -2
+Swapping 7 and -2
+Comparing 4 and 7
 Comparing 1 and 4
-Swapping 1 and 4
-Comparing 3 and 4
-Swapping 3 and 4
-Comparing 1 and -2
 Comparing 3 and 1
-Comparing 1 and -2
+Swapping 7 and 1
+Comparing 7 and 4
+Comparing 3 and 4
+Swapping 4 and 3
+Comparing 4 and 7
+Swapping 7 and 4
 -2
 1
 3
@@ -47,16 +45,18 @@ Comparing 1 and -2
 import java.io.*;
 import java.util.*;
 
-class bubblesort {
+class selection_sort {
 
-  public static void bubbleSort(int[] arr) {
+  public static void selectionSort(int[] arr) {
     //write your code here
-    for(int i = 0;i<arr.length;i++){
-      for(int j = 1;j<arr.length-i;j++){
-        if(isSmaller(arr, j, j-1)){
-          swap(arr, j, j-1);
+    for(int i = 0;i<arr.length-1;i++){
+        int min_index = i;
+        for(int j = i+1;j<arr.length;j++){
+          if(isSmaller(arr, j, min_index)){
+            min_index = j;
+          }
         }
-      }
+        swap(arr, i, min_index);
     }
   }
 
@@ -91,7 +91,7 @@ class bubblesort {
     for (int i = 0; i < n; i++) {
       arr[i] = scn.nextInt();
     }
-    bubbleSort(arr);
+    selectionSort(arr);
     print(arr);
   }
 

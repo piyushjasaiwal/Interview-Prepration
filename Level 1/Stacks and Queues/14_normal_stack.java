@@ -98,9 +98,6 @@ class normal_stack {
     }
 
     void display() {
-      if(tos == -1){
-        return ;
-      }
       // write ur code here
       for(int i = tos;i>=0;i--){
         System.out.print(data[i]+" ");

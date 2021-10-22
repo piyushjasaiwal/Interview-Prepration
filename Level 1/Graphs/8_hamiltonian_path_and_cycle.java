@@ -35,7 +35,7 @@ Sample Output
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class hamiltonian {
    static class Edge {
       int src;
       int nbr;
@@ -70,7 +70,40 @@ public class Main {
       int src = Integer.parseInt(br.readLine());
 
       // write all your codes here
+      // System.out.println(vtces);
+      hamiltonian_path(src, src, vtces, 1, graph, new boolean[vtces], src+"");
+      
    }
 
+   public static void hamiltonian_path(int start, int src, int vtces, int visited_so_far, ArrayList<Edge>[] graph, boolean [] visited, String psf){
+      // System.out.println(visited_so_far+"this is the visited count");
+      // System.out.println(psf);
+      if(visited[src]){
+         return ;
+      }
 
+      if(vtces == visited_so_far){
+         System.out.print(psf);
+         boolean flag = false;
+         for(Edge e: graph[src]){
+            if(e.nbr == start){
+               flag = true;
+            }
+         }
+
+         if(flag){
+            System.out.println("*");
+         }else{
+            System.out.println(".");
+         }
+
+         return ;
+      }
+
+      visited[src] = true;
+      for(Edge e:graph[src]){
+         hamiltonian_path(start, e.nbr, vtces, visited_so_far+1, graph, visited, psf+e.nbr);
+      }
+      visited[src] = false;
+   }
 }

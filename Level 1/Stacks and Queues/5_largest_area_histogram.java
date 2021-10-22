@@ -93,7 +93,7 @@ class largest_area_histogram {
                 if(left[i] == -1){
                     temp = a[i]*(right[i] - i + 1);
                 }else{
-                    temp = a[i]*(i - left[i] + 1);
+                    temp = a[i]*(a.length - left[i] + 1);
                 }
             }else{
                 temp = a[i]*(right[i]-left[i]+1);

@@ -1,77 +1,90 @@
 /*
-1. You are given a number n, representing the size of array a.
-2. You are given n numbers, representing elements of array a.
-3. The array is nearly sorted. Every element is at-max displaced k spots left or right to it's position in the sorted array. Hence it is being called k-sorted array.
-4. You are required to sort and print the sorted array.
-
-Note -> You can use at-max k extra space and nlogk time complexity.
+1. You are given a list of lists, where each list is sorted.
+2. You are required to complete the body of mergeKSortedLists function. The function is expected to merge k sorted lists to create one sorted list.
 Input Format
 Input is managed for you
 Output Format
-Print the elements of sorted array in separate lines.
+Output is managed for you
 Question Video
 
   COMMENTConstraints
-1 <= n <= 30
-0 <= n1, n2, .. n elements <= 100
-0 < k <= n
+Space complextiy = O(k)
+Time complexity = nlogk
+where k is the number of lists and n is number of elements across all lists.
 Sample Input
-9
-3
-2
 4
-1
-6
 5
+10 20 30 40 50
 7
-9
-8
+5 7 9 11 19 55 57
 3
+1 2 3
+2
+32 39
 Sample Output
-1
-2
-3
-4
-5
-6
-7
-8
-9
+1 2 3 5 7 9 10 11 19 20 30 32 39 40 50 55 57 
 */
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 class sort_k_sorted_list {
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
-  
-        for (int i = 0; i < n; i++) {
-           arr[i] = Integer.parseInt(br.readLine());
-        }
-  
-        int k = Integer.parseInt(br.readLine());
-        // write your code here
+   public static ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists){
+      ArrayList<Integer> rv = new ArrayList<>();
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i = 0;i<k+1;i++){
-            pq.add(arr[i]);
-        }
-        // System.out.println(pq);
+      // write your code here
+      PriorityQueue<pair> pq = new PriorityQueue<>();
+      for(int i = 0;i<lists.size();i++){
+        pq.add(new pair(lists.get(i).get(0), i, 0));
+      }
 
-        for(int i = k+1;i<arr.length;i++){
-            System.out.println(pq.poll());
-            pq.add(arr[i]);
-        }
-        // System.out.println(pq);
-        while(!pq.isEmpty()){
-            System.out.println(pq.poll());
-        }
+      while(!pq.isEmpty()){
+          pair curr = pq.poll();
+          rv.add(curr.val);
 
-        // for(int val:arr){
-        //     System.out.println(val);
-        // }
-     }
+          if(curr.idx+1 < lists.get(curr.li).size()){
+            pq.add(new pair(lists.get(curr.li).get(curr.idx+1), curr.li, curr.idx+1));
+          }
+      }
+
+      return rv;
+   }
+
+   public static void main(String[] args) throws Exception {
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      int k = Integer.parseInt(br.readLine());
+      ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+      for(int i = 0; i < k; i++){
+         ArrayList<Integer> list = new ArrayList<>();
+
+         int n = Integer.parseInt(br.readLine());
+         String[] elements = br.readLine().split(" ");
+         for(int j = 0; j < n; j++){
+            list.add(Integer.parseInt(elements[j]));
+         }
+
+         lists.add(list);
+      }
+
+      ArrayList<Integer> mlist = mergeKSortedLists(lists);
+      for(int val: mlist){
+         System.out.print(val + " ");
+      }
+      System.out.println();
+   }
+
+}
+class pair implements Comparable<pair>{
+    int val;
+    int li;
+    int idx;
+    pair(int v, int l, int i){
+        val = v;
+        li = l;
+        idx = i;
+    }
+    @Override
+    public int compareTo(pair o) {
+        return this.val - o.val;
+    }
 }
