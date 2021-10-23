@@ -31,3 +31,31 @@ Note
 In the first game, T removes a single stone from the only pile in his first turn. After that, although the pile still contains 1 stone, HL cannot choose from this pile because it has been chosen by T in the previous turn. Therefore, T is the winner.
 */
 
+import java.util.*;
+class stoned_game{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int t = s.nextInt();
+        while(t-- > 0){
+            int n = s.nextInt();
+            int [] ar = new int[n];
+            int sum = 0;
+            int max = -1;
+            for(int i = 0;i<n;i++){
+                ar[i] = s.nextInt();
+                sum+=ar[i];
+                max = Math.max(max, ar[i]);
+            }
+
+            if(max > sum/2){
+                System.out.println("T");
+            }else{
+                if(sum%2 == 0){
+                    System.out.println("HL");
+                }else{
+                    System.out.println("T");
+                }
+            }
+        }
+    }
+}

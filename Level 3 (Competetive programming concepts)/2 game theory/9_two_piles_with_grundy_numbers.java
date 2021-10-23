@@ -35,7 +35,13 @@ class two_piles_with_grundy_numbers {
     // print the winner here
     HashMap<Integer, Integer> grundy_mex = new HashMap<>();
     int max = Math.max(n1, n2);
-    make_grundy_map(grundy_mex, max);
+    make_grundy_map(grundy_mex, max, picks);
+
+    if((grundy_mex.get(n1)^grundy_mex.get(n2)) != 0){
+        System.out.println("ALICE");
+    }else{
+        System.out.println("BOB");
+    }
   }
 
 
@@ -49,22 +55,25 @@ class two_piles_with_grundy_numbers {
       if(grundy_mex.containsKey(n)){
           return ;
       }
-
+      make_grundy_map(grundy_mex, n-1, picks);
       Set<Integer> set = new HashSet<>();
       for(int pick:picks){
           if(n-pick >= 0){
-
+            set.add(grundy_mex.get(n-pick));
           }
       }
 
+      int mex = calculate_mex(n, set);
+      grundy_mex.put(n, mex);
   }
 
-  private static int calculate_mex(int n, HashMap<Integer, Integer> grundy_mex){
-    int mex = 0;
-    if()
-  } 
-
-
+  private static int calculate_mex(int n, Set<Integer> set) {
+      int mex = 0;
+      if(set.contains(mex)){
+          mex++;
+      }
+      return mex;
+  }
 
 public static void main(String[] args) throws Exception {
 
@@ -83,4 +92,3 @@ public static void main(String[] args) throws Exception {
   }
 }
 
-}

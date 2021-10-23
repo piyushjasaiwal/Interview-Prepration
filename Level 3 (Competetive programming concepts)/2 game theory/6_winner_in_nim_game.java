@@ -30,18 +30,14 @@ class winner_in_nim_game {
         xor = xor^val;
     }
 
-    boolean flag = false;
-    for(int val:arr){
-        int remxor = xor^val;
-        if(remxor != 0){
-            flag = true;
-            break;
-        }
-    }
-    if(flag){
-        return "ALICE";
+    if(xor == 0){
+      return "Alice";
     }else{
-        return "BOB";
+      if(n%2 == 0){
+        return "Alice";
+      }else{
+        return "Bob";
+      }
     }
   }
 
