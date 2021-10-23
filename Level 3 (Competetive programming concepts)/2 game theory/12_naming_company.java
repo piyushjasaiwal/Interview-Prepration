@@ -57,3 +57,42 @@ Oleg replaces the seventh question mark with 'k'. The company name becomes fzfsi
 For the second sample, no matter how they play, the company name will always be xxxxxx.
 */
 
+import java.util.*;
+
+class naming_company{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        String a = s.next();
+        String b = s.next();
+        char [] a1 = a.toCharArray();
+        char [] b1 = b.toCharArray();
+        sort(a1);
+        sort(b1);
+
+        int i = 0, j = b1.length-1;
+        char [] ans = new char[a.length()];
+        for(int k = 0;k<ans.length;k++){
+            if(k%2 == 0){
+                ans[k] = a1[i];
+                i++;
+            }else{
+                ans[k] = b1[j];
+                j--;
+            }
+        }
+
+        System.out.println(new String(ans));
+    }
+
+    private static void sort(char[] arr) {
+        ArrayList<Character> list = new ArrayList<>();
+        for(char val:arr){
+            list.add(val);
+        }
+        Collections.sort(list);
+
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = list.get(i);
+        }
+    }
+}
