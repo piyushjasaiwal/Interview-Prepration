@@ -30,28 +30,28 @@ Sample Output
 3
 */
 
-// import java.util.*;
+import java.util.*;
 
-// class partion_array_into_disjoint_interval {
+class partion_array_into_disjoint_interval {
 
-//   // ~~~~~~~~~~~~~~User's Section~~~~~~~~~~~~~~~
-//   public static int partitionDisjoint(int[] arr) {
-//     // write your code here
+  // ~~~~~~~~~~~~~~User's Section~~~~~~~~~~~~~~~
+  public static int partitionDisjoint(int[] arr) {
+    // write your code here
     
-//   }
+  }
 
-//   // ~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~~
-//   public static void main(String[] args) {
-//     Scanner scn = new Scanner(System.in);
-//     int n = scn.nextInt();
-//     int[] arr = new int[n];
+  // ~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~~
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    int n = scn.nextInt();
+    int[] arr = new int[n];
 
-//     for (int i = 0; i < n; i++) {
-//       arr[i] = scn.nextInt();
-//     }
+    for (int i = 0; i < n; i++) {
+      arr[i] = scn.nextInt();
+    }
 
-//     int len = partitionDisjoint(arr);
-//     System.out.println(len);
-//   }
-// }
+    int len = partitionDisjoint(arr);
+    System.out.println(len);
+  }
+}
  
