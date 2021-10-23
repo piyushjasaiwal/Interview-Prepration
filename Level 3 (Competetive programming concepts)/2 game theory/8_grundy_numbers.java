@@ -1,3 +1,5 @@
+/*here we will use grundy theoram*/
+
 /*
 Two players Alice and Bob are playing a game. They have a pile with n coins in it.
 They can pick only allowed numbers of coins at a time given in an array picks.
