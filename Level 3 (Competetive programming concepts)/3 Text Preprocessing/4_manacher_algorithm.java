@@ -21,6 +21,18 @@ import java.util.*;
 
 class manacher_algorithm {
 
+    public static String updatedString(String str){
+        StringBuilder sb = new StringBuilder("@");
+        for(int i = 0;i<str.length();i++){
+            sb.append("#");
+            sb.append(str.charAt(i));
+        }
+        sb.append("#");
+        sb.append("$");
+
+        return sb.toString();
+    }
+
     public static void solution_O_nSquared(String s1) {
     // write your code here
         int ans = 0;
@@ -42,17 +54,50 @@ class manacher_algorithm {
         System.out.println(str);
     }
 
-    // private static void solution_O_N(String s1) {
+    private static void solution_O_N(String s1) {
+        String update = updatedString(s1);
+        int []manacher = new int[update.length()];
 
-    // }
+        int c = 0;
+        int r = 0;
+
+        for(int i = 1;i<update.length()-1;i++){
+            int mirror = c - (i-c);
+            if(i<r){
+                manacher[i] = Math.min(manacher[mirror], r-i);
+            } 
+
+            while(update.charAt(i+manacher[i]+1) == update.charAt(i-manacher[i]-1)){
+                manacher[i]++;
+            }
+
+            if(i+manacher[i] > r){
+                c = i;
+                r = i+manacher[i];
+            }
+        }
+
+        int max_len = 0;
+        int max_idx = 0;
+        for(int i = 1;i<manacher.length-1;i++){
+            if(manacher[i] > max_len){
+                max_len = manacher[i];
+                max_idx = i;
+            }
+        }
+
+        int first_idx = max_idx - max_len + 1;
+        int actual_idx = (first_idx - 2)/2;
+
+        System.out.println(max_len);
+        System.out.println(s1.substring(actual_idx, actual_idx+max_len));
+    }
   
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         String s1 = scn.next();
-        if(s1.length()%2 == 0){
-            s1 = s1+'$';
-        }
-        solution_O_nSquared(s1);
+        // solution_O_nSquared(s1);
+        solution_O_N(s1);
         System.out.println();
     }
 
