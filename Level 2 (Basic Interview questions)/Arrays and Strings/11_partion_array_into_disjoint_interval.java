@@ -74,7 +74,16 @@ class partion_array_into_disjoint_interval {
   }
 
   public static int partitionDisjoint_using_O_1_space(int [] arr){
-    
+    int left_index = 0;
+    int left_max = Integer.MIN_VALUE;
+    for(int i = 0;i<arr.length;i++){
+      if(arr[i] <= left_max){
+        left_index = i;
+      }else{
+        left_index
+      }
+    }
+    return left_index+1;
   }
   // ~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~~
   public static void main(String[] args) {
@@ -86,7 +95,8 @@ class partion_array_into_disjoint_interval {
       arr[i] = scn.nextInt();
     }
 
-    int len = partitionDisjoint_using_O_N_space(arr);
+    // int len = partitionDisjoint_using_O_N_space(arr);
+    int len = partitionDisjoint_using_O_1_space(arr);
     System.out.println(len);
   }
 }
