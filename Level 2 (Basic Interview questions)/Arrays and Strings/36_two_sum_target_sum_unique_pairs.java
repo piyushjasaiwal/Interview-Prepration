@@ -35,25 +35,27 @@ class two_sum_target_sum_unique_pairs {
         int j = arr.length-1;
 
         while(i < j){
-            while(i != 0  && i < arr.length && arr[i] == arr[i-1]){
+            while(i != 0  && i != arr.length && arr[i] == arr[i-1] ){
                 i++;
             }
 
-            while(j != arr.length - 1 && j >= 0 && arr[j] == arr[j+1] && j >= 0){
+            while(j != arr.length - 1  && j != -1 && arr[j] == arr[j+1] && j >= 0){
                 j--;
             }
 
-            if(arr[i] + arr[j] == target){
-                ArrayList<Integer> temp = new ArrayList<>();
-                temp.add(arr[i]);
-                temp.add(arr[j]);
-                ans.add(temp);
-                i++;
-                j--;
-            }else if(arr[i] + arr[j] < target){
-                i++;
-            }else{
-                j--;
+            if(i<j){
+                if(arr[i] + arr[j] == target){
+                    ArrayList<Integer> temp = new ArrayList<>();
+                    temp.add(arr[i]);
+                    temp.add(arr[j]);
+                    ans.add(temp);
+                    i++;
+                    j--;
+                }else if(arr[i] + arr[j] < target){
+                    i++;
+                }else{
+                    j--;
+                }
             }
         }
 
