@@ -42,7 +42,31 @@ class k_lcm_hard {
     int n = i();
     int k = i();
 
-    
+    int count_1 = k-3;
+    n = n-count_1;
+    if(n%2 == 1){
+        out.print(n/2+" ");
+        out.print(n/2+" ");
+        out.print(1+ " ");
+        // out.printLine();
+    }else if(n%4 == 0){
+        out.print(n/2+" ");
+        out.print(n/4+" ");
+        out.print(n/4+" ");
+        // out.printLine();
+    }else{
+        out.print(((n/2)-1)+" ");
+        out.print(((n/2)-1)+" ");
+        out.print(2+" ");
+        // out.printLine();
+    }
+
+    for(int cnt = 0;cnt<count_1;cnt++){
+        out.print(1+" ");
+    }
+
+    out.printLine();
+
   }
 
   public static void main(String[] args) {
@@ -51,8 +75,8 @@ class k_lcm_hard {
     while (test-- > 0) {
       solve();
     }
-    System.out.println(sb);
-
+    // System.out.println(sb);
+    out.flush();
   }
 
   /*

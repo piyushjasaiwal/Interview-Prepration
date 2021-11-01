@@ -22,18 +22,36 @@
 // 5
 // */
 
-// public class min_jumps_with_positive_i_and_negative_i_moves {
-//     // ~~~~~~~~~~~~User Section~~~~~~~~~~~
-//     public static int minJumps(int x) {
-//         // Write your code here
-//     }
+import java.util.*;
 
-//     //~~~~~~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~
-//     public static void main(String[] args) {
-//         Scanner scn = new Scanner(System.in);
-//         int x = scn.nextInt();
+class min_jumps_with_positive_i_and_negative_i_moves {
+    // ~~~~~~~~~~~~User Section~~~~~~~~~~~
+    public static int minJumps(int x) {
+        // Write your code here
+        
+        int jump = 1;
+        int sum = 0;
 
-//         int jumps = minJumps(x);
-//         System.out.println(jumps);
-//     }
-// }
+        while(sum < x){
+            sum += jump;
+            jump+=1;
+        }
+
+        if((sum-x)%2 == 0){
+            return jump-1;
+        }else if((sum+jump-x)%2 == 0){
+            return jump;
+        }
+        return jump+1;
+
+    }
+
+    //~~~~~~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int x = scn.nextInt();
+
+        int jumps = minJumps(x);
+        System.out.println(jumps);
+    }
+}
