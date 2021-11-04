@@ -23,15 +23,53 @@ Sample Output
 3
 */
 
+/*concept
+we have to use fenwick tree in this question.
+*/
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 class create_sorted_array_through_intersection {
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-	}
+        int n = Integer.parseInt(br.readLine());
+        String [] tokens = br.readLine().split(" ");
+        int [] ar = new int[n+1];
+        for(int i = 1;i<=n;i++){
+          ar[i] = Integer.parseInt(tokens[i-1]);
+        }
+
+        long [] fenwick_tree = new long[n+1];
+        long cost = 0;
+
+        for(int i = 1;i<=n;i++){
+          long small = query(fenwick_tree, ar[i]-1);
+          long large = i - query(fenwick_tree, ar[i]) - 1;
+
+          cost += Math.min(small, large);
+          update(fenwick_tree, ar[i]);
+        }
+
+        System.out.println(cost);
+    }
+
+    public static void update(long [] fenwick_tree, int val){
+      while(val < fenwick_tree.length){
+        fenwick_tree[val]+=1;
+        val = val + (val&-val);
+      }
+    }
+
+    public static long query(long [] fenwick_tree, int val){
+      long count = 0;
+      while(val > 0){
+        count += fenwick_tree[val];
+        val = val - (val&-val);
+      }
+      return count;
+    }
 }
 
