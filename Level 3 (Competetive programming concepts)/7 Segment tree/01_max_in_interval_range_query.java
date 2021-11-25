@@ -50,7 +50,6 @@ Sample Output
 */
 
 import java.io.*;
-// import java.util.*;
 
 class max_in_interval_range_query {
 
@@ -59,19 +58,19 @@ class max_in_interval_range_query {
     int [] tree;
 
     SegmentTree(int arr[]) {
-        tree = new int[arr.length*2];
+        tree = new int[arr.length*4];
         construct(arr, 0, arr.length-1, 0);
-        show(arr);
-        show(tree);
+        // show(arr);
+        // show(tree);
     }
 
-    private void show(int[] arr) {
-        System.out.println("--------------------------------------");
-        for(int val:arr){
-            System.out.print(val+" ");
-        }
-        System.out.println("\n---------------------------------------");
-    }
+    // private void show(int[] arr) {
+    //     System.out.println("--------------------------------------");
+    //     for(int val:arr){
+    //         System.out.print(val+" ");
+    //     }
+    //     System.out.println("\n---------------------------------------");
+    // }
 
     private void construct(int[] arr, int left, int right, int idx) {
         if(left > right){
@@ -93,32 +92,27 @@ class max_in_interval_range_query {
     }
 
     int query(int l, int r) {
-        return query_helper(l, r, 0, (tree.length/2)-1, 0);
+        return query_helper(l, r, 0, (tree.length/4)-1, 0);
         // return 0;
     }
 
     private int query_helper(int l, int r, int i, int j, int k) {
 
-        if(i > j){
-            return Integer.MIN_VALUE;
-        }
+      if(r < i || l > j){
+        return Integer.MIN_VALUE;
+      }
+      
+      if(i == j){
+        return tree[k];
+      }else if(i == l && j == r){
+        return tree[k];
+      }else{
+        int mid = (i+j)/2;
+        int left = query_helper(l, r, i, mid, 2*k+1);
+        int right = query_helper(l, r, mid+1, j, 2*k+2);
 
-        if(i >= l && r >= j){
-            return tree[k];
-        }
-
-        if(i >= r || j <= l){
-            return Integer.MIN_VALUE;
-        }
-
-        int max = Integer.MIN_VALUE;
-
-        int mid = i + (j-i)/2;
-
-        max = Math.max(max, query_helper(l, r, i, mid-1, 2*k+1));
-        max = Math.max(max, query_helper(l, r, mid+1, j, 2*k+2));
-        
-        return max;
+        return Math.max(left, right);
+      }
     }
 
   }
