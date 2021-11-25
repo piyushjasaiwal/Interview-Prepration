@@ -53,7 +53,6 @@ Sample Output
 */
 
 import java.io.*;
-import java.util.*;
 
 class whats_at_idx_point_query_range_update {
 
