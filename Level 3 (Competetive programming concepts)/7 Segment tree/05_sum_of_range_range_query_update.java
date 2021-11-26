@@ -52,112 +52,22 @@ Sample Output
 */
 
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
 
 class sum_of_range_range_query_update {
 
   public static class SegmentTree {
 
-    Pair [] tree;
-
     SegmentTree(int arr[]) {
-        tree = new Pair [arr.length*4];
-        Arrays.fill(tree, new Pair());
-        construct(arr, 0, arr.length-1, 0);
-    }
 
-    private void construct(int[] arr, int i, int j, int k) {
-        if(i > j){
-            return ;
-        }
-
-        if(i == j){
-            tree[k] = new Pair(arr[i], 0);
-            return ;
-        }
-
-        int mid = (i+j)/2;
-        construct(arr, i, mid, 2*k+1);
-        construct(arr, mid+1, j, 2*k+2);
-        tree[k] = new Pair(tree[2*k+1].sum+tree[2*k+2].sum, 0);
     }
 
     void update(int l, int r, int val) {
-        update(l, r, 0, tree.length/4-1, 0, val);
-    }
 
-    private void update(int l, int r, int start, int end, int k, int val) {
-
-        if(r < start || end < l){
-            return ;
-        }
-
-        if(start == end){
-            tree[k].p_value += val;
-            return ;
-        }
-        
-        if(l<=start && r >= end){
-            tree[k].p_value += val;
-            return ;
-        }
-
-        int mid = (start+end)/2;
-        update(l, r, start, mid, 2*k+1, val);
-        update(l, r, mid+1, end, 2*k+2, val);
     }
 
     int query(int l, int r) {
-        return query(l, r, 0, tree.length/4-1, 0);
-    }
 
-    private int query(int l, int r, int start, int end, int k) {
-
-        if(r < start || end < l){
-            return 0;
-        }     
-        
-        if(start == end){
-            return tree[k].sum+tree[k].p_value;
-        }
-
-        if(l <= start && r >= end){
-            return tree[k].sum+tree[k].p_value;
-        }
-
-        propogate(k);
-
-        int mid = (start+end)/2;
-
-        if(r <= mid){
-            return query(l, r, start, mid, 2*k+1);
-        }else if(l > mid){
-            return query(l, r, mid+1, end, 2*k+2);
-        }
-        
-        return query(l, r, start, mid, 2*k+1)+query(l, r, mid+1, end, 2*k+2);
-    }
-
-    private void propogate(int k) {
-        int left = 2*k+1;
-        int right = 2*k+2;
-        tree[left].p_value += tree[k].p_value;
-        tree[right].p_value += tree[k].p_value;
-        tree[k].p_value = 0;
-    }
-
-    static class Pair{
-        int sum;
-        int p_value;
-
-        Pair(int s, int p){
-            sum = s;
-            p_value = p;
-        }
-
-        Pair(){
-            this(0,0);
-        }
     }
 
   }
