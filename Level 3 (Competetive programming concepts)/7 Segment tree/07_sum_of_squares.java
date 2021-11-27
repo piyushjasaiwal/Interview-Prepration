@@ -52,7 +52,6 @@ Sample Output
 */
 
 import java.io.*;
-import java.util.*;
 
 class sum_of_squares {
 
@@ -93,11 +92,7 @@ class sum_of_squares {
     }
 
     private void update(int l, int r, int start, int end, int k, int val) {
-        if(l > end || r < start){
-            return ;
-        }
-
-        if()
+        return ;
     }
 
     long query(int l, int r) {
@@ -105,25 +100,8 @@ class sum_of_squares {
     }
 
     private long query(int l, int r, int start, int end, int k) {
-        if(l > end || start > r){
-            return 0;
-        }
-
-        if(start == end){
-            return tree[k];
-        }
-
-        if(l <= start && end <= r){
-            return tree[k];
-        }
-
-        int mid = (start+end)/2;
-        long left = query(l, r, start, mid, 2*k+1);
-        long right = query(l, r, mid+1, end, 2*k+2);
-
-        return right+left;
+        return 0;
     }
-
   }
 
   public static void main(String[] args) throws Exception {
