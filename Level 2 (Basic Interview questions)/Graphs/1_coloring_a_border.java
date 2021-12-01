@@ -37,39 +37,24 @@ n == grid[i].length
 
 class Solution_color_border {
     public int[][] colorBorder(int[][] grid, int row, int col, int color) {
-        int [][] colored_grid = new int [grid.length][grid[0].length];
-
-        for(int i = 0;i<grid.length;i++){
-            for(int j = 0;j<grid[0].length;j++){
-                colored_grid[i][j] = grid[i][j];
-            }
-        }
-
-        DFS(row, col,grid, color, colored_grid, grid[row][col], new boolean[grid.length][grid[0].length]);
-        return colored_grid;
+        
     }
 
-    public boolean DFS(int i, int j, int [][] grid, int color ,int [][] colored_grid, int curr, boolean [][] visited){
-        if(i >= grid.length || i < 0 || j >= grid[0].length || j < 0 || grid[i][j] != curr){
-            return false;
+    public void DFS(int r, int c, int [][] grid, int color, int original){
+        grid[r][c] = -color;
+        int cnt = 0;
+        for(int i = 0;i<2;i++){
+            for(int j = 0;j<2;j++){
+                int nr = r + i;
+                int nc = c + j;
+                if(nr >= 0 && nr < grid.length && nc >= 0 && 00nc < grid[0].length && ){
+                    if(grid[nr][nc] != -original){
+                        DFS(nr, nc, grid, color, original);
+                    }
+                    cnt++;
+                }
+            }
         }
-
-        if(visited[i][j]){
-            return true;
-        }
-        visited[i][j] = true;
-
-        boolean ans = true;
-        ans = ans && DFS(i+1, j, grid, color, colored_grid, curr, visited);
-        ans = ans && DFS(i, j+1, grid, color, colored_grid, curr, visited);
-        ans = ans && DFS(i-1, j, grid, color, colored_grid, curr, visited);
-        ans = ans && DFS(i, j-1, grid, color, colored_grid, curr, visited);
-
-        if(!ans){
-            colored_grid[i][j] = color;
-        }
-
-        return true;
     }
 }
 

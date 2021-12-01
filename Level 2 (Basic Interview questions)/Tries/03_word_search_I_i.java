@@ -105,30 +105,34 @@ class Main {
             trie.insert(word);
         }
 
+        HashSet<String> set = new HashSet<>();
+
         for(int i = 0;i<board.length;i++){
             for(int j = 0;j<board[0].length;j++){
-                findWords(i, j, board, new boolean[board.length][board[0].length], list, trie, "");
+                findWords(i, j, board, new boolean[board.length][board[0].length], list, trie, "", set);
             }
         }
         return list;
     }
 
-    public static void findWords(int i, int j, char [][] board, boolean [][] visited, ArrayList<String> list, Trie trie, String wsf){
-
-        if(trie.find(wsf)){
-            list.add(wsf);
-        }
-
+    public static void findWords(int i, int j, char [][] board, boolean [][] visited, ArrayList<String> list, Trie trie, String wsf, HashSet<String> set){
         
         if(i >= board.length || i < 0 || j >= board[0].length || j < 0 || visited[i][j]){
             return ;
         }
 
+        String word = wsf+board[i][j];
+        if(trie.find(word)){
+            if(!set.contains(word)){
+                list.add(word);
+                set.add(word);
+            }
+        }
         visited[i][j] = true;
-        findWords(i+1, j, board, visited, list, trie, wsf+board[i][j]);
-        findWords(i-1, j, board, visited, list, trie, wsf+board[i][j]);
-        findWords(i, j+1, board, visited, list, trie, wsf+board[i][j]);
-        findWords(i, j-1, board, visited, list, trie, wsf+board[i][j]);
+        findWords(i+1, j, board, visited, list, trie, wsf+board[i][j], set);
+        findWords(i-1, j, board, visited, list, trie, wsf+board[i][j], set);
+        findWords(i, j+1, board, visited, list, trie, wsf+board[i][j], set);
+        findWords(i, j-1, board, visited, list, trie, wsf+board[i][j], set);
         visited[i][j] = false;
     }
 
