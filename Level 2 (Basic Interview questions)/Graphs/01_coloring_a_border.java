@@ -37,24 +37,57 @@ n == grid[i].length
 
 class Solution_color_border {
     public int[][] colorBorder(int[][] grid, int row, int col, int color) {
-        
-    }
 
-    public void DFS(int r, int c, int [][] grid, int color, int original){
-        grid[r][c] = -color;
-        int cnt = 0;
-        for(int i = 0;i<2;i++){
-            for(int j = 0;j<2;j++){
-                int nr = r + i;
-                int nc = c + j;
-                if(nr >= 0 && nr < grid.length && nc >= 0 && 00nc < grid[0].length && ){
-                    if(grid[nr][nc] != -original){
-                        DFS(nr, nc, grid, color, original);
-                    }
-                    cnt++;
+        int original = grid[row][col];
+
+        DFS(row, col, grid, color, grid[row][col]);
+
+        for(int i = 0;i<grid.length;i++){
+            for(int j = 0;j<grid.length;j++){
+                if(grid[i][j] == -original){
+                    grid[i][j] = color;
                 }
             }
         }
+
+        return grid;
+    }
+
+    public void DFS(int r, int c, int [][] grid, int color, int original){
+
+        if(r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] == -original || grid[r][c] != original){
+            return ;
+        }
+
+        int count = 0;
+        int [] x_val = {1, -1, 0, 0};
+        int [] y_val = {0, 0, -1, 1};
+
+        grid[r][c] = -grid[r][c];
+
+        for(int x:x_val){
+            for(int y:y_val){
+                int new_r = r+x;
+                int new_c = c+y;
+
+                if(is_same(new_r, new_c, grid, grid[r][c])){
+                    count++;
+                }
+
+                DFS(new_r, new_c, grid, color, original);
+            }
+        }
+
+        if(count == 4){
+            grid[r][c] = Math.abs(grid[r][c]);
+        }
+    }
+
+    private boolean is_same(int new_r, int new_c, int[][] grid, int original) {
+        if(new_r < 0 || new_c < 0 || new_r >= grid.length || new_c >= grid[0].length || Math.abs(grid[new_r][new_c]) != Math.abs(original)){
+            return false;
+        }
+        return true;
     }
 }
 

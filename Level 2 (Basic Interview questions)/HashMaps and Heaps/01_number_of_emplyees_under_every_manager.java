@@ -41,11 +41,33 @@ class number_of_emplyees_under_every_manager {
         
         //write your code here
         
-        HashMap<String, String> map = new HashMap<>();
-
+        // HashMap<String, String> map = new HashMap<>();
+        ArrayList<managed> list = new ArrayList<>();
         while(n-->0){
-            
+            list.add(new managed(scn.next(), scn.next()));
         }
+
+        HashMap<String, ArrayList<String>> graph = new HashMap<>();
+
+        for(managed man: list){
+          ArrayList<String> temp = graph.getOrDefault(man.manager, new ArrayList<>());
+          temp.add(man.employee);
+          graph.put(man.manager, temp);
+        }
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        
     }
 
+}
+
+class managed{
+  String employee;
+  String manager;
+
+  managed(String employee, String manager){
+    this.employee = employee;
+    this.manager = manager;
+  }
 }

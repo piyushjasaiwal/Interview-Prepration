@@ -35,9 +35,9 @@ Sample Output
 */
 
 
-import java.util.Scanner;
+import java.util.*;
 
-class Main {
+class cameras_in_binary_trees {
     public static Scanner scn = new Scanner(System.in);
 
     public static class TreeNode {
@@ -51,8 +51,36 @@ class Main {
     }
 
     public static int MinCamerasInBT(TreeNode root) {
-    	
-        return 0;
+    	LinkedList<TreeNode> q = new LinkedList<>();
+        if(root != null){
+            q.add(root);
+        }
+
+        int cnt = 0;
+        int cnt_odd = 0;
+        int cnt_even = 0;
+
+        while(!q.isEmpty()){
+            LinkedList<TreeNode> q2 = new LinkedList<>();
+            while(!q.isEmpty()){
+                if(cnt%2 == 0){
+                    cnt_even++;
+                }else{
+                    cnt_odd++;
+                }
+                TreeNode curr = q.removeFirst();
+                if(curr.left != null){
+                    q2.add(curr.left);
+                }
+
+                if(curr.right != null){
+                    q2.add(curr.right);
+                }
+            }
+            cnt++;
+            q = q2;
+        }
+        return Math.min(cnt_even, cnt_odd);
     }
 
     // input_Section_====================================================================
