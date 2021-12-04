@@ -24,14 +24,32 @@ Sample Output
 1
 */
 
+/* solution
+
+n = 2^x + l
+
+where our answer is (2*l + 1)
+
+*/
+
 class josephus_special {
     public static int solution(int n){
         //write your code here
-        return 0;
+        int mask = make_mask(n);
+        int l = (n-(mask));
+        return (2*l)+1;
     }
     public static void main(String[] args){
         Scanner scn = new Scanner(System.in);
         int n = scn.nextInt();
         System.out.println(solution(n));
+    }
+
+    public static int make_mask(int n){
+        int mask = 1;
+        while(mask*2 <= n){
+            mask = (mask<<1);
+        }
+        return mask;
     }
 }

@@ -35,39 +35,48 @@ import java.util.*;
 
 class number_of_emplyees_under_every_manager {
 
-    public static void main(String[] args){
-        Scanner scn = new Scanner(System.in);
-        int n = scn.nextInt();
-        
-        //write your code here
-        
-        // HashMap<String, String> map = new HashMap<>();
-        ArrayList<managed> list = new ArrayList<>();
-        while(n-->0){
-            list.add(new managed(scn.next(), scn.next()));
+      public static void main(String[] args){
+          Scanner scn = new Scanner(System.in);
+          int n = scn.nextInt();
+          
+          //write your code here
+          HashMap<String, ArrayList<String>> tree = new HashMap<>();
+          String root = "";
+          while(n-->0){
+            String employee = scn.next();
+            String manager = scn.next();
+
+            if(employee.equals(manager)){
+              root = employee;
+            }else{
+              ArrayList<String> employees = tree.getOrDefault(manager, new ArrayList<>());
+              employees.add(employee);
+              tree.put(manager, employees);
+            }
+          }
+          // System.out.println(tree);
+          HashMap<String, Integer> ans = new HashMap<>();
+          print_employees_count(root, tree, ans);
+          for(String employee: ans.keySet()){
+            System.out.println(employee+" "+ans.get(employee));
+          }
+      }
+
+      private static void print_employees_count(String root, HashMap<String, ArrayList<String>> tree, HashMap<String, Integer> ans) {
+        employees_count_printer(root, tree, ans);
+      }
+
+      private static int employees_count_printer(String root, HashMap<String, ArrayList<String>> tree, HashMap<String, Integer> ans){
+        int cnt = 0;
+        if(tree.containsKey(root)){
+          ArrayList<String> list = tree.get(root);
+          for(String employee: list){
+            cnt += employees_count_printer(employee, tree, ans);
+          }
         }
 
-        HashMap<String, ArrayList<String>> graph = new HashMap<>();
-
-        for(managed man: list){
-          ArrayList<String> temp = graph.getOrDefault(man.manager, new ArrayList<>());
-          temp.add(man.employee);
-          graph.put(man.manager, temp);
-        }
-
-        HashMap<String, Integer> map = new HashMap<>();
-
-        
-    }
-
-}
-
-class managed{
-  String employee;
-  String manager;
-
-  managed(String employee, String manager){
-    this.employee = employee;
-    this.manager = manager;
-  }
+        // System.out.println(root + " " + cnt);
+        ans.put(root, cnt);
+        return cnt+1;
+      }
 }
