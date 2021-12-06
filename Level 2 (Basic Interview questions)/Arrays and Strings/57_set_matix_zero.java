@@ -32,6 +32,23 @@ A simple improvement uses O(m + n) space, but still not the best solution.
 Could you devise a constant space solution?
 */
 
+class set_matrix_zero{
+    public static void main(String[] args) {
+        // int [][] matrix = {{1,1,1,1},{1,0,1,1},{1,1,1,1}};
+        int [][] matrix = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+        Solution_matrix_zero sol = new Solution_matrix_zero();
+        sol.setZeroes(matrix);
+
+        for(int []mat:matrix){
+            for(int val:mat){
+                System.out.print(val+" ");
+            }
+            System.out.println();
+        }
+
+    }
+}
+
 class Solution_matrix_zero {
     public void setZeroes(int[][] matrix) {
         boolean is_row = false;
@@ -87,22 +104,5 @@ class Solution_matrix_zero {
             }
         }
         
-    }
-}
-
-class set_matrix_zero{
-    public static void main(String[] args) {
-        // int [][] matrix = {{1,1,1,1},{1,0,1,1},{1,1,1,1}};
-        int [][] matrix = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
-        Solution_matrix_zero sol = new Solution_matrix_zero();
-        sol.setZeroes(matrix);
-
-        for(int []mat:matrix){
-            for(int val:mat){
-                System.out.print(val+" ");
-            }
-            System.out.println();
-        }
-
     }
 }

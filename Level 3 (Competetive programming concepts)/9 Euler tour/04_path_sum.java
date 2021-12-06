@@ -45,20 +45,30 @@ class path_sum {
     static PrintWriter out = new PrintWriter(System.out);
     static int [] values;
     static int [] parent;
-
+    static int[] order_nodes ;
+    static int idx = 0;
     public static void main(String[] args) throws IOException {
 
         // write your code here
         int n = in.nextInt();
         values = new int [n];
         parent = new int[n-1];
+        order_nodes = new int[2*n];
+
+        HashMap<Integer, ArrayList<Integer>> tree = new HashMap<>();
+
 
         for(int i = 0;i<n;i++){
             values[i] = in.nextInt();
         }
-        for(int i = 0;i<n-1;i++){
-            parent[i] = in.nextInt();
+        for(int i = 2;i<=n;i++){
+            parent[i-2] = in.nextInt();
+            ArrayList<Integer> list = tree.getOrDefault(parent[i-2], new ArrayList<>());
+            list.add(i);
+            tree.put(parent[i-2], list);
         }
+
+
 
         int q = in.nextInt();
         while(q-->0){
@@ -68,8 +78,10 @@ class path_sum {
     }
 
     private static void solve() {
-
+        
     }
+
+    public static make_inorder
 
     private static class InputReader implements AutoCloseable {
 
