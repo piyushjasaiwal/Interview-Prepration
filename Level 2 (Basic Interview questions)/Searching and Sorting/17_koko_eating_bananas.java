@@ -27,6 +27,7 @@ import java.io.*;
 class koko_eating_bananas {
     public static int minEatingSpeed(int[]piles,int h) {
         //write your code here
+        return 0;
     }
 
     public static void main(String[]args) {
