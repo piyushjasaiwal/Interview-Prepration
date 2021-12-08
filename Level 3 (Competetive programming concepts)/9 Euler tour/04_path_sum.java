@@ -46,7 +46,7 @@ class path_sum {
     static int [] values;
     static int [] parent;
     static int[] order_nodes ;
-    static int idx = 0;
+    static int idx = 1;
     public static void main(String[] args) throws IOException {
 
         // write your code here
@@ -56,8 +56,6 @@ class path_sum {
         order_nodes = new int[2*n];
 
         HashMap<Integer, ArrayList<Integer>> tree = new HashMap<>();
-
-
         for(int i = 0;i<n;i++){
             values[i] = in.nextInt();
         }
@@ -67,21 +65,63 @@ class path_sum {
             list.add(i);
             tree.put(parent[i-2], list);
         }
-
-
-
         int q = in.nextInt();
-        while(q-->0){
-            solve();
+        HashMap<Integer, Pair> map = new HashMap<>();
+        traverse(1, tree, map);
+        // System.out.println(map);
+        int [] ar = new int[(values.length*2)+1];
+        for(int key : map.keySet()){
+            ar[map.get(key).si] = values[key-1];
+            ar[map.get(key).ei] = -values[key-1];
         }
+
+        FenwickTree ft = new FenwickTree(ar);
+        
+        while(q-->0){
+            solve(ft, map);
+        }
+
         out.close();
     }
 
-    private static void solve() {
-        
+    private static void solve(FenwickTree ft, HashMap<Integer, Pair> map) throws IOException {
+        int q = in.nextInt();
+        if(q == 1){
+            int i = in.nextInt();
+            int v = in.nextInt();
+
+            Pair curr = map.get(i);
+            ft.update(curr.si, v);            
+            ft.update(curr.ei, -v);            
+        }else{
+            int i = in.nextInt();
+            Pair curr = map.get(i);
+
+            System.out.println(ft.query(curr.si));
+        }
     }
 
-    public static make_inorder
+
+
+    private static void traverse(int root, HashMap<Integer, ArrayList<Integer>> tree, HashMap<Integer, Pair> map) {
+        int si = idx;
+        idx+=1;
+
+        ArrayList<Integer> children = tree.get(root);
+        if(children != null){    
+            for(int child:children){
+                traverse(child, tree, map);
+            }
+        }
+
+        int ei = idx;
+        idx+=1;
+
+        map.put(root, new Pair(si, ei));
+
+    }
+
+
 
     private static class InputReader implements AutoCloseable {
 
@@ -227,5 +267,61 @@ class path_sum {
         stream.close();
         }
 
+    }
+}
+
+class Pair{
+    int si, ei;
+    public Pair(int s, int e){
+        si = s;
+        ei = e;
+    }
+
+    @Override
+    public String toString() {
+        return "{"+si+", "+ei+"}";
+    }
+}
+
+class FenwickTree{
+    
+    long []ft;
+    int [] arr;
+
+    FenwickTree(int [] ar){
+        ft = new long[ar.length];
+        arr = new int[ar.length];
+        for(int i = 0;i<ar.length;i++){
+            arr[i] = ar[i];
+        }
+        construct();
+    }
+
+    private void construct() {
+        for(int i = 1;i<arr.length;i++){
+            update(i, arr[i], 0);
+        }
+    }
+
+    public void update(int idx, int new_val){
+        update(idx, new_val, arr[idx]);
+        arr[idx] = new_val;
+    }
+
+    private void update(int idx, int new_val, int old_val){
+        while(idx < ft.length){
+            ft[idx] += (new_val-old_val);
+            idx = idx + (idx&-idx);
+        }
+    }
+
+    public long query(int idx){
+        long sum = 0;
+        while(idx > 0){
+            sum += ft[idx];
+            idx = idx - (idx&-idx);
+        }
+
+        return sum;
     }
 }

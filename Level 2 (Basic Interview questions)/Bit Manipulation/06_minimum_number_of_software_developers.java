@@ -45,8 +45,23 @@ class minimum_number_of_software_developers {
 
 	static ArrayList<Integer> sol = new ArrayList<>();
 
-	public static void solution(int[] people, int nskills, int cp, ArrayList<Integer> onesol, int skills) {
+	public static void solution(int[] people, int nskills, int cp, ArrayList<Integer> onesol, int skills_mask) {
 		// write your code here
+
+		if(cp >= people.length){
+			if(skills_mask == (1<<nskills)-1){
+				if(sol.size() == 0 || onesol.size() < sol.size()){
+					sol = new ArrayList<>(onesol);
+				}
+			}
+			return ;
+		}
+
+		solution(people, nskills, cp+1, onesol, skills_mask);
+		skills_mask = skills_mask | people[cp];
+		onesol.add(cp);
+		solution(people, nskills, cp+1, onesol, skills_mask);
+		onesol.remove(onesol.size()-1);
 	}
 	public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);

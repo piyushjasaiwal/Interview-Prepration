@@ -41,9 +41,30 @@ class Main {
         while(temp != null){
             if(temp.val%2 == 0){
                 if(dummy_even_head == null){
-                    dummy_even_head = 
+                    dummy_even_head = temp;
+                    dummy_even_tail = temp;
+                }else{
+                    dummy_even_tail.next = temp;
+                    dummy_even_tail = temp;
+                }
+            }else{
+                if(dummy_odd_head == null){
+                    dummy_odd_head = temp;
+                    dummy_odd_tail = temp;
+                }else{
+                    dummy_odd_tail.next = temp;
+                    dummy_odd_tail = temp;
                 }
             }
+            ListNode next = temp.next;
+            temp.next = null;
+            temp = next;
+        }
+        if(dummy_even_tail != null){
+            dummy_even_tail.next = dummy_odd_head;
+            return dummy_even_head;
+        }else{
+            return dummy_odd_head;
         }
     }
 

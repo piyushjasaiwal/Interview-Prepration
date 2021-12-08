@@ -40,7 +40,59 @@ class Main {
     }
 
     public static void fold(ListNode head) {
+        ListNode mid = midLinkedList(head);
+        ListNode newHead = mid.next;
+        mid.next = null;
 
+        newHead = reverse(newHead);
+
+        ListNode c1 = head;
+        ListNode c2 = newHead;
+        ListNode f1 = null;
+        ListNode f2 = null;
+
+        while(c2 != null){
+            f1 = c1.next;
+            f2 = c2.next;
+
+            c1.next = c2;
+            c2.next = f1;
+
+            c1 = f1;
+            c2 = f2;
+        }
+    }
+
+    private static ListNode reverse(ListNode newHead) {
+        ListNode prev = null;
+        ListNode curr = newHead;
+        ListNode next = null;
+        if(curr != null){
+            next = curr.next;
+        }
+
+        while(curr != null){
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if(next != null){
+                next = next.next;
+            }
+        }
+
+        newHead = prev;
+        return prev;
+    }
+
+    public static ListNode midLinkedList(ListNode head){
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while(fast != null && fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
     }
 
     static void printList(ListNode node) {

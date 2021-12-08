@@ -1,11 +1,10 @@
-/*abstract
-There are n vertices and there are edges in between some of the vertices. Find the sum  of edge weight of minimum spanning tree.
+/*abstractThere are n cities and there are roads in between some of the cities. Somehow all the roads are damaged simultaneously. We have to repair the roads to connect the cities again. There is a fixed cost to repair a particular road. Find out the minimum cost to connect all the cities by repairing roads.
 Input Format
-First line contains number of vertices.
-Second line contains number of edges.
-Each of next E lines contain 3 number u and v and c denoting an edge between u and v with weight c.
+First line contains number of cities.
+Second line contains number of edges roads.
+Each of next E lines contain 3 number u and v and c denoting a road between u and v with cost c to repair.
 Output Format
-print the sum of edge weight of MST.
+print the minimum cost.
 Question Video
 
   COMMENTConstraints
@@ -26,12 +25,11 @@ Sample Output
 38
 */
 
-
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class kruskal_algorithm {
-
+class minimum_cost_to_connect_all_cities {
+    
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int v = Integer.parseInt(br.readLine());
@@ -45,7 +43,7 @@ class kruskal_algorithm {
         edges[i][2] = Integer.parseInt(st[2]);
         }
 
-        System.out.println(minCostToSupplyWater(v, edges));
+        System.out.println(minCostToConnectAllCities(v, edges));
     }
 
     static int[] parent;
@@ -72,7 +70,7 @@ class kruskal_algorithm {
         }
     }
 
-    public static int minCostToSupplyWater(int n, int[][] pipes) {
+    public static int minCostToConnectAllCities(int n, int[][] pipes) {
         parent = new int[n];
         rank = new int[n];
         for(int i = 0;i<n;i++){

@@ -52,13 +52,18 @@ class number_of_distinct_islands {
 
     public static int numDistinctIslands(int[][] arr) {
         //write your code here
-        Set<StringBuilder> set = new HashSet<>();
+        Set<String> set = new HashSet<>();
+        // HashMap<String, Integer> map = new HashMap<>();
         for(int i = 0;i<arr.length;i++){
             for(int j = 0;j<arr[0].length;j++){
                 if(arr[i][j] == 1){
                     psf.append('x');
                     DFS(i, j, arr);
-                    set.add(psf);
+                    String path = new String(psf);
+                    if(!set.contains(path)){
+                        System.out.println(psf);
+                        set.add(path);
+                    }
                     psf = new StringBuilder("");
                 }
             }
