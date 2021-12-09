@@ -27,16 +27,33 @@ import java.util.*;
 
 class permutation_words_two {
 
-    public static void generateWords(int cc, String str, Character[] spots, HashMap<Character, Integer> lastOccurence) {
+    public static void generateWords(int cc, String str, char[] spots, HashMap<Character, Integer> lastOccurence) {
         // write your code here
 
+        if(cc >= str.length()){
+            System.out.println(new String(spots));
+            return ;
+        }
+
+        char ch = str.charAt(cc);
+        int last_occur = lastOccurence.get(ch);
+        for(int pos = last_occur+1; pos<str.length();pos++){
+            if(spots[pos] == '/'){
+                spots[pos] = ch;
+                lastOccurence.put(ch, pos);
+                generateWords(cc+1, str, spots, lastOccurence);
+                lastOccurence.put(ch, -1);
+                spots[pos] = '/';
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine();
 
-        Character[] spots = new Character[str.length()];
+        char[] spots = new char[str.length()];
+        Arrays.fill(spots, '/');
         HashMap<Character, Integer> lastOccurence = new HashMap<>();
         for(char ch: str.toCharArray()){
             lastOccurence.put(ch, -1);
