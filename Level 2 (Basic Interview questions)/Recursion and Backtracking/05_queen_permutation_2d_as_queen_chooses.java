@@ -76,11 +76,9 @@ class queen_permutation_2d_as_queen_chooses{
         for(int i = 0;i<chess.length;i++){
             for(int j = 0;j<chess[0].length;j++){
                 if(chess[i][j] == 0){
-                    for(int k = qpsf+1 ;k<=tq;k++){
-                        chess[i][j] = k;
-                        queensPermutations(qpsf+1, tq, chess);
-                        chess[i][j] = 0;
-                    }
+                    chess[i][j] = qpsf+1;
+                    queensPermutations(qpsf+1, tq, chess);
+                    chess[i][j] = 0;
                 }
             }
         }
