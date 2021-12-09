@@ -26,26 +26,28 @@ import java.util.*;
 
 class next_greater_element_two {
     public static int[] nextGreaterElementII(int[] nums) {
-        int [] ans = new int[nums.length];
-        Arrays.fill(ans, Integer.MAX_VALUE);
-        Stack<Integer> s = new Stack<>();
-
-        for(int idx = 0;idx<2;idx++){
-            int i = 0;
-            // if(idx == 0){
-                s.push(i);
-                i+=1;
-            // }
-
-            while(!s.empty() && nums[s.peek()] < nums[i]){
-                ans[s.pop()] = nums[i];
+        int n = nums.length;
+        Stack<Integer> stack = new Stack<>();
+        for(int i = n-2;i>=0;i--){
+            while(stack.size() > 0 && nums[stack.peek()] <= nums[i]){
+                stack.pop();
             }
 
-            if(ans[i] == Integer.MAX_VALUE){
-                s.push(i);
-            }
-            i++;
+            stack.push(i);
         }
+
+        int [] ans = new int[n];
+
+        for(int i = n-1;i>=0;i--){
+            while(stack.size() > 0 && nums[stack.peek()] <= nums[i]){
+                stack.pop();
+            }
+
+            ans[i] = stack.size() == 0 ? -1 : nums[stack.peek()];
+
+            stack.push(i);
+        }
+
         return ans;
     }
 
