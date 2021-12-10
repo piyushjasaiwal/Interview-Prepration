@@ -63,7 +63,7 @@ public class Main {
     public void add(int val) {
       // write your code here
       if(left.size() == right.size()){
-          if(left.peek() > val || val < right.peek()){
+          if(left.peek() >= val || val <= right.peek()){
               left.add(val);
           }else if(val > right.peek()){
             left.add(right.poll());
