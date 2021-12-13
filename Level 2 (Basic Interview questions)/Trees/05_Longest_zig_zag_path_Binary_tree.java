@@ -1,9 +1,13 @@
-/*
+/*abstract
 1. You are given a partially written function to solve.
-2. You are required to complete the body of MinCamerasInBT_ function. The function is expected to return integer value representing minimum number of camera(s) required for the coverage of complete tree.
-3.A camera is placed on any node will ensure coverage of parent-node as well as it's child-node(s), if any.
-4. Input and Output is managed for you.
+2. Given a binary tree root, a ZigZag path for a binary tree is defined as follow:
+    a. Choose any node in the binary tree and a direction (right or left).
+    b. If the current direction is right then move to the right child of the current node otherwise move to the left child.
+    c. Change the direction from right to left or right to left.
+    d. Repeat the second and third step until you can't move in the tree.
 
+3.Zigzag length is defined in terms of edges. (A single node has a length of 0).
+4. Return the longest ZigZag path contained in that tree.
 Input Format
 Input is managed for you.
 Output Format
@@ -31,19 +35,12 @@ Sample Input
 -1
 -1
 Sample Output
-3
-*/
-
-/*
-the three conditions used to solve this problem are
-you need a camera : -1
-you have a camera : 0
-you are covered : 1
+4
 */
 
 import java.util.Scanner;
 
-class cameras_in_binary_trees {
+class Longest_zig_zag_path_Binary_tree {
     public static Scanner scn = new Scanner(System.in);
 
     public static class TreeNode {
@@ -56,39 +53,32 @@ class cameras_in_binary_trees {
         }
     }
 
-    static int camera = 0;
+    static int longest = 0;
 
-    public static int MinCamerasInBT(TreeNode root) {
-        camera = 0;
-        int root_need = minCamera_postorder(root);
-        if(root_need == -1){
-            camera+=1;
-        }
-        return camera;
+    public static int longestZigZagPath(TreeNode root) {
+        longest = 0;
+        longest_path(root, -1);
+        longest_path(root, 1);
+        return longest;
     }
 
     // input_Section_====================================================================
 
-    private static int minCamera_postorder(TreeNode root) {
+    private static int longest_path(TreeNode root, int dir) {
         if(root == null){
-            return 1;
-        }
-
-        int left = minCamera_postorder(root.left);
-        int right = minCamera_postorder(root.right);
-
-        if(left == -1 || right == -1){
-            camera+=1;
             return 0;
         }
 
-        else if(left == 0 || right == 0){
-            return 1;
-        }
+        int left = longest_path(root.left, -1);
+        int right = longest_path(root.right, 1);
 
-        else{
-            return -1;   
-        }        
+        if(dir == -1){
+            longest = Math.max(longest, left);
+            return right+1;
+        }else{
+            longest = Math.max(longest, right);
+            return left+1;
+        }
     }
 
     public static TreeNode createTree(int[] arr, int[] IDX) {
@@ -96,7 +86,6 @@ class cameras_in_binary_trees {
             IDX[0]++;
             return null;
         }
-
         TreeNode node = new TreeNode(arr[IDX[0]++]);
         node.left = createTree(arr, IDX);
         node.right = createTree(arr, IDX);
@@ -112,13 +101,11 @@ class cameras_in_binary_trees {
 
         int[] IDX = new int[1];
         TreeNode root = createTree(arr, IDX);
-        System.out.println(MinCamerasInBT(root));
 
+        System.out.println(longestZigZagPath(root));
     }
 
     public static void main(String[] args) {
         solve();
     }
-
-
 }
