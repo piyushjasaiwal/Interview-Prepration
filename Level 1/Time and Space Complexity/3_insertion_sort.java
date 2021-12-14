@@ -50,7 +50,13 @@ class insertion_sort {
 
   public static void insertionSort(int[] arr) {
     //write your code here
-    
+    for(int i = 1;i<arr.length;i++){
+      int j = i;
+      while(j>0 && isGreater(arr, j, j-1)){
+        j--;
+      }
+      swap(arr, i, j);
+    }
   }
 
   // used for swapping ith and jth elements of array

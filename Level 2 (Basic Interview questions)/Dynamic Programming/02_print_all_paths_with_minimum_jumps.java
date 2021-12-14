@@ -35,14 +35,64 @@ Sample Output
 0 -> 3 -> 5 -> 7 -> 9 .
 */
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 class print_all_paths_with_minimum_jumps{
+
+    static public class Pair{
+        int i;
+        int s;
+        int j;
+        String psf;
+
+        public Pair(int i, int s, int j, String psf){
+            this.i = i;
+            this.s = s;
+            this.j = j;
+            this.psf = psf;
+        }
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            return "{i => " + i+", j => "+j+", s => "+s+", psf => "+psf+"}";
+        }
+    }
+
     public static void Solution(int arr[]){
         // write your code here
-        int [] dp = new 
+        Integer [] dp = new Integer[arr.length];
+        dp[arr.length-1] = 0;
+        for(int i = arr.length-2;i>=0;i--){
+            int steps = arr[i];
+            int min = Integer.MAX_VALUE;
+            for(int j = 1;j <= steps && i+j < arr.length;j++){
+                if(dp[i+j] != null){
+                    min = Math.min(min, dp[i+j]);
+                }
+            }
+
+            if(min != Integer.MAX_VALUE){
+                dp[i] = min+1;
+            }
+        }
+        System.out.println(dp[0]);
+
+        LinkedList<Pair> ll = new LinkedList<>();
+        ll.add(new Pair(0, arr[0], dp[0],""));
+        while(!ll.isEmpty()){
+            System.out.println(ll);
+            Pair curr = ll.removeFirst();
+            if(curr.s == 0){
+                System.out.println(curr.psf+curr.i+" .");
+            }else{
+                for(int j = 1;j<curr.s && curr.i+j < arr.length;j++){
+                    if(dp[curr.i+j] != null && dp[curr.i+j] == curr.s-1){
+                        ll.add(new Pair(curr.i+j, arr[curr.i+j], dp[curr.i+j], curr.psf+curr.i+" -> "));
+                    }
+                }
+            }
+        }
     }
     public static void main(String []args){
         Scanner scn = new Scanner(System.in);
