@@ -61,7 +61,7 @@ class number_of_distinct_islands {
                     DFS(i, j, arr);
                     String path = new String(psf);
                     if(!set.contains(path)){
-                        System.out.println(psf);
+                        // System.out.println(psf);
                         set.add(path);
                     }
                     psf = new StringBuilder("");
