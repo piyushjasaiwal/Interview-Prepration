@@ -26,8 +26,95 @@ import java.io.*;
 
 class critical_connections {
 
+    static int [] parent;
+    static int [] disc;
+    static int [] low;
+    static boolean [] visited;
+    static int time = 0;
+    static List<List<Integer>> ans;
+
     public static List<List<Integer>> criticalConnections(int n, List<List<Integer>> Edges) {
-        return null;
+
+        ArrayList<ArrayList<Integer>> graph = make_graph(n, Edges);
+
+        parent = new int[n];
+        disc = new int[n];
+        low = new int[n];
+        visited = new boolean[n];
+        time = 0;
+        ans = new ArrayList<>();
+        parent[0] = -1;
+
+        dfs(0, graph);
+
+        // show(parent);
+        // show(disc);
+        // show(low);
+        // show(visited);
+
+        return ans;
+    }
+
+    private static ArrayList<ArrayList<Integer>> make_graph(int n, List<List<Integer>> edges) {
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+
+        for(int i = 0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+
+        for(List<Integer> edge:edges){
+            int u = edge.get(0);
+            int v = edge.get(1);
+
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        return graph;
+    }
+
+    private static void dfs(int u, ArrayList<ArrayList<Integer>> graph) {
+        visited[u] = true;
+        disc[u] = time;
+        low[u] = time;
+        time+=1;
+
+        List<Integer> nbrs = graph.get(u);
+
+        for(int i = 0;i<nbrs.size();i++){
+            int v = nbrs.get(i);
+
+            if(parent[u] == v){
+                continue;
+            }else if(visited[v]){
+                low[u] = Math.min(low[u], disc[v]);
+            }else{
+                parent[v] = u;
+                dfs(v, graph);
+
+                low[u] = Math.min(low[u], low[v]);
+                if(low[v] > disc[u]){
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(u);
+                    temp.add(v);
+                    ans.add(temp);
+                }
+            }
+        }
+    }
+
+    static void show(int [] arr){
+        for(int object: arr){
+            System.out.print(object+" ");
+        }
+        System.out.println();
+    }
+
+    static void show(boolean [] arr){
+        for(boolean object: arr){
+            System.out.print(object+" ");
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) throws Exception {
