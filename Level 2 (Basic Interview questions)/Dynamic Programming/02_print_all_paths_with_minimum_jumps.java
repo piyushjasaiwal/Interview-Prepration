@@ -79,16 +79,16 @@ class print_all_paths_with_minimum_jumps{
         System.out.println(dp[0]);
 
         LinkedList<Pair> ll = new LinkedList<>();
-        ll.add(new Pair(0, arr[0], dp[0],""));
+        ll.add(new Pair(0, dp[0], arr[0], ""));
         while(!ll.isEmpty()){
             System.out.println(ll);
             Pair curr = ll.removeFirst();
             if(curr.s == 0){
                 System.out.println(curr.psf+curr.i+" .");
             }else{
-                for(int j = 1;j<curr.s && curr.i+j < arr.length;j++){
+                for(int j = 1;j<=curr.s && curr.i+j < arr.length;j++){
                     if(dp[curr.i+j] != null && dp[curr.i+j] == curr.s-1){
-                        ll.add(new Pair(curr.i+j, arr[curr.i+j], dp[curr.i+j], curr.psf+curr.i+" -> "));
+                        ll.add(new Pair(curr.i+j, dp[curr.i+j], arr[curr.i+j], curr.psf+curr.i+" -> "));
                     }
                 }
             }
