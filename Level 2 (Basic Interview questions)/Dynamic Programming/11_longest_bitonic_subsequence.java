@@ -32,7 +32,7 @@ Sample Output
 import java.io.*;
 import java.util.*;
 
-class Main {
+class longest_bitonic_subsequence {
 
     public static void main(String[] args) throws Exception {
         // write your code here
