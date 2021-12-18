@@ -40,22 +40,21 @@ import java.util.*;
 class print_all_paths_with_minimum_jumps{
 
     static public class Pair{
-        int i;
-        int s;
-        int j;
+        int idx;
+        int steps;
+        int jumps;
         String psf;
 
         public Pair(int i, int s, int j, String psf){
-            this.i = i;
-            this.s = s;
-            this.j = j;
+            this.idx = i;
+            this.steps = s;
+            this.jumps = j;
             this.psf = psf;
         }
 
         @Override
         public String toString() {
-            // TODO Auto-generated method stub
-            return "{i => " + i+", j => "+j+", s => "+s+", psf => "+psf+"}";
+            return "{i => " + idx+", j => "+jumps+", s => "+steps+", psf => "+psf+"}";
         }
     }
 
@@ -79,15 +78,15 @@ class print_all_paths_with_minimum_jumps{
         System.out.println(dp[0]);
 
         LinkedList<Pair> ll = new LinkedList<>();
-        ll.add(new Pair(0, dp[0], arr[0], ""));
+        ll.add(new Pair(0, arr[0], dp[0], ""));
         while(!ll.isEmpty()){
-            System.out.println(ll);
+            // System.out.println(ll);
             Pair curr = ll.removeFirst();
-            if(curr.s == 0){
-                System.out.println(curr.psf+curr.i+" .");
+            if(curr.jumps == 0){
+                System.out.println(curr.psf+curr.idx+" .");
             }else{
-                for(int j = 1;j<=curr.s && curr.i+j < arr.length;j++){
-                    if(dp[curr.i+j] != null && dp[curr.i+j] == curr.s-1){
+                for(int j = 1;j<=curr.steps && curr.idx+j < arr.length;j++){
+                    if(dp[curr.idx+j] != null && dp[curr.i+j] == curr.s-1){
                         ll.add(new Pair(curr.i+j, dp[curr.i+j], arr[curr.i+j], curr.psf+curr.i+" -> "));
                     }
                 }

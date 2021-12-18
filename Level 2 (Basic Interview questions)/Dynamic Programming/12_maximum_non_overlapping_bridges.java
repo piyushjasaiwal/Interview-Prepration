@@ -27,3 +27,45 @@ Sample Input
 Sample Output
 7
 */
+
+import java.util.*;
+
+class maximum_non_overlapping_bridges{
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        Pair [] arr = new Pair[n];
+
+        for(int i = 0;i<n;i++){
+          Pair nPair = new Pair(s.nextInt(), s.nextInt());
+          arr[i] = nPair;
+        }
+
+        int ans = 0;
+
+        int [] dp = new int[n];
+        for(int i = 0;i<n;i++){
+          int max = 0;
+          for(int j = 0;j<i;j++){
+            if(arr[i].start > arr[j].end){
+              max = Math.max(max, dp[j]);
+            }
+          }
+
+          dp[i] = max+1;
+          ans = Math.max(dp[i], ans);
+        }
+
+        System.out.println(ans);
+    }
+}
+
+class Pair{
+  int start;
+  int end;
+
+  public Pair(int s, int e){
+    start = s;
+    end = e;
+  }
+}
