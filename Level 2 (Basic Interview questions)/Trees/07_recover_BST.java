@@ -51,11 +51,55 @@ class recover_BST {
         }
     }
 
-    public static void recoverTree(TreeNode root) {
+    
 
+    public static void recoverTree(TreeNode root) {
+        TreeNode curr = root, a = null, b = null, prev = null;
+        while(curr != null){
+            TreeNode left = curr.left;
+            if(left == null){
+                if(prev != null && prev.val > curr.val){
+                    if(a == null){
+                        a = prev;
+                    }
+                    b = curr;
+                }
+                prev = curr;
+                curr = curr.right;
+            }else{
+                TreeNode rightMost = getRightMostNode(curr, left);
+                if(rightMost.right == null){
+                    rightMost.right = curr;
+                    curr = curr.left;
+                }else{
+                    if(prev != null && prev.val > curr.val){
+                        if(a == null){
+                            a = prev;
+                        }
+                        b = curr;
+                    }
+                    prev = curr;
+                    rightMost.right = null;
+                    curr = curr.right;
+                }
+            }   
+        }
+
+        if(a != null){
+            int temp = a.val;
+            a.val = b.val;
+            b.val = temp;
+        }
     }
 
     // input_section=================================================
+
+    private static TreeNode getRightMostNode(TreeNode curr, TreeNode left) {
+        while(left.right != null && left.right != curr){
+            left = left.right;
+        }
+        return left;
+    }
 
     public static void display(TreeNode node) {
         if (node == null)

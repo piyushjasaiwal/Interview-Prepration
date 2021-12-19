@@ -49,17 +49,11 @@ class serialize_and_deserialize_N_ary_tree {
     public static String serialize(Node root) {
         StringBuilder sb = new StringBuilder("");
         serialize_helper(root, sb);
-        System.out.println(sb);
+        // System.out.println(sb);
         return new String(sb);
     }
 
     private static void serialize_helper(Node root, StringBuilder sb) {
-        if(root == null){
-            System.out.println("------------------------------------------------------------");
-            sb.append("null");
-            System.out.println("------------------------------------------------------------");
-            return ;
-        }
 
         sb.append(root.val+" ");
         sb.append(root.children.size()+" ");
@@ -91,7 +85,7 @@ class serialize_and_deserialize_N_ary_tree {
         Node node = new Node(curr);
         for(int i = 0;i<child_count;i++){
             node.children.add(deserialize_helper(arr));
-            idx+=1;
+            // idx+=1;
         }
 
         return node;

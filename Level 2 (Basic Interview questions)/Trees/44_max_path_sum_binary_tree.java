@@ -43,6 +43,22 @@ class max_path_sum_binary_tree {
         }
     }
 
+    public static void display(TreeNode node) {
+        if (node == null)
+        return;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append((node.left != null ? node.left.val : "."));
+        sb.append(" -> " + node.val + " <- ");
+        sb.append((node.right != null ? node.right.val : "."));
+
+        System.out.println(sb.toString());
+
+        display(node.left);
+        display(node.right);
+
+    }
+    
     public static int maxPathSum(TreeNode root) {
         return 0;
     }
@@ -70,6 +86,7 @@ class max_path_sum_binary_tree {
 
         int[] IDX = new int[1];
         TreeNode root = createTree(arr, IDX);
+        display(root);
         System.out.println(maxPathSum(root));
     }
 
