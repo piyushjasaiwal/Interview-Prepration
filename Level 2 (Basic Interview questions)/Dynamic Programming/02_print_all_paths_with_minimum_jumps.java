@@ -54,7 +54,7 @@ class print_all_paths_with_minimum_jumps{
 
         @Override
         public String toString() {
-            return "{i => " + idx+", j => "+jumps+", s => "+steps+", psf => "+psf+"}";
+            return "{idx => " + idx+", jumps => "+jumps+", steps => "+steps+", psf => "+psf+"}";
         }
     }
 
@@ -86,8 +86,8 @@ class print_all_paths_with_minimum_jumps{
                 System.out.println(curr.psf+curr.idx+" .");
             }else{
                 for(int j = 1;j<=curr.steps && curr.idx+j < arr.length;j++){
-                    if(dp[curr.idx+j] != null && dp[curr.i+j] == curr.s-1){
-                        ll.add(new Pair(curr.i+j, dp[curr.i+j], arr[curr.i+j], curr.psf+curr.i+" -> "));
+                    if(dp[curr.idx+j] != null && dp[curr.idx+j] == curr.jumps-1){
+                        ll.add(new Pair(curr.idx+j, arr[curr.idx+j], dp[curr.idx+j], curr.psf+curr.idx+" -> "));
                     }
                 }
             }
