@@ -37,67 +37,38 @@ class best_meeting_point {
     // ~~~~~~~~~~~~~~~~~User Section~~~~~~~~~~~~~~~~
     public static int minTotalDistance(int[][] grid, int n) {
         // Write your code here
-        int median_x = -1;
-        int median_y = -1;
-        int cnt = 0;
+        ArrayList<Integer> xCoordinate = new ArrayList<>();
+        ArrayList<Integer> yCoordinate = new ArrayList<>();
+        
         for(int i = 0;i<grid.length;i++){
-            boolean flag = false;
             for(int j = 0;j<grid[0].length;j++){
                 if(grid[i][j] == 1){
-                    cnt += 1;
-                    if(n%2 == 1 && n/2 == cnt){
-                        median_x = i;
-                        flag = true;
-                        break;
-                    }else if(n%2 == 0 && n/2 == cnt-1){
-                        median_x = i;
-                    }else if(n%2 == 0 && n/2 == cnt){
-                        median_x += i;
-                        flag = true;
-                        break;
-                    }
+                    xCoordinate.add(i);
                 }
             }
-            if(flag){
-                break;
-            }
         }
 
-        if(n%2 == 0){
-            median_x /= 2;
-        }
-
-        cnt = 0;
         for(int j = 0;j<grid[0].length;j++){
-            boolean flag = false;
             for(int i = 0;i<grid.length;i++){
                 if(grid[i][j] == 1){
-                    cnt += 1;
-                    if(n%2 == 1 && n/2 == cnt){
-                        median_y = i;
-                        flag = true;
-                        break;
-                    }else if(n%2 == 0 && n/2 == cnt-1){
-                        median_y = i;
-                    }else if(n%2 == 0 && n/2 == cnt){
-                        median_y += i;
-                        flag = true;
-                        break;
-                    }
+                    yCoordinate.add(j);
                 }
             }
-            if(flag){
-                break;
-            }
         }
 
-        if(n%2 == 0){
-            median_y /= 2;
+        int x = xCoordinate.get(xCoordinate.size()/2);
+        int y = yCoordinate.get(yCoordinate.size()/2);
+
+        int dis = 0;
+        for(int val:xCoordinate){
+            dis += Math.abs(val-x);
         }
 
-        System.out.println(median_x);
-        System.out.println(median_y);
-        return -1;
+        for(int val:yCoordinate){
+            dis += Math.abs(val-y);
+        }
+
+        return dis;
     }
 
     // ~~~~~~~~~~~~~~~Input Management~~~~~~~~~~~~~~
