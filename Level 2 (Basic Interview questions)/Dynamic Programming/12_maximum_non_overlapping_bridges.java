@@ -41,13 +41,16 @@ class maximum_non_overlapping_bridges{
           arr[i] = nPair;
         }
 
+        
+        Arrays.sort(arr, new comp());
+
         int ans = 0;
 
         int [] dp = new int[n];
         for(int i = 0;i<n;i++){
           int max = 0;
           for(int j = 0;j<i;j++){
-            if(arr[i].start > arr[j].end){
+            if(arr[i].end >= arr[j].end){
               max = Math.max(max, dp[j]);
             }
           }
@@ -68,4 +71,17 @@ class Pair{
     start = s;
     end = e;
   }
+}
+
+class comp implements Comparator<Pair>{
+
+  @Override
+  public int compare(Pair o1, Pair o2) {
+    if(o1.start != o2.start){
+      return o1.start - o2.start;
+    }else{
+      return o1.end - o2.end;
+    }
+  }
+  
 }
