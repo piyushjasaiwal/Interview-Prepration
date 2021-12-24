@@ -24,8 +24,22 @@ class circle_and_chords {
 
     public static long NumberOfChords(int n){
         //write your code here
-        
-        return 0;
+        long [] dp = new long[n+1];
+        dp[0] = 1;
+        for(int i =1;i<=n;i++){
+          int j = 0;
+          int k = i-1;
+          while(j<=k){
+            if(j==k){
+              dp[i] += (dp[j]*dp[k]);
+            }else{
+              dp[i] += (2*dp[j]*dp[k]);
+            }
+            j++;
+            k--;
+          }
+        }
+        return dp[n];
     }
   public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);

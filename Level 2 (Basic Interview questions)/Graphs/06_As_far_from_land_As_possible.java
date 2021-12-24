@@ -20,9 +20,7 @@
 // 2
 // */
 
-// import java.io.BufferedReader;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
+// =import java.io.*;
 // import java.util.*;
 
 // class As_far_from_land_As_possible {
@@ -48,25 +46,49 @@
 //         int [] x = {-1, 1, 0, 0};
 //         int [] y = {0, 0, -1, 1};
 //         LinkedList<Pair> q = new LinkedList<>();
-//         LinkedList<Pair> prev = new LinkedList<>();
-//         int max = -1;
-//         q.add(new Pair(0, 0));
 
-//         while(!q.isEmpty()){
-//             Pair curr = q.removeFirst();
-            
-//             if(grid[curr.x][curr.y] == 1){
-//                 while(!prev.isEmpty()){
-//                     Pair prev_pair = prev.removeFirst();
-//                     int dis = Math.abs(prev_pair.x - curr.x) + Math.abs(prev_pair.y - curr.y);
-//                     max = Math.max(max, dis);
+//         for(int i = 0;i<grid.length;i++){
+//             for(int j = 0;j<grid[0].length;j++){
+//                 if(grid[i][j] == 1){
+//                     q.add(new Pair(i, j));
 //                 }
-//                 grid[curr.x][curr.y] = -1;
-//             }else{
-//                 prev.add(curr);
-//                 grid[curr.x]
 //             }
 //         }
+
+//         if(q.size() == 0 || q.size() == grid.length * grid[0].length){
+//             return -1;
+//         }
+
+//         int max = -1;
+//         // boolean [][] visited = new boolean[grid.length][grid[0].length];
+
+//         while(!q.isEmpty()){
+//             // max = Math.max(max, curr.dis);
+//             max++;
+//             int size = q.size();
+//             while(size-->0){
+//                 Pair curr = q.removeFirst();
+//                 for(int i = 0;i<4;i++){
+//                     int new_x = curr.x+x[i];
+//                     int new_y = curr.y+y[i];
+    
+//                     if(is_valid(new_x, new_y, grid)){
+//                         q.add(new Pair(new_x, new_y));
+//                         grid[new_x][new_y] = 1;
+//                     }
+//                 }
+//             }
+
+//         }
+
+//         return max;
+//     }
+
+//     private static boolean is_valid(int x, int y, int[][] grid) {
+//         if(x<0 || x>=grid.length || y<0 || y>=grid[0].length || grid[x][y] == 1){
+//             return false;
+//         }
+//         return true;
 //     }
 // }
 

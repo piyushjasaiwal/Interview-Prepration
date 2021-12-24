@@ -22,7 +22,7 @@ Sample Output
 
 import java.io.*;
 
-class Main {
+class number_of_enclaves {
 
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
