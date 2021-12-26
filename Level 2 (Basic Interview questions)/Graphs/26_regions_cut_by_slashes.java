@@ -36,7 +36,7 @@ import java.util.*;
 
 class regions_cut_by_slashes{
     public static void main(String[] args) {
-        System.out.println(new regions_cut_by_slashes().regionsBySlashes(new String[]{" /","/ "}));
+        System.out.println(new regions_cut_by_slashes().regionsBySlashes(new String[]{"/\\","\\/"}));
     }
 
     public int regionsBySlashes(String[] grid) {
@@ -104,8 +104,18 @@ class regions_cut_by_slashes{
                 DFS(i+1, j, map, visited);
                 DFS(i, j-1, map, visited);
                 DFS(i, j+1, map, visited);
-            }else if(pair.left && pair.right && pair.down && pair.up){
-
+            }else if(pair.left && pair.up){
+                DFS(i-1, j, map, visited);
+                DFS(i, j-1, map, visited);
+            }else if(pair.right && pair.down){
+                DFS(i, j+1, map, visited);
+                DFS(i+1, j, map, visited);
+            }else if(pair.right && pair.up){
+                DFS(i+1, j, map, visited);
+                DFS(i, j-1, map, visited);
+            }else if(pair.left && pair.down){
+                DFS(i-1, j, map, visited);
+                DFS(i, j+1, map, visited);
             }
         }
     }
