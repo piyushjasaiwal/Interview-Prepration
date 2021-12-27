@@ -37,7 +37,7 @@ class pepcoder_and_bits {
     }
     
     public static long solution(long n, int k, int i) {
-      
+        
     }
     
     public static int csb(long n){
@@ -58,6 +58,4 @@ class pepcoder_and_bits {
         int k = csb(n);
         System.out.println(solution(n, k, 63));
     }
-	
-	
 }
