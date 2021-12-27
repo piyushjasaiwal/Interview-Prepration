@@ -37,7 +37,7 @@ class pepcoder_and_bits {
     }
     
     public static long solution(long n, int k, int i) {
-        
+        return 0;
     }
     
     public static int csb(long n){
