@@ -37,30 +37,21 @@ class all_repeating_three_times_except_one {
     }
 
     public static void solution(int[] arr){
-    //write your code here
-        int [] ar = new int[32];
-        for(int i = 0;i<arr.length;i++){
-            int num = arr[i];
-            int mask = 1;
-            int j = 0;
-            while(mask <= num){
-                if((mask & num) > 0){
-                    arr[j]+=1;
-                }
-                j++;
-                mask = (mask << 1);
-            }
-        }
+        //write your code here
+        int MAX_BIT= 30;
 
         int ans = 0;
 
-        for(int val : ar){
-            System.out.println(val+" ");
-        }
+        for(int i = MAX_BIT;i>=0;i--){
+            int mask = (1<<i);
+            int cnt = 0;
+            for(int val:arr){
+                int bit = (val&mask);
+                cnt = cnt + (bit > 0 ? 1 : 0);
+            }
 
-        for(int i = 0;i<32;i++){
-            if(ar[i]%3 != 0){
-                ans = (ans + (1<<i));
+            if(cnt%3 == 1){
+                ans = ans | mask;
             }
         }
 
