@@ -33,30 +33,59 @@ class Main {
         }
     }
 
+    static ListNode th = null;
+    static ListNode tt = null;
+    static ListNode oh = null;
+    static ListNode ot = null;
+    
+    private static void addFirst(ListNode curr) {
+        if(th == null){
+            th = curr;
+            tt = curr;
+        }else{
+            curr.next = th;
+            th = curr;
+        }
+    }
+
     public static ListNode reverseInKGroup(ListNode head, int k) {
-        ListNode temp = head;
-        ListNode dummy_head = null;
-        ListNode dummy_tail = null;
-        int size = size(head);
-        int i = 0;
 
-        while(i+k < size && temp != null){
-            ListNode curr = temp;
-            ListNode next = temp.next;
-            temp.next = null;
-
-            if(dummy_head == null){
-                dummy_head = curr;
-                dummy_tail = curr;
-            }else{
-                curr.next = dummy_head;
-                dummy_head = curr;
-            }
-            i+=1;
+        if(head == null || head.next == null || k < 1){
+            return head;
         }
 
-        return null;
+        int length = size(head);
+        ListNode curr = head;
+
+        while(length >= k){
+            int temp_k = k;
+            while(temp_k-- > 0){
+                ListNode next = curr.next;
+                curr.next = next;
+                addFirst(curr);
+
+                curr = next;
+            }
+
+            if(oh == null){
+                oh = th;
+                ot = tt;
+            }else{
+                ot.next = th;
+                ot = tt;
+            }
+
+            th = null;
+            tt = null;
+            length-=k;
+        }
+
+        ot.next = curr;
+
+        return oh;
+        
     }
+
 
     private static int size(ListNode head) {
         ListNode temp = head;
