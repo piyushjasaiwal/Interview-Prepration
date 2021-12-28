@@ -35,10 +35,40 @@ class Main {
     }
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return null;
+        ListNode head = new ListNode(-1);
+        ListNode temp = head;
+        ListNode c1 = reverse(l1), c2 = reverse(l2);
+        int carry = 0;
+
+        while(c1 != null || c2 != null || carry != 0){
+            int sum = ((c1 != null) ? c1.val : 0) + ((c2 != null) ? c2.val : 0) + carry;
+            carry = sum/10;
+            sum = sum%10;
+            
+            c1 = (c1 == null) ? c1 :c1.next;
+            c2 = (c2 == null) ? c2 :c2.next;
+            temp.next = new ListNode(sum);
+            temp = temp.next;
+        }
+
+        return reverse(head.next);
+    }
+    
+    public static ListNode reverse(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while(curr != null){
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
     }
 
-    // InFput_code===================================================
+    // Input_code===================================================
 
     public static void printList(ListNode node) {
         while (node != null) {
@@ -57,6 +87,7 @@ class Main {
 
         return dummy.next;
     }
+
 
     public static void main(String[] args) {
         ListNode head1 = makeList(scn.nextInt());
