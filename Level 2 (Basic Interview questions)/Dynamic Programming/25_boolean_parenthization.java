@@ -1,3 +1,3 @@
-public class 25_boolean_parenthization {
+class boolean_parenthization {
     
 }
