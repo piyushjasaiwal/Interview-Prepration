@@ -50,19 +50,24 @@ class password{
         }
         //lps ends
 
-        System.out.println("-----------------------------------");
-        for(int val:lps){
-            System.out.print(val+" ");
-        }
-        System.out.println("\n-----------------------------------");
+        // System.out.println("-----------------------------------");
+        // for(int val:lps){
+        //     System.out.print(val+" ");
+        // }
+        // System.out.println("\n-----------------------------------");
 
         if(lps[str.length()-1] == 0){
             System.out.println("Just a legend");
             return ;
         }
 
-        String patt = str.substring(0, lps[str.length()-1]);
+        String patt = "";
 
+        if(lps[str.length()-1] > str.length()/2){
+            patt = str.substring(0, str.length()-lps[str.length()-1]);
+        }else{
+            patt = str.substring(0, lps[str.length()-1]);
+        }
         int i = 0;
         int j = 0;
 
@@ -77,6 +82,8 @@ class password{
                     System.out.println(patt);
                     return ;
                 }
+                
+                j = lps[j-1];
             }else if(i<str.length() && str.charAt(i) != patt.charAt(j)){
                 if(j == 0){
                     i++;
