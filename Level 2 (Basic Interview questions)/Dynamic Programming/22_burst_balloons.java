@@ -31,7 +31,18 @@ class burst_balloons {
 
   public static int solution(int[] arr) {
       //write your code here
-      return 0;
+
+      int n = arr.length;
+      
+      int [][] dp = new int[n][n];
+      for(int gap = 0;gap<n;gap++){
+        int i = 0, j = gap;
+        while(j<n){
+          
+        }
+      }
+
+      return dp[0][n-1];
   }
 
     public static void main(String[] args) {
