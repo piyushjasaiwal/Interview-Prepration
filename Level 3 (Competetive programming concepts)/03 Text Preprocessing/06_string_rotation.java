@@ -30,21 +30,61 @@ class string_rotation {
 		Solution(S, T);
 	}
 
-	private static void Solution(String s, String t) {
-        String str = t+s;
+	private static void Solution(String S, String T) {
+        String pat = S;
+        int [] lps = LPS(pat);
+        String str = T+T;
+
+
+        int ans = 0;
+        boolean flag = false;
+        int i = 0;
+        int j = 0;
+
+        while(i<str.length()){
+            if(str.charAt(i) == pat.charAt(j)){
+                i++;
+                j++;
+            }
+
+            if(j == pat.length()){
+                ans = i - pat.length();
+                System.out.println(ans);
+                flag = true;
+                break;
+            }else if(i < str.length() && str.charAt(i) != pat.charAt(j)){
+                if(j == 0){
+                    i++;
+                }else{
+                    j = lps[j-1];
+                }
+            }
+        }
+
+        if(!flag){
+            System.out.println(-1);
+        }
+	}
+
+    private static int [] LPS(String str){
         int [] lps = new int[str.length()];
-        for(int i = 1;i<str.length();i++){
+        
+        int i = 1;
+        while(i<str.length()){
             int j = lps[i-1];
-            while(j>0 && str.charAt(i) != str.charAt(j)){
+            
+            while(j > 0 && str.charAt(j) != str.charAt(i)){
                 j = lps[j-1];
             }
 
             if(str.charAt(i) == str.charAt(j)){
-                j++;
+                j+=1;
             }
 
             lps[i] = j;
+            i++;
         }
-        System.out.println(lps[lps.length-1]);
-	}
+
+        return lps;
+    }
 }

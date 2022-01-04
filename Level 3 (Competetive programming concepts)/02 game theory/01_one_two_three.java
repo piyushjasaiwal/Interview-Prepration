@@ -14,6 +14,11 @@ Sample Output
 ALICE
 */
 
+/*
+here, the player who will be at multiple of three will be the loser
+so if in starting the number is a multiple of three then bob wins and alice will win otherwise.
+*/
+
 import java.io.*;
 import java.util.*;
 
