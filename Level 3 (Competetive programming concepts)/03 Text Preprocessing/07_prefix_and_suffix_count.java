@@ -27,29 +27,55 @@ class prefix_and_suffix_count {
 
         String str = br.readLine();
 
-        int [] lps = new int[str.length()];
-
-        lps[0] = 0;
-        int i = 1;
+        int [] z = z_function(str);
+        int max = 0;
+        for(int val:z){
+            max = Math.max(max, val);
+        }
+        int [] suffix_sum = new int[max+1];
 
         int cnt = 0;
-
-        while(i<str.length()){
-            int j = lps[i-1];
-            while(j>0 && str.charAt(i) != str.charAt(j)){
-                j = lps[j-1];
+        for(int i = 0;i<z.length;i++){
+            if(str.length()-i == z[i]){
+                cnt++;
+                suffix_sum[str.length()-i]+=1;
             }
-
-            if(str.charAt(i) == str.charAt(j)){
-                j++;
-            }
-
-            lps[i] = j;
-            i++;
         }
 
-        for(int val:lps){
-            System.out.print(val+" ");
+        for(int i = suffix_sum.length-2;i>=0;i--){
+            suffix_sum[i] = suffix_sum[i]+suffix_sum[i+1];
         }
+
+        System.out.println(cnt+1);
+
+        for(int i = z.length-1;i>=0;i--){
+            if(str.length()-i == z[i]){
+                System.out.println(z[i] + " " + (suffix_sum[z[i]]+1));
+            }
+        }
+        System.out.println(str.length() + " 1");
 	}
+
+    public static int [] z_function(String str){
+        int [] z = new int[str.length()];
+
+        int l = 0, r = 0;
+        for(int i = 1;i<str.length();i++){
+            if(i <= r){
+                z[i] = Math.min(z[i-l], r-i+1);
+            }
+
+            while(i+z[i] < str.length() && str.charAt(z[i]) == str.charAt(z[i]+i)){
+                z[i]++;
+            }
+
+            if(i+z[i]-1 > r){
+                l = i;
+                r = i+z[i]-1;
+            }
+        }
+
+
+        return z;
+    }
 }
