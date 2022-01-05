@@ -21,10 +21,44 @@ class longest_substring_with_non_repeating_characters {
 
 	public static int solution(String str) {
 		// write your code here
-		HashMap<Character, String> map = new HashMap<>();
-		return 0;
+		int i = 0;
+        int j = 0;
+
+		int [] freqMap = new int[26];
+		int max = 0;
+
+        while(j<str.length()){
+            while(j < str.length() && isValid(freqMap)){
+				freqMap[str.charAt(j)-'a']++;
+				if(!isValid(freqMap)){
+					j++;
+					break;
+				}else{
+					max = Math.max(max, j-i+1);
+					j++;
+				}
+			}
+
+			while(i<j && !isValid(freqMap)){
+				freqMap[str.charAt(i)-'a']--;
+				i++;
+			}
+
+        }
+
+		return max;
 	}
 	
+	private static boolean isValid(int[] freqMap) {
+		for(int val:freqMap){
+			if(val > 1){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);
 		String str = scn.next();
