@@ -17,11 +17,11 @@ Sample Output
 
 import java.util.*;
 
-class longest_substring_with_unique_characters {
+class longest_substring_with_non_repeating_characters {
 
 	public static int solution(String str) {
 		// write your code here
-        
+		HashMap<Character, String> map = new HashMap<>();
 		return 0;
 	}
 	
