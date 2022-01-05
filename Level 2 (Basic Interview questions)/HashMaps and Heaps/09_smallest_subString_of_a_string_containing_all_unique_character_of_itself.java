@@ -1,27 +1,40 @@
 /*abstract
-1. You are given two strings s1 and s2 containing lowercase english alphabets.
-2. You have to find the smallest substring of s1 that contains all the characters of s2.
-3. If no such substring exists, print blank string("").
+1. You are given a string str.
+2. You have to find the smallest window length that contains all the unique characters of the given string.
 Input Format
-Two strings s1 and s2
-Output Format
 A string
+Output Format
+A number representing smallest window length that contains all unique characters of the given string.
 Question Video
 
   COMMENTConstraints
-1 <= length of string s1 and s2 <= 10000
+1 <= length of string <= 10^6
 Sample Input
-timetopractice
-toc
+aabcbcdbca
 Sample Output
-toprac
+4
 */
 
 import java.util.*;
 
-class smallest_substring_of_a_string_containing_all_characters_of_another_string {
+class smallest_subString_of_a_string_containing_all_unique_character_of_itselfimport {
 
-	public static String solution(String s1, String s2){
+	public static int solution(String str){
+		// write your code here
+		Set<Character> set = new HashSet<>();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0;i<str.length();i++){
+            if(!set.contains(str.charAt(i))){
+                sb.append(str.charAt(i));
+                set.add(str.charAt(i));
+            }
+        }
+
+		return solution(str, new String(sb)).length();
+	}
+
+    public static String solution(String s1, String s2){
 		// write your code here
 		int smallest_cnt = Integer.MAX_VALUE;
         String smallest_string = "";
@@ -87,12 +100,11 @@ class smallest_substring_of_a_string_containing_all_characters_of_another_string
         }
         return true;
     }
-
+	
 	public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);
-		String s1 = scn.next();
-		String s2 = scn.next();
-		System.out.println(solution(s1,s2));
+		String str = scn.next();
+		System.out.println(solution(str));
 	}
 
 }
