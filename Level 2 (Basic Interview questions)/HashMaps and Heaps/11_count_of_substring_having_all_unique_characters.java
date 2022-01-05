@@ -22,8 +22,51 @@ class count_of_substring_having_all_unique_characters {
 
 	public static int solution(String str) {
 		// write your code here
+
+		int i = 0;
+		int j = 0;
+
+		int ans = 0;
+
+		int [] freqMap = new int[26];
+
+		while(j<str.length()){
+			while(j<str.length()){
+				freqMap[str.charAt(j) - 'a']++;
+				if(!isValid(freqMap)){
+					j++;
+					break;
+				}else{
+					int len = (j-i+1);
+					ans += len;
+					j++;
+				}
+			}
+
+			while(i<j){
+				freqMap[str.charAt(i)-'a']--;
+				if(isValid(freqMap)){
+					int len = (j-i-1);
+					ans += len;
+					i++;
+					break;
+				}else{
+					i++;
+				}
+			}
+		}
         
-		return 0;
+		return ans;
+	}
+
+	private static boolean isValid(int[] freqMap) {
+		for(int val:freqMap){
+			if(val > 1){
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 	public static void main(String[] args) {
