@@ -41,11 +41,31 @@ Sample Output
 */
 
 import java.util.Scanner;
-class Min_Len_Of_String_After_Removing_Similar_Ends {
+ 
+class min_length_of_String_after_removing_simiplar_ends {
+
     public static int minLen(String s) {
         // write your code here
-        return 0;
-        
+        int left = 0;
+        int right = s.length()-1;
+
+        while(left < right && s.charAt(left) == s.charAt(right)){
+            char ch = s.charAt(left);
+            
+            while(left <= right && s.charAt(left) == ch){
+                left++;
+            }
+
+            while(left <= right && s.charAt(right) == ch){
+                right--;
+            }
+        }
+
+        if(left > right){
+            return 0;
+        }else{
+            return right - left + 1;
+        }
     }
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
