@@ -1,4 +1,4 @@
-/*abstract
+/*
 1. Pepcoder is feeling confident after solving many problems on Bit Manipulation.
 2. So, his teacher ask him to find out the count of positive integers strictly less than N, having same 
      number of set bits as that of N.
@@ -37,7 +37,23 @@ class pepcoder_and_bits {
     }
     
     public static long solution(long n, int k, int i) {
-        return 0;
+        if(i == 0){
+            return 0;
+        }
+        long res = 0L;
+
+        long mask = 1L<<i;
+
+        if((mask & n) == 0){
+            res = solution(n, k, i-1);
+        }else{
+            long res1 = solution(n, k-1, i-1);
+            long res2 = ncr(i, k);
+
+            res = res1+res2;
+        }
+
+        return res;
     }
     
     public static int csb(long n){
@@ -58,4 +74,6 @@ class pepcoder_and_bits {
         int k = csb(n);
         System.out.println(solution(n, k, 63));
     }
+	
+	
 }
