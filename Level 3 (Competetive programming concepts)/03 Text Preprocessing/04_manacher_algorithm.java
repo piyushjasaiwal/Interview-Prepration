@@ -60,9 +60,12 @@ class manacher_algorithm {
 
         int c = 0;
         int r = 0;
-
+        System.out.println(update);
         for(int i = 1;i<update.length()-1;i++){
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             int mirror = c - (i-c);
+            System.out.println(mirror);
+            show(manacher);
             if(i<r){
                 manacher[i] = Math.min(manacher[mirror], r-i);
             } 
@@ -75,6 +78,8 @@ class manacher_algorithm {
                 c = i;
                 r = i+manacher[i];
             }
+            show(manacher);
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         }
 
         int max_len = 0;
@@ -93,6 +98,14 @@ class manacher_algorithm {
         System.out.println(s1.substring(actual_idx, actual_idx+max_len));
     }
   
+    private static void show(int[] manacher) {
+        System.out.println("----------------------------------------------------------");
+        for(int val:manacher){
+            System.out.print(val+" ");
+        }
+        System.out.println("\n----------------------------------------------------------");
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         String s1 = scn.next();
