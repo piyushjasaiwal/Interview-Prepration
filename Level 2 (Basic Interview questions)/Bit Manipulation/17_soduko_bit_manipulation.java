@@ -38,7 +38,6 @@ Sample Output
 7 4 5 2 8 6 3 1 9 
 */
 
-// import java.io.*;
 import java.util.*;
 
 class soduko_bit_manipulation {
@@ -55,7 +54,33 @@ class soduko_bit_manipulation {
 
   public static void solveSudoku(int[][] arr, int[] rows, int[] cols, int[][] grid, int i, int j) {
     // write your code here. Use display function to display arr
+    if(j >= 9){
+      i += 1;
+      j = 0;
+    }
 
+    if(i >= 9){
+      return ;
+    }
+
+    for(int k = 1;k<=9;k++){
+      if(is_valid(rows, cols, grid,i, j, k)){
+        grid[i/3][j/3] |= (1<<k);
+        rows[i] |= (1 << k);
+        cols[j] |= (1 << k);
+        solveSudoku(arr, rows, cols, grid, i+1, j);
+        int mask = 0xFFFFFFFF;
+        mask = (mask^(1<<k));
+        grid[i/3][j/3] &= (1<<k);
+        rows[i] &= (1 << k);
+        cols[j] &= (1 << k);
+      }
+    }
+  }
+
+  private static boolean is_valid(int[] rows, int[] cols, int[][] grid, int i, int j, int k) {
+    
+    return false;
   }
 
   public static void main(String[] args) throws Exception {
