@@ -36,7 +36,43 @@ class DFS_in_suffix_tree{
         ///////////////////////////////////////////////////////////////// Code starts here
         public void dfs() {
           // Write Code here
-      
+          for(SuffixNode child : root.child){
+            ArrayList<Character> asf = new ArrayList<>();
+            dfsPrinter(child, asf);
+          }
+        }
+        private void dfsPrinter(SuffixNode node, ArrayList<Character> asf) {
+          if(node == null){
+            return ;
+          }
+
+          for(int i = node.start;i<=node.end.end;i++){
+            asf.add(input[i]);
+          }
+
+          if(node.index != -1){
+            for(int i = 0;i<asf.size();i++){
+              System.out.print(asf.get(i));
+            }
+            System.out.println();
+
+            for(int i = node.start;i<=node.end.end;i++){
+              asf.remove(asf.size()-1);
+            }
+
+            return ;
+          }
+
+          for(SuffixNode child : node.child){
+            if(child != null){
+              dfsPrinter(child, asf);
+            }
+          }
+
+          for(int i = node.start;i<=node.end.end;i++){
+            asf.remove(asf.size()-1);
+          }
+
         }
         ///////////////////////////////////////////////////////////////// Code ends here
         public SuffixNode root;
