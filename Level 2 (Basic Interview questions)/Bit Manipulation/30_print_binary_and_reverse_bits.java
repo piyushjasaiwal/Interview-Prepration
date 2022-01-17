@@ -32,11 +32,16 @@ class print_binary_and_reverse_bits {
         int ans = 0;
         while((1<<i) <= n){
             int mask = (1<<i);
-            ans = 
-
-
+            int bit = (mask&n);
+            sb.insert(0, bit > 0 ? '1' : '0');
+            ans = ans<<1;
+            if(bit > 0){
+                ans = ans|1;
+            }
             i+=1;
         }
+        System.out.println(sb);
+        System.out.println(ans);
     }
 
 }
