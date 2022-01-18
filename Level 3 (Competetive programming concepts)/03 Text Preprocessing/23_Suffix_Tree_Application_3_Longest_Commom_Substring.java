@@ -1,103 +1,116 @@
 /*abstract
-Given a string print all the start indexes of longest repeated substrings. Refer to video for more info
+Given 2 strings, print the length of longest common substring and print the start points of the same
 Input Format
-A string s
+Input consists of 2 lines, each containing a string.
 Output Format
-Print the length of Longest repeated substring and in next line print all the start indexes
+Print the length of longest common substring, and all the start points of the same in the next line
 Question Video
 
   COMMENTConstraints
-|S| <= 10^5
+|S1|,|S2| <= 10^5
 Sample Input
-pepapep
+pepcoder
+xyzcoderpep
 Sample Output
-3
-0 4
+5
+3 12 
 */
 
 import java.util.*;
-class Suffix_Tree_Application_1_Longest_Repeated_Substring {
+
+class Suffix_Tree_Application_3_Longest_Commom_Substring {
   public static void main(String args[]) {
     Scanner scn = new Scanner(System.in);
-    String s = scn.next();
-    SuffixTree st = new SuffixTree(s.toCharArray());
-    st.build();
-    // Write code here
+    String s1 = scn.next();
+    String s2 = scn.next();
+    //Write your code here
 
-    st.lrs();
+    String str = s1+'#'+s2;
+    SuffixTree st = new SuffixTree(str.toCharArray());
+    st.build();
+
+    st.lcs(s1.length());
+
+    scn.close();
   }
 
   static class SuffixTree {
     ///////////////////////////////////////////////////////////////// Code starts here
   
-    ArrayList<SuffixNode> listNodes = new ArrayList<>();
+    ArrayList<SuffixNode> ideal = new ArrayList<>();
     ArrayList<Integer> ans = new ArrayList<>();
-    public void lrs(){
-      
-      int [] maxLen = new int[1];
-      maxLen[0] = 0;
+    int middle = -1;
   
-      for(SuffixNode child : root.child){
-        if(child != null){
-          optNodeFinder(child, 0, maxLen);
+    public void lcs(int mid){
+        int [] maxLen = new int[1];
+        middle = mid;
+        for(SuffixNode child : root.child){
+            fillIdeal(child, 0, maxLen);
         }
-      }
   
-      
-      for(SuffixNode node : listNodes){
-        dfsPrinter(node);
-      }
-  
-      Collections.sort(ans);
-      System.out.println(maxLen[0]);
-      for(int val : ans){
-        System.out.print(val+" ");
-      }
+        for(SuffixNode idealNode : ideal){
+            dfsFiller(idealNode);
+        }
+    
+        // Collections.sort(ans);
+        System.out.println(maxLen[0]);
+        for(int val : ans){
+            System.out.print(val+" ");
+        }
     }
   
-    private void dfsPrinter(SuffixNode node) {
+    private void dfsFiller(SuffixNode node) {
       if(node == null){
-        return ;
+          return ;
       }
   
       if(node.index != -1){
-        ans.add(node.index);
-        // System.out.println(ans);
-        return ;
+          ans.add(node.index);
+          return ;
       }
   
       for(SuffixNode child : node.child){
-        dfsPrinter(child);
+          dfsFiller(child);
       }
     }
   
-    private void optNodeFinder(SuffixNode node, int cLen, int [] maxLen) {
+  private boolean [] fillIdeal(SuffixNode node, int cd, int[] maxLen) {
+      boolean [] myAns = new boolean[2];
       if(node == null){
-        return ;
+          return myAns;
       }
   
       if(node.index != -1){
-        return ;
+          if(node.index < middle){
+              myAns[0] = true;
+          }else{
+              myAns[1] = true;
+          }
+          return myAns;
       }
   
-       cLen = cLen + node.end.end - node.start + 1;
-  
-      if(cLen >= maxLen[0]){
-        if(cLen > maxLen[0]){
-          listNodes = new ArrayList<>();
-        }
-  
-        maxLen[0] = cLen;
-        listNodes.add(node);
-      }
+      cd = cd + (node.end.end - node.start + 1);
   
       for(SuffixNode child : node.child){
-        optNodeFinder(child, cLen, maxLen);
+          boolean [] nextAns = fillIdeal(child, cd, maxLen);
+          myAns[0] = myAns[0] | nextAns[0];
+          myAns[1] = myAns[1] | nextAns[1];
+  
+          if(myAns[0] && myAns[1] && cd >= maxLen[0]){
+              if(cd > maxLen[0]){
+                  ideal = new ArrayList<>();
+              }
+  
+              maxLen[0] = cd;
+              ideal.add(node);
+          }
       }
+  
+      return myAns;
   
     }
   
-    ///////////////////////////////////////////////////////////////// Code ends here
+  ///////////////////////////////////////////////////////////////// Code ends here
     public SuffixNode root;
     private Active active;
     private int remainingSuffixCount;
