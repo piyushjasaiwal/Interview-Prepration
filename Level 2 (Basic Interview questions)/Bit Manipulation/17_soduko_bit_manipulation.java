@@ -54,33 +54,41 @@ class soduko_bit_manipulation {
 
   public static void solveSudoku(int[][] arr, int[] rows, int[] cols, int[][] grid, int i, int j) {
     // write your code here. Use display function to display arr
-    if(j >= 9){
-      i += 1;
-      j = 0;
-    }
 
     if(i >= 9){
+      display(arr);
       return ;
     }
 
-    for(int k = 1;k<=9;k++){
-      if(is_valid(rows, cols, grid,i, j, k)){
-        grid[i/3][j/3] |= (1<<k);
-        rows[i] |= (1 << k);
-        cols[j] |= (1 << k);
-        solveSudoku(arr, rows, cols, grid, i+1, j);
-        int mask = 0xFFFFFFFF;
-        mask = (mask^(1<<k));
-        grid[i/3][j/3] &= (1<<k);
-        rows[i] &= (1 << k);
-        cols[j] &= (1 << k);
+    if(arr[i][j] > 0){
+      solveSudoku(arr, rows, cols, grid, j == arr.length-1 ? i+1 : i, j == arr.length-1 ? 0 : j+1);
+    }else{
+      for(int num = 1;num<=9;num++){
+        if(
+          ((rows[i] & 1<<num) == 0) &&
+          ((cols[j] & 1<<num) == 0) &&
+          ((grid[i/3][j/3] & 1<<num) == 0)
+        ){
+          arr[i][j] = num;
+          rows[i] ^= (1<<num);
+          cols[j] ^= (1<<num);
+          grid[i/3][j/3] ^= (1<<num);
+          solveSudoku(arr, rows, cols, grid, j == arr.length-1 ? i+1 : i, j == arr.length-1 ? 0 : j+1);
+          rows[i] ^= (1<<num);
+          cols[j] ^= (1<<num);
+          grid[i/3][j/3] ^= (1<<num);
+          arr[i][j] = 0;
+        }
       }
     }
   }
 
-  private static boolean is_valid(int[] rows, int[] cols, int[][] grid, int i, int j, int k) {
-    
-    return false;
+  public static boolean is_valid(int[] rows, int[] cols, int[][] grid, int i, int j, int k) {
+    int mask = 1<<k;
+    if((mask^rows[i]) == 0 || (mask^cols[j]) == 0 || (mask^grid[i/3][j/3]) == 0){
+      return false;
+    }
+    return true;
   }
 
   public static void main(String[] args) throws Exception {
