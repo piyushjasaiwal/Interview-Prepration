@@ -45,25 +45,9 @@ class vitaly_and_strings{
         String s = scn.next();
         String t = scn.next();
 
-        System.out.println(isPossible(s, t));
+        // System.out.println(isPossible(s, t));
+        
     }
 
-    private static String isPossible(String s, String t) {
-        
-        char [] ans = s.toCharArray();
-        for(int i = 0;i<s.length();i++){
-            if(t.charAt(i)-s.charAt(i) > 1){
-                ans[i] = (char)(ans[i]+1);
-                return new String(ans);
-            }else{
-                if(t.charAt(i)-s.charAt(i) == 1 && i != s.length()-1){
-                    ans[i] = (char)(ans[i]+1);
-                    ans[i+1] = (char)((ans[i+1]+1)%26);
-                    return new String(ans);
-                }
-            }
-        }
-        
-        return "No such string";
-    }
+    
 }
