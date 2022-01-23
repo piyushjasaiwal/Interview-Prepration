@@ -31,16 +31,21 @@ class N_Queens_Using_BITS {
   public static void solution(boolean[][] board, int row, int cols, int ndiag, int rdiag, String asf) {
     // write your code here
     if(row == board.length){
-        System.out.println(asf);
+        System.out.println(asf+'.');
         return ;
     }
 
-    for(int i = 0;i<board.length;i++){
-        
-        if(
-            
-        ){
-
+    for(int col = 0;col<board.length;col++){
+        if((cols & (1<<col)) == 0 && (ndiag & (1<<(row+col))) == 0 && (rdiag & (1<<(row-col+board.length-1))) == 0){
+          board[row][col] = true;
+          cols ^= (1<<col);
+          ndiag ^= (1<<(row+col));
+          rdiag ^= (1<<(row-col+board.length-1));
+          solution(board, row+1, cols, ndiag, rdiag, asf+row+"-"+col+", ");
+          board[row][col] = false;
+          cols ^= (1<<col);
+          ndiag ^= (1<<(row+col));
+          rdiag ^= (1<<(row-col+board.length-1));
         }
     }   
   }
