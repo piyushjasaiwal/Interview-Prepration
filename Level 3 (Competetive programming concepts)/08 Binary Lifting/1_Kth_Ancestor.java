@@ -93,7 +93,7 @@ class Kth_Ancestor {
         }
     }
 
-    private static void show(int[][] kth_Ancestors) {
+    public static void show(int[][] kth_Ancestors) {
         for(int [] ar:kth_Ancestors){
             for(int a : ar){
                 System.out.print(a+" ");

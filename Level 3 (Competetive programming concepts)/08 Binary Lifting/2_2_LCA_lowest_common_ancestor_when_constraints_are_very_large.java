@@ -40,20 +40,122 @@ Case 1:
 import java.io.*;
 import java.util.*;
 
-class LCA_lowest_common_ancestor {
-    static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    static PrintWriter out = new PrintWriter(System.out);
-    /*
-    use in for reading input
-    use out for printing output
-    */
+class LCA_lowest_common_ancestor_when_constraints_are_very_large {
+  static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+  static PrintWriter out = new PrintWriter(System.out);
+  /*
+  use in for reading input
+  use out for printing output
+  */
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-      // write your code here.
+    // write your code here.
 
-
-
+    int t = Integer.parseInt(in.readLine());
+    int i = 1;
+      while(t-->0){
+        solve(i);
+        i++;
+      }
       out.close();
+  }
+
+  private static void solve(int idx) throws NumberFormatException, IOException {
+    out.println("Case "+idx+":");
+    int n = Integer.parseInt(in.readLine());
+    int [] parent = new int[n+1];
+    int [] level = new int[n+1];
+
+    for(int i=1;i<=n;i++){
+      parent[i] = i;
+      level[i] = 1;
     }
+    for(int i = 1;i<=n;i++){
+      String []tokens = in.readLine().split(" ");
+      int n_childs = Integer.parseInt(tokens[0]);
+      int j = 1;
+      while(n_childs-->0){
+        int child = Integer.parseInt(tokens[j]);
+        parent[child] = i;
+        level[child] = level[i]+1;
+        j++;
+      }
+    }
+    // show(parent);
+    // show(level);
+
+    int q = Integer.parseInt(in.readLine());
+    String [] tokens ;
+    while(q-->0){
+      tokens = in.readLine().split(" ");
+      int a = Integer.parseInt(tokens[0]);
+      int b = Integer.parseInt(tokens[1]);
+
+      int parent_a = a;
+      int parent_b = b;
+      int level_a = level[a];
+      int level_b = level[b];
+
+      int [][] ancestors = ancestor_table_maker(parent);
+
+      if(level_a > level_b){
+        int dif = level_a-level_b;
+        int mask = 1;
+        while(dif >= mask){
+          if((dif&mask) > 0){
+            parent_a = ancestors[mask][parent_a];
+            mask <<= 1;
+          }
+        }
+      }else{
+        int dif = level_b-level_a;
+        int mask = 1;
+        while(dif >= mask){
+          if((dif&mask) > 0){
+            parent_b = ancestors[mask][parent_b];
+            mask <<= 1;
+          }
+        }
+      }
+
+      while(parent_a != parent_b){
+        parent_a = parent[parent_a];
+        parent_b = parent[parent_b];
+      }
+
+      // System.out.println(parent_a);
+      out.println(parent_a);
+    }
+  }
+
+  public static void show(int[] parent) {
+    System.out.println("---------------------------------------------------------");
+    for(int val:parent){
+      System.out.print(val+" ");
+    }
+    System.out.println();
+    System.out.println("---------------------------------------------------------");
+  }
+
+  public static int [][] ancestor_table_maker(int [] parent){
+    int [][] kth_parents = new int[17][parent.length];
+
+    for(int i = 0;i<kth_parents.length;i++){
+        // Arrays.fill(kth_parents[0], 0);
+        for(int j = 0;j<kth_parents[0].length;j++){
+            if(i == 0 && j == 0){
+                kth_parents[i][j] = 0;
+            }else if(i == 0){
+                kth_parents[i][j] = parent[j];
+            }else if(j == 0){
+                kth_parents[i][j] = 0;
+            }else{
+                kth_parents[i][j] = kth_parents[i-1][kth_parents[i-1][j]];
+            }
+        }
+    }
+
+    return kth_parents;
+}
 }

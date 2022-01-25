@@ -78,8 +78,8 @@ class LCA_lowest_common_ancestor_when_constraints_are_small {
           j++;
         }
       }
-      // show(parent);
-      // show(level);
+      show(parent);
+      show(level);
 
       int q = Integer.parseInt(in.readLine());
       String [] tokens ;
@@ -115,14 +115,14 @@ class LCA_lowest_common_ancestor_when_constraints_are_small {
       }
     }
 
-    // private static void show(int[] parent) {
-    //   System.out.println("---------------------------------------------------------");
-    //   for(int val:parent){
-    //     System.out.print(val+" ");
-    //   }
-    //   System.out.println();
-    //   System.out.println("---------------------------------------------------------");
-    // }
+    private static void show(int[] parent) {
+      System.out.println("---------------------------------------------------------");
+      for(int val:parent){
+        System.out.print(val+" ");
+      }
+      System.out.println();
+      System.out.println("---------------------------------------------------------");
+    }
 
     
 }
