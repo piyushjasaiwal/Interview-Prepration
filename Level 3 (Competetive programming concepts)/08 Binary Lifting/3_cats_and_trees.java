@@ -65,11 +65,12 @@ class cats_and_trees{
         for(int i = 1;i<=n;i++){
             parent[i] = reader.Int();
             if(parent[i] == 0){
-                parent[i] = i;
+                root = i;
             }
         }
 
-        int [] c = new int[n+1];;
+        int [] c = new int[n+1];
+        int [] ans = new int[n+1];
         for(int i = 1;i<=n;i++){
             c[i] = reader.Int();
         }
@@ -79,7 +80,53 @@ class cats_and_trees{
 
         int [][] ancestor = ancestor_table_maker(parent);
 
-        
+        for(int i = 1;i<=n;i++){
+            if(visited[c[i]]){
+                continue;
+            }
+            
+            int cnt = 1;
+            for(int b = 19;b>=0;b--){
+                if(ancestor[b][c[i]] != 0 && !visited[ancestor[b][c[i]]]){
+                    cnt += (1<<b);
+                    c[i] = ancestor[b][c[i]];
+                }
+            }
+
+            visited[c[i]] = true;
+            ans[i] = cnt;
+            // show(visited);
+        }
+
+        // show(ans);
+
+        // show(ancestor);
+        for(int i = 1;i<=n;i++){
+            sb.append(ans[i]+" ");
+        }
+
+    }
+
+    public static void show(int [] ans) {
+        System.out.println("------------------------------------------------------------");
+        // for(int [] ar:ancestor){
+            for(int val:ans){
+                System.out.print(val+" ");
+            }
+            System.out.println();
+        // }
+        System.out.println("------------------------------------------------------------");
+    }
+
+    public static void show(boolean [] ans) {
+        System.out.println("------------------------------------------------------------");
+        // for(int [] ar:ancestor){
+            for(boolean val:ans){
+                System.out.print(val ? ("T ") : ("F "));
+            }
+            System.out.println();
+        // }
+        System.out.println("------------------------------------------------------------");
     }
 
     public static void show(int[][] ancestor) {
