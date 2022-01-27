@@ -60,23 +60,32 @@ class subtree_sum {
       // int [] parent = new int[n];
       int [] val = in.nextIntArray(n);
       ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+      ArrayList<ArrayList<Integer>> tree = new ArrayList<>();
       for(int i = 0;i<=n;i++){
         graph.add(new ArrayList<>());
+        tree.add(new ArrayList<>());
       }
+
       for(int i = 0;i<n-1;i++){
         int u = in.nextInt();
         int v = in.nextInt();
 
         graph.get(u).add(v);
+        graph.get(v).add(u);
       }
 
+      // System.out.println(tree);
+      // tree = graph;
+      DFS(graph, new HashSet<>(), tree, 1);
+
       // System.out.println(graph);
+      // System.out.println(tree);
 
       int [] eular_tour = new int[2*n+1];
       idx = 1;
       HashMap<Integer, Range> map = new HashMap<>();
-      eularTour(eular_tour,graph,1,map, val);
-      // out.println(graph);
+      eularTour(eular_tour,tree,1,map, val);
+      // out.println(tree);
       // display(val);
       // display(eular_tour);
       // out.println(map);
@@ -89,12 +98,14 @@ class subtree_sum {
           // out.println(x);
           int start = map.get(s).s;
           int end = map.get(s).e;
-          System.out.println(map.get(s));
+          // System.out.println(map.get(s));
+          // display(ft.ar);
 
           ft.update(start, x);
           ft.update(end, x);
           ft.ar[start] = x;
           ft.ar[end] = x;
+          // display(ft.ar);
           // System.out.println(map);
           // // Range pair = map.remove(s);
           // // System.out.println(pair);
@@ -104,11 +115,28 @@ class subtree_sum {
           int s = in.nextInt();
           int start = map.get(s).s;
           int end = map.get(s).e;
-          System.out.println((ft.query(end)-ft.query(start-1))/2);
+          out.println((ft.query(end)-ft.query(start-1))/2);
           // .out.println(ft.query(eular_tour.length-1));
         }
       }
       out.close();
+    }
+
+    private static boolean DFS(ArrayList<ArrayList<Integer>> graph, HashSet<Integer> set, ArrayList<ArrayList<Integer>> tree,
+        int root) {
+          if(set.contains(root)){
+            return false;
+          }
+
+          set.add(root);
+
+          for(int child:graph.get(root)){
+            if(DFS(graph, set, tree, child)){
+              tree.get(root).add(child);
+            }
+          }  
+          
+          return true;
     }
 
     public static void display(int [] ar){
@@ -120,12 +148,12 @@ class subtree_sum {
       out.println("---------------------------------------------------------");
     }
 
-    private static void eularTour(int[] eular_tour, ArrayList<ArrayList<Integer>> graph, int root, HashMap<Integer, Range> map, int [] val) {
+    private static void eularTour(int[] eular_tour, ArrayList<ArrayList<Integer>> tree, int root, HashMap<Integer, Range> map, int [] val) {
       int s = idx;
       eular_tour[idx] = val[root-1];
       idx+=1;
-      for(int child:graph.get(root)){
-        eularTour(eular_tour, graph, child, map, val);
+      for(int child:tree.get(root)){
+        eularTour(eular_tour, tree, child, map, val);
       }
       int e = idx;
       eular_tour[idx] = val[root-1];
