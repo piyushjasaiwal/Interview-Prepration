@@ -46,6 +46,7 @@ import java.util.*;
 class subtree_sum {
     static InputReader in = new InputReader(System.in);
     static PrintWriter out = new PrintWriter(System.out);
+    static int idx = 0;
     /*
     input_functions in.nextInt();     in.nextIntArray(n);      in.nextIntArray1(n);
     output_functions out.println();    out.print();
@@ -54,8 +55,133 @@ class subtree_sum {
 
     public static void main(String[] args) throws IOException {
       // write your code here.
-      
+      int n = in.nextInt();
+      int q = in.nextInt();
+      // int [] parent = new int[n];
+      int [] val = in.nextIntArray(n);
+      ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+      for(int i = 0;i<=n;i++){
+        graph.add(new ArrayList<>());
+      }
+      for(int i = 0;i<n-1;i++){
+        int u = in.nextInt();
+        int v = in.nextInt();
+
+        graph.get(u).add(v);
+      }
+
+      // System.out.println(graph);
+
+      int [] eular_tour = new int[2*n+1];
+      idx = 1;
+      HashMap<Integer, Range> map = new HashMap<>();
+      eularTour(eular_tour,graph,1,map, val);
+      // out.println(graph);
+      // display(val);
+      // display(eular_tour);
+      // out.println(map);
+      FenwickTree ft = new FenwickTree(eular_tour);
+      while(q-->0){
+        int t = in.nextInt();
+        if(t == 1){
+          int s = in.nextInt(), x = in.nextInt();
+          // out.println(s);
+          // out.println(x);
+          int start = map.get(s).s;
+          int end = map.get(s).e;
+          System.out.println(map.get(s));
+
+          ft.update(start, x);
+          ft.update(end, x);
+          ft.ar[start] = x;
+          ft.ar[end] = x;
+          // System.out.println(map);
+          // // Range pair = map.remove(s);
+          // // System.out.println(pair);
+          // // map.put(x, new Range(start, end));
+          // System.out.println(map);
+        }else{
+          int s = in.nextInt();
+          int start = map.get(s).s;
+          int end = map.get(s).e;
+          System.out.println((ft.query(end)-ft.query(start-1))/2);
+          // .out.println(ft.query(eular_tour.length-1));
+        }
+      }
       out.close();
+    }
+
+    public static void display(int [] ar){
+      out.println("---------------------------------------------------------");
+      for(int val:ar){
+        out.print(val+" ");
+      }
+      out.println();
+      out.println("---------------------------------------------------------");
+    }
+
+    private static void eularTour(int[] eular_tour, ArrayList<ArrayList<Integer>> graph, int root, HashMap<Integer, Range> map, int [] val) {
+      int s = idx;
+      eular_tour[idx] = val[root-1];
+      idx+=1;
+      for(int child:graph.get(root)){
+        eularTour(eular_tour, graph, child, map, val);
+      }
+      int e = idx;
+      eular_tour[idx] = val[root-1];
+      idx+=1;
+      map.put(root, new Range(s, e));
+    }
+
+    static class Range{
+      int s, e;
+      Range(int s, int e){
+        this.s = s;
+        this.e = e;
+      }
+      @Override
+          public String toString() {
+              // TODO Auto-generated method stub
+              return "{"+s+","+e+"}";
+          }
+    }
+
+    static class FenwickTree{
+      long [] ft;
+      int [] ar;
+      FenwickTree(int [] ar){
+        ft = new long[ar.length];
+        this.ar = ar;
+        for(int i = 1;i<ar.length;i++){
+          add(i, ar[i]);
+        }
+      }
+
+      public void add(int idx, int val){
+        while(idx < ft.length){
+          ft[idx] += val;
+          idx = (idx+(idx&-idx));
+        }
+      }
+
+      public long query(int idx){
+        long sum = 0;
+        while(idx > 0){
+          sum += ft[idx];
+          idx = (idx-(idx&-idx));
+        }
+        return sum;
+      }
+
+      public void update(int idx, int val){
+        int new_val = val-ar[idx];
+        ar[idx] = new_val;
+        while(idx < ft.length){
+          ft[idx] += new_val;
+          idx = idx+(idx&-idx);
+        }
+      }
+
     }
 
     private static class InputReader implements AutoCloseable {
