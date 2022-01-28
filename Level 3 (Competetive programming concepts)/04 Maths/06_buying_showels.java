@@ -57,8 +57,8 @@ class buying_showels{
         }else if(k == 1){
             sb.append(n+"\n");
         }else{
-            int p = bin(k, n);
-            sb.append((p == -1) ? n+"\n" : (n/p)+"\n");
+            // int p = bin(k, n);
+            // sb.append((p == -1) ? n+"\n" : (n/p)+"\n");
         }
     }
 
