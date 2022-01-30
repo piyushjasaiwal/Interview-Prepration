@@ -37,7 +37,9 @@ class polo_the_penguin_and_xor_operations {
         for(int i = 0;i<=n;i++){
             num+=i;
         }
+        System.out.println(num);
         ArrayList<String> permutation = make_permutation(num);
+        System.out.println(permutation);
         ArrayList<Pair> pairs = new ArrayList<>();
         for(String str : permutation){
             pairs.add(new Pair(str));
@@ -47,6 +49,8 @@ class polo_the_penguin_and_xor_operations {
         for(Pair pair:pairs){
             System.out.println(pair);
         }
+
+        System.out.println(new Pair("04321").xor);
     }
 
     private static ArrayList<String> make_permutation(String num) {
@@ -62,7 +66,7 @@ class polo_the_penguin_and_xor_operations {
         
         for(String str:rr){
             for(int i = 0;i<=str.length();i++){
-                mr.add(num.substring(0, i) + ch + num.substring(i));
+                mr.add(str.substring(0, i) + ch + str.substring(i));
             }
         }
         return mr;
@@ -74,14 +78,18 @@ class polo_the_penguin_and_xor_operations {
         int xor;
 
         Pair(String str){
-            str = this.str;
+            this.str = str;
+            if(str == null){
+                xor = 0;
+                return ;
+            }
             xor = make_xor(str);
         }
 
-        private int make_xor(String str) {
+        public int make_xor(String str) {
             int xor = 0;
             for(int i = 0;i<str.length();i++){
-                xor = (xor^(str.charAt(i)-'0'));
+                xor = (xor+((str.charAt(i)-'0')^i));
             }
             return xor;
         }
