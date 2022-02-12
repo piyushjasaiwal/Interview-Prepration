@@ -19,7 +19,7 @@ Sample Output
 Found
 */
 
-import java.util.Scanner;
+import java.util.*;
 
 class searching_an_elemtent_in_sorted_array {
     public static void ternarySearch(int arr[], int k)
