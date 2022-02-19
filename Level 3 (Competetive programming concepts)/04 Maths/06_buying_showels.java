@@ -52,14 +52,21 @@ class buying_showels{
     static void solve() {
         int n = reader.Int();
         int k = reader.Int();
-        if(n<=k){
-            sb.append("1\n");
-        }else if(k == 1){
-            sb.append(n+"\n");
-        }else{
-            // int p = bin(k, n);
-            // sb.append((p == -1) ? n+"\n" : (n/p)+"\n");
+
+        int min = Integer.MAX_VALUE;
+        
+        for(int a = 1;a*a<=n;a++){
+            if(n%a == 0){
+                int b = n/a;
+                if(b<=k){
+                    min = Math.min(min,a);
+                }
+                if(a<=k){
+                    min = Math.min(min, b);
+                }
+            }
         }
+        sb.append(min+"\n");
     }
 
     static int prime(int n){

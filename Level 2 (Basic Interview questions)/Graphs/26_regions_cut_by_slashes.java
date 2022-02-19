@@ -32,101 +32,86 @@ n == grid.length == grid[i].length
 grid[i][j] is either '/', '\', or ' '.
 */
 
+import java.io.*;
 import java.util.*;
 
 class regions_cut_by_slashes{
-    public static void main(String[] args) {
-        System.out.println(new regions_cut_by_slashes().regionsBySlashes(new String[]{"/\\","\\/"}));
-    }
-
-    public int regionsBySlashes(String[] grid) {
-        int n = grid.length;
-        ArrayList<ArrayList<ArrayList<Pair>>>  map = new ArrayList<>();
-        for(int i = 0;i<n;i++){
-            map.add(new ArrayList<>());
-        }
-
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                map.get(i).add(new ArrayList<>());
-            }
-        }
-
-        for(int i = 0;i<grid.length;i++){
-            int j = 0;
-            while(j<grid[i].length()){
-                char ch = grid[i].charAt(j);
-                if(ch == ' '){
-                    ArrayList<Pair> cell_list = map.get(i).get(j);
-                    cell_list.add(new Pair(true, true, true, true));
-                    j++;
-                }else if(ch == '/'){
-                    ArrayList<Pair> cell_list = map.get(i).get(j);
-                    cell_list.add(new Pair(true, false, true, false));
-                    cell_list.add(new Pair(false, true, false, true));
-                    j++;
-                }else{
-                    ArrayList<Pair> cell_list = map.get(i).get(j);
-                    cell_list.add(new Pair(true, false, false, true));
-                    cell_list.add(new Pair(false, true, true, false));
-                    j+=2;
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        // Scanner s= new Scanner(System.in);
+        String [] grid = {"/\\","\\/"};
+        int n= grid.length;
+        int dots = n+1;
+        dsu dsu = new dsu(dots*dots);
+        int cnt = 1;
+        for(int i = 0;i<dots;i++){
+            for(int j = 0;j<dots;j++){
+                if(i == 0 || j == 0 || i == dots-1 || j == dots-1){
+                    int cellNo = i*dots+j;
+                    dsu.merge(0, cellNo);
                 }
             }
         }
 
-        int cnt = 0;
-        int [][] visited = new int[n][n];
-        for(int i = 0;i<n;i++){
-            for(int j=0;j<n;j++){
-                for(Pair pair:map.get(i).get(j)){
-                    if(visited[i][j] < map.get(i).get(j).size()){
-                        DFS(i, j, map, visited);
+        for(int i= 0;i<n;i++){
+            String str = grid[i];
+            for(int j = 0;j<str.length();j++){
+                if(str.charAt(j) == '/'){
+                    int cell1 = ((i+1)*dots)+j;
+                    int cell2 = (i*dots)+(j+1);
+                    if(dsu.merge(cell1, cell2)){
+                        cnt++;
+                    }
+                }else if(str.charAt(j) == '\\'){
+                    int cell1 = ((i)*dots)+j;
+                    int cell2 = ((i+1)*dots)+(j+1);
+                    if(dsu.merge(cell1, cell2)){
                         cnt++;
                     }
                 }
             }
         }
-
-        return cnt;
+        System.out.println(cnt);
     }
 
-    private void DFS(int i, int j, ArrayList<ArrayList<ArrayList<Pair>>> map, int[][] visited) {
-        if(i<0 || j<0 || i >= visited.length || j >= visited[0].length || visited[i][j] >= map.get(i).get(j).size()){
-            return ;
-        }
+    static class dsu{
+        int [] parent;
+        int [] rank;
 
-        visited[i][j]+=1;
-
-        ArrayList<Pair> pairs = map.get(i).get(j);
-        for(Pair pair : pairs){
-            if(pair.left && pair.right && pair.down && pair.up){
-                DFS(i-1, j, map, visited);
-                DFS(i+1, j, map, visited);
-                DFS(i, j-1, map, visited);
-                DFS(i, j+1, map, visited);
-            }else if(pair.left && pair.up){
-                DFS(i-1, j, map, visited);
-                DFS(i, j-1, map, visited);
-            }else if(pair.right && pair.down){
-                DFS(i, j+1, map, visited);
-                DFS(i+1, j, map, visited);
-            }else if(pair.right && pair.up){
-                DFS(i+1, j, map, visited);
-                DFS(i, j-1, map, visited);
-            }else if(pair.left && pair.down){
-                DFS(i-1, j, map, visited);
-                DFS(i, j+1, map, visited);
+        public dsu(int n){
+            parent = new int[n];
+            rank = new int[n];
+            for(int i = 0;i<n;i++){
+                parent[i] = i;
+                rank[i] = 1;
             }
         }
-    }
-}
 
-class Pair{
-    boolean up, down, left, right;
-    public Pair(boolean up, boolean down, boolean left, boolean right){
-        this.up = up;
-        this.down = down;
-        this.left = left;
-        this.right = right;
+        public int find(int a){
+            if(parent[a] == a){
+                return a;
+            }
+
+            int x = find(parent[a]);
+            parent[a] = x;
+            return x;
+        }
+
+        public boolean merge(int a, int b){
+            int pa = find(a);
+            int pb = find(b);
+            if(pa == pb){
+                return true;
+            }else{
+                if(rank[pa] > rank[pb]){
+                    parent[pb] = pa;
+                }else if(rank[pa] < rank[pb]){
+                    parent[pa] = pb;
+                }else{
+                    parent[pa] = pb;
+                    rank[pb]++;
+                }
+                return false;
+            }
+        }
     }
 }
