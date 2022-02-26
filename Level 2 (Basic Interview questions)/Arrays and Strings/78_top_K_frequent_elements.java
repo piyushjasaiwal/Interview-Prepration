@@ -32,9 +32,38 @@ class top_K_frequent_elements {
             map.put(num, map.getOrDefault(num, 0)+1);
         }
 
-        ArrayList<Integer> keyset = new ArrayList<>();
-        return null;
+        ArrayList<Integer> keyset = new ArrayList<>(map.keySet());
+		PriorityQueue<Pair> pq = new PriorityQueue<>();
+		// System.out.println(keyset);
+		for(int key:keyset){
+			pq.add(new Pair(key, map.get(key)));
+		}
+		// System.out.println(pq);
+        ArrayList<Integer> ans = new ArrayList<>();
+		for(int i = 0;i<k;i++){
+			ans.add(pq.poll().val);
+		}
+		return ans;
  	}
+
+	 static class Pair implements Comparable<Pair>{
+		 int val;
+		 int cnt;
+		 Pair(int v, int c){
+			 val = v;
+			 cnt = c;
+		 }
+
+		 public int compareTo(Pair o){
+			 return o.cnt-this.cnt;
+		 }
+
+		 @Override
+		 public String toString() {
+			 // TODO Auto-generated method stub
+			 return val+" "+cnt; 
+		 }
+	 }
  
  	//Don't make any changes here.
  	public static void main(String[] args) {

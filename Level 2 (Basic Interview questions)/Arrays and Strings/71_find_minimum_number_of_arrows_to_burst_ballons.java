@@ -61,8 +61,41 @@ import java.util.*;
 class find_minimum_number_of_arrows_to_burst_ballons {
     public static int minArrows(int coordinates[][]) {
         // write your code here
-        return 0;
+
+        List<Pair> list = new ArrayList<>();
+
+        for(int [] c : coordinates){
+            list.add(new Pair(c[0], c[1]));
+        }
+
+        Collections.sort(list);
+
+        int cnt = 1;
+        int end = list.get(0).e;
+        
+        for(int i = 1;i<list.size();i++){
+            if(list.get(i).s > end){
+                cnt++;
+                end = list.get(i).e;
+            }
+        }
+
+        return cnt;
     }
+
+    static class Pair implements Comparable<Pair>{
+        int s;
+        int e;
+        Pair(int s, int e){
+            this.s = s;
+            this.e = e;
+        }
+
+        public int compareTo(Pair o){
+            return this.e - o.e;
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         int n = scn.nextInt(); // number of balloons
