@@ -34,6 +34,20 @@ class count_distinct_subsequences{
 
         HashMap<Character, Integer> lastOccurance = new HashMap<>();
         
-        
+        int [] dp = new int[str.length()+1];
+        dp[0] = 1;
+        for(int i = 1;i<=str.length();i++){
+            char ch = str.charAt(i-1);
+
+            dp[i] = dp[i-1]*2;
+            if(lastOccurance.containsKey(ch)){
+                int lo = lastOccurance.get(ch);
+                dp[i] -= dp[lo-1];
+            }
+
+            lastOccurance.put(ch, i);
+        }
+
+        System.out.println(dp[str.length()]-1);
     }
 }
