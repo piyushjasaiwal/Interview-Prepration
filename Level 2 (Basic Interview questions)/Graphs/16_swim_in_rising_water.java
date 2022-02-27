@@ -42,7 +42,7 @@ class swim_in_rising_water {
 
     static class Solution {
         public int swimInWater(int[][] grid) {
-            
+            return 0;
         }
     }
 }
