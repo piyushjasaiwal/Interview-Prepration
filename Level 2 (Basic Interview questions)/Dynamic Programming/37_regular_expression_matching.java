@@ -28,8 +28,22 @@ class regular_expression_matching {
 
 	public static boolean solution(String s, String p) {
 		//write your code here
+
+        boolean [][] dp = new boolean[p.length()+1][s.length()+1];
 		
-		return false;
+        dp[p.length()][s.length()] = true;
+
+        for(int i = 0;i<p.length();i++){
+            dp[i][s.length()] = false;
+        }
+
+        for(int j = 0;j<s.length();j++){
+            dp[s.length()][j] = false;
+        }
+
+        
+                
+		return dp[0][0];
 	}
 
 	public static void main(String[] args) {
