@@ -39,9 +39,8 @@ class cherry_pickup {
 
 	public static int Solution(int r1, int c1, int r2, int[][] arr, int[][][] dp) {
 		//write your code here
-
-        
-
+		boolean [][] visited = new boolean[arr.length][arr[0].length];
+		int [][] dp_top_down = new int[arr.length][arr[0].length];
 		return 0;
 	}
 	public static void main(String[] args) {
