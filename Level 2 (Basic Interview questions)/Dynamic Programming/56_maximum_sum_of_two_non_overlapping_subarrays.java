@@ -33,25 +33,7 @@ class maximum_sum_of_two_non_overlapping_subarrays {
 	public static int solution(int[] arr, int x, int y){
 		// write your code here
 
-        int max = Integer.MIN_VALUE;
-
-        int [] pre = new int[arr.length];
-        pre[0] = arr[0];
-        for(int i = 1;i<pre.length;i++){
-            pre[i] = pre[i-1]+arr[i];
-        }
-
-        for(int i = 0;i<arr.length;i++){
-            for(int j = i+1;j< arr.length;j++){
-                //for
-                //i = x
-                //j = y
-
-                if(i-x+1 >= 0 && j-y+1 >= 0 && j-y+1 >= i){
-                    max = Math.max(max, pre_sum(arr, pre, i-x+1, i)+pre_sum(arr, pre, j-y+1, j));
-                }
-            }
-        }
+        
 		return 0;
 	}
 	
