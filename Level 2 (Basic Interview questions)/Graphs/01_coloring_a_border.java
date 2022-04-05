@@ -43,7 +43,7 @@ class Solution_color_border {
         DFS(row, col, grid, color, grid[row][col]);
 
         for(int i = 0;i<grid.length;i++){
-            for(int j = 0;j<grid.length;j++){
+            for(int j = 0;j<grid[0].length;j++){
                 if(grid[i][j] == -original){
                     grid[i][j] = color;
                 }
@@ -65,10 +65,10 @@ class Solution_color_border {
 
         grid[r][c] = -grid[r][c];
 
-        for(int x:x_val){
-            for(int y:y_val){
-                int new_r = r+x;
-                int new_c = c+y;
+        // for(int x:x_val){
+            for(int i = 0;i<4;i++){
+                int new_r = r+x_val[i];
+                int new_c = c+y_val[i];
 
                 if(is_same(new_r, new_c, grid, grid[r][c])){
                     count++;
@@ -76,8 +76,9 @@ class Solution_color_border {
 
                 DFS(new_r, new_c, grid, color, original);
             }
-        }
-
+        // }
+        // System.out.println(r+" "+c+" => "+grid[r][c]);
+        // System.out.println(r+" "+c+" => "+count);
         if(count == 4){
             grid[r][c] = Math.abs(grid[r][c]);
         }
@@ -97,10 +98,10 @@ class color_border{
         // int row = 0;
         // int col = 1;
         // int color = 3;
-        int [][] grid = {{0,0}};
-        int row = 0;
-        int col = 0;
-        int color = 3;
+        int [][] grid = {{1,1,1},{1,1,1},{1,1,1}};
+        int row = 1;
+        int col = 1;
+        int color = 2;
         Solution_color_border solution = new Solution_color_border();
         int [][] ans = solution.colorBorder(grid, row, col, color);
         display(grid);

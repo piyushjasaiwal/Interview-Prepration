@@ -50,6 +50,8 @@ class alien_dictionary {
             }
         }
 
+        System.out.println(graph);
+
         ArrayList<Character> order = new ArrayList<>();
         boolean flag = false;
 
@@ -122,7 +124,8 @@ class alien_dictionary {
             all_letters.add(s1.charAt(i));
             all_letters.add(s2.charAt(j));
             if(s1.charAt(i) != s2.charAt(j)){
-                graph.get((char)(s1.charAt(i)-'a')).add((char)(s2.charAt(j)-'a'));
+                graph.get((char)(s1.charAt(i)-'a')).add((char)(s2.charAt(j)));
+                break;
             }
             i++;
             j++;
