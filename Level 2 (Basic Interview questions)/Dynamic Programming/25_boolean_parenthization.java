@@ -43,68 +43,81 @@ class boolean_parenthization {
 		int m = str2.length();
 
 		Pair [][] dp = new Pair[n][n];
-		for(Pair [] d:dp){
-			Arrays.fill(d, new Pair());
+		for(int i = 0;i<n;i++){
+			for(int j = 0;j<n;j++){
+				dp[i][j] = new Pair();
+			}
 		}
+
 		for(int gap = 0;gap<n;gap++){
 			int i = 0;
 			int j = gap;
 			while(j < n){
+				// System.out.print("{"+i+" "+j+"}");
 				if(gap == 0){
-					if(str1.charAt(i) == 'T'){
+					if(str1.charAt(i) == 'T'){ 
 						dp[i][j].ct = 1;
+						dp[i][j].cf = 0;
 					}else{
+						dp[i][j].ct = 0;
 						dp[i][j].cf = 1;
 					}
 				}else if(gap == 1){
 					if(str2.charAt(i) == '&'){
 						if(str1.charAt(i) == 'T' && str1.charAt(j) == 'T'){
 							dp[i][j].ct = 1;
+							dp[i][j].cf = 0;
 						}else{
+							dp[i][j].ct = 0;
 							dp[i][j].cf = 1;
 						}
 					}else if(str2.charAt(i) == '|'){
 						if(str1.charAt(i) == 'T' || str1.charAt(j) == 'T'){
 							dp[i][j].ct = 1;
+							dp[i][j].cf = 0;
 						}else{
+							dp[i][j].ct = 0;
 							dp[i][j].cf = 1;
 						}
 					}else{
-						if(str1.charAt(i) == 'T' || str1.charAt(j) == 'F'){
+						if(str1.charAt(i) == 'T' && str1.charAt(j) == 'F'){
 							dp[i][j].ct = 1;
-						}else if(str1.charAt(i) == 'F' || str1.charAt(j) == 'T'){
+							dp[i][j].cf = 0;
+						}else if(str1.charAt(i) == 'F' && str1.charAt(j) == 'T'){
 							dp[i][j].ct = 1;
+							dp[i][j].cf = 0;
 						}else{
+							dp[i][j].ct = 0;
 							dp[i][j].cf = 1;
 						}
 					}
 				}else{
 					int ans_t = 0;
 					int ans_f = 0;
-					int k = i+1;
+					int k = i;
 					while(k<j){
 						//for true
 						if(str2.charAt(k) == '&'){
-							ans_t += (dp[i][k].ct*dp[k][j].ct);
+							ans_t += (dp[i][k].ct*dp[k+1][j].ct);
 						}else if(str2.charAt(k) == '|'){
-							ans_t += (dp[i][k].ct*dp[k][j].ct);
-							ans_t += (dp[i][k].ct*dp[k][j].cf);
-							ans_t += (dp[i][k].cf*dp[k][j].ct);
+							ans_t += (dp[i][k].ct*dp[k+1][j].ct);
+							ans_t += (dp[i][k].ct*dp[k+1][j].cf);
+							ans_t += (dp[i][k].cf*dp[k+1][j].ct);
 						}else{
-							ans_t += (dp[i][k].ct*dp[k][j].cf);
-							ans_t += (dp[i][k].cf*dp[k][j].ct);
+							ans_t += (dp[i][k].ct*dp[k+1][j].cf);
+							ans_t += (dp[i][k].cf*dp[k+1][j].ct);
 						}
 
 						//for false;
 						if(str2.charAt(k) == '&'){
-							ans_f += (dp[i][k].cf*dp[k][j].cf);
-							ans_f += (dp[i][k].ct*dp[k][j].cf);
-							ans_f += (dp[i][k].cf*dp[k][j].ct);
+							ans_f += (dp[i][k].cf*dp[k+1][j].cf);
+							ans_f += (dp[i][k].ct*dp[k+1][j].cf);
+							ans_f += (dp[i][k].cf*dp[k+1][j].ct);
 						}else if(str2.charAt(k) == '|'){
-							ans_f += (dp[i][k].cf*dp[k][j].cf);
+							ans_f += (dp[i][k].cf*dp[k+1][j].cf);
 						}else{
-							ans_f += (dp[i][k].ct*dp[k][j].ct);
-							ans_f += (dp[i][k].cf*dp[k][j].cf);
+							ans_f += (dp[i][k].ct*dp[k+1][j].ct);
+							ans_f += (dp[i][k].cf*dp[k+1][j].cf);
 						}
 
 						k++;
@@ -112,16 +125,18 @@ class boolean_parenthization {
 					dp[i][j].ct = ans_t;
 					dp[i][j].cf = ans_f;
 				}
+				
 				i++;
 				j++;
 			}
 		}
-		for(Pair [] d:dp){
-			for(Pair pair:d){
-				System.out.print("{"+pair.ct+", "+pair.cf+"} ");
-			}
-			System.out.println();
-		}
+		// System.out.println();
+		// for(Pair [] d:dp){
+		// 	for(Pair pair:d){
+		// 		System.out.print("{"+pair.ct+", "+pair.cf+"} ");
+		// 	}
+		// 	System.out.println();
+		// }
 		return dp[0][n-1].ct;
 	}
 
