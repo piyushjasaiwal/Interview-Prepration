@@ -22,43 +22,72 @@ Sample Output
 */
 
 import java.util.*;
+
+import javax.swing.text.StyleConstants.FontConstants;
+
 import java.io.*;
 
 class heaters {
     public static int findRadius(int[]houses, int[]heaters) {
         //write your code here
         ArrayList<Integer> temp = new ArrayList<>();
-        for(int val:houses){
+        for(int val:heaters){
             temp.add(val);
         }
 
         Collections.sort(temp);
-        for(int i = 0;i<houses.length;i++){
-            houses[i] = temp.get(i);
+        for(int i = 0;i<heaters.length;i++){
+            heaters[i] = temp.get(i);
         }
-        Arrays.sort(heaters);
 
-        int lo = 1;
-        int hi = houses[houses.length-1];
+        int ans = Integer.MIN_VALUE;
 
-        int ans = -1;
-
-        while(lo <= hi){
-            int mid = (lo+hi)/2;
-            if(isPossible(heaters, houses, mid)){
-                hi = mid-1;
-                ans = mid;
-            }else{
-                lo = mid+1;
-            }
+        for(int val:houses){
+            int find = findCeilFloor(val, heaters);
+            ans = Math.max(ans, find);
         }
         return ans;
     }
 
-    private static boolean isPossible(int[] heaters, int[] houses, int mid) {
+    private static int findCeilFloor(int val, int[] heaters) {
+        int ceil = -1;
+        int floor = -1;
 
-        
-        return false;
+        //for finding ceil
+        int lo = 0;
+        int hi = heaters.length-1;
+        while(lo <= hi){
+            int mid = (lo+hi)/2;
+            if(heaters[mid] >= val){
+                ceil = heaters[mid];
+                hi = mid-1;
+            }else{
+                lo = mid+1;
+            }
+        }
+
+        //for finding floor
+        lo = 0;
+        hi = heaters.length-1;
+        while(lo <= hi){
+            int mid = (lo+hi)/2;
+            if(heaters[mid] <= val){
+                floor = heaters[mid];
+                lo = mid+1;
+            }else{
+                hi = mid+-1;
+            }
+        }
+
+        if(ceil == -1){
+            return Math.abs(val-floor);
+        }
+
+        if(floor == -1){
+            return Math.abs(val-ceil);
+        }
+
+        return Math.min(Math.abs(val-floor), Math.abs(val-ceil));
     }
 
     public static void main(String[]args) {

@@ -23,9 +23,32 @@ import java.io.*;
 
 class largest_number {
 
-    public static String largestNumber(int[]nums) {
+    static class comp implements Comparator<String>{
+
+        @Override
+        public int compare(String o1, String o2) {
+            // TODO Auto-generated method stub
+            String n1 = o1+o2;
+            String n2 = o2+o1;
+            return n1.compareTo(n2);
+        }
+
+    }
+
+    public static String largestNumber(int[]n) {
         //write your code here
-        return "";
+        String [] nums = new String[n.length];
+        int i = 0;
+        for(int val:n){
+            nums[i] = val+"";
+            i++;
+        }
+        Arrays.sort(nums, new comp());
+        String ans = "";
+        for(i = nums.length-1;i>=0;i--){
+            ans = ans+nums[i];
+        }
+        return ans;
     }
 
     public static void main(String[]args) {
