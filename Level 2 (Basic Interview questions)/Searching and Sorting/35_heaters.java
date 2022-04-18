@@ -36,8 +36,29 @@ class heaters {
         for(int i = 0;i<houses.length;i++){
             houses[i] = temp.get(i);
         }
+        Arrays.sort(heaters);
+
+        int lo = 1;
+        int hi = houses[houses.length-1];
+
+        int ans = -1;
+
+        while(lo <= hi){
+            int mid = (lo+hi)/2;
+            if(isPossible(heaters, houses, mid)){
+                hi = mid-1;
+                ans = mid;
+            }else{
+                lo = mid+1;
+            }
+        }
+        return ans;
+    }
+
+    private static boolean isPossible(int[] heaters, int[] houses, int mid) {
+
         
-        return 0;
+        return false;
     }
 
     public static void main(String[]args) {
