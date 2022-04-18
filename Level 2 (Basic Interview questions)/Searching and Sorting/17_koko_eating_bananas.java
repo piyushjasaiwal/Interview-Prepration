@@ -27,7 +27,34 @@ import java.io.*;
 class koko_eating_bananas {
     public static int minEatingSpeed(int[]piles,int h) {
         //write your code here
-        return 0;
+        long lo = 1;
+        long hi = 0;
+        for(int pile:piles){
+            hi = Math.max(hi, pile);
+        }
+
+        long ans = Long.MAX_VALUE;
+
+        while(lo <= hi){
+            long mid = (lo+hi)/2;
+            // System.out.println(mid);
+            // System.out.println(isPossible(piles, h, mid));
+            if(isPossible(piles, h, mid)){
+                hi = mid-1;
+                ans = Math.min(ans, mid);
+            }else{
+                lo = mid+1;
+            }
+        }
+        return (int)(ans);
+    }
+
+    private static boolean isPossible(int[] piles, int h, long mid) {
+        int cnt = 0;
+        for(int pile:piles){
+            cnt += Math.ceil((pile*1.0)/mid);
+        }
+        return h >= cnt;
     }
 
     public static void main(String[]args) {
