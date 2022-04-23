@@ -60,7 +60,33 @@ class max_path_sum_binary_tree {
     }
     
     public static int maxPathSum(TreeNode root) {
-        return 0;
+        return maxPathSumHelper(root).max_sum;
+    }
+
+    public static Pair maxPathSumHelper(TreeNode root){
+        if(root == null){
+            return new Pair(0, Integer.MIN_VALUE);
+        }
+
+        Pair left = maxPathSumHelper(root.left);
+        Pair right = maxPathSumHelper(root.right);
+
+        Pair ans =  new Pair(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        ans.max_sum = Math.max(left.max_sum, right.max_sum);
+        ans.max_sum = Math.max(ans.max_sum, left.max_to_level+root.val);
+        ans.max_sum = Math.max(ans.max_sum, right.max_to_level+root.val);
+        ans.max_sum = Math.max(ans.max_sum, right.max_to_level+root.val+left.max_to_level);
+        ans.max_to_level = Math.max(left.max_to_level+root.val, right.max_to_level+root.val);
+        return ans;       
+    }
+
+    static class Pair{
+        int max_to_level;
+        int max_sum;
+        Pair(int mtl, int ms){
+            max_to_level= mtl;
+            max_sum = ms;
+        }
     }
 
     // input_Section=================================================
@@ -86,7 +112,7 @@ class max_path_sum_binary_tree {
 
         int[] IDX = new int[1];
         TreeNode root = createTree(arr, IDX);
-        display(root);
+        // display(root);
         System.out.println(maxPathSum(root));
     }
 
