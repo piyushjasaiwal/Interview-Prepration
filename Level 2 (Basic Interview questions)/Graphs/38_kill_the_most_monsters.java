@@ -49,7 +49,83 @@ import java.io.*;
 class kill_the_most_monsters {
     public static int removeMonsters(int[][] monsters) {
         // Write your code here
-        return 0;
+        int r = 0;
+        int c = 0;
+        int cnt = 0;
+
+        for(int [] monster:monsters){
+            r = Math.max(r, monster[0]);
+            c = Math.max(c, monster[1]);
+        }
+
+        r++;
+        c++;
+
+        int [][] visited = new int[r][c];
+
+        for(int [] monster:monsters){
+            visited[monster[0]][monster[1]] = 1;
+        }
+
+        for(int i = 0;i<visited.length;i++){
+            for(int j = 0;j<visited[0].length;j++){
+                if(visited[i][j] == 1){
+                    cnt += (DFS(i, j, visited)-1);
+                }
+            }
+        }
+        return cnt;
+    }
+
+    private static int DFS(int i, int j, int[][] visited) {
+        if(i < 0 || j < 0 || i >= visited.length || j >= visited[0].length || visited[i][j] == 0 || visited[i][j] == 2){
+            return 0;
+        }
+
+        int cnt = 1;
+        visited[i][j] = 2;
+
+        int r = i+1;
+        int c = j;
+
+        while(r < visited.length){
+            if(visited[r][c] == 1){
+                cnt += DFS(r, c, visited);
+            }
+            r++;
+        }
+
+        r = i;
+        c = j+1;
+
+        while(c < visited[0].length){
+            if(visited[r][c] == 1){
+                cnt += DFS(r, c, visited);
+            }
+            c++;
+        }
+
+        r = i-1;
+        c = j;
+
+        while(r >= 0){
+            if(visited[r][c] == 1){
+                cnt += DFS(r, c, visited);
+            }
+            r--;
+        }
+
+        r = i;
+        c = j-1;
+
+        while(c >= 0){
+            if(visited[r][c] == 1){
+                cnt += DFS(r, c, visited);
+            }
+            c--;
+        }
+
+        return cnt;
     }
 
     public static void main(String[] args) {
