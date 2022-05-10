@@ -48,7 +48,43 @@ import java.io.*;
 class number_of_connections_to_make_pipelines_connected {
     public static int makeConnected(int n, int[][] connections) {
         // Write your code here
-        
+
+        if(connections.length < n-1){
+            return -1;
+        }
+
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for(int i = 0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+
+        for(int [] connection : connections){
+            graph.get(connection[0]).add(connection[1]);
+            graph.get(connection[1]).add(connection[0]);
+        }
+
+        HashSet<Integer> visited = new HashSet<>();
+        int components = 0;
+        for(int i = 0;i<n;i++){
+            if(!visited.contains(i)){
+                DFS(i, graph, visited);
+                components++;
+            }
+        }
+
+        return components-1;
+    }
+
+    public static void DFS(int i, ArrayList<ArrayList<Integer>> graph, HashSet<Integer> visited){
+        if(visited.contains(i)){
+            return ;
+        }
+
+        visited.add(i);
+        ArrayList<Integer> nbrs = graph.get(i);
+        for(int nbr : nbrs){
+            DFS(nbr, graph, visited);
+        }
     }
 
     public static void main(String[] args) {
