@@ -74,7 +74,7 @@ class sentence_similarity {
         DSU dsu = new DSU(count);
         for(String [] pair:pairs){
             dsu.merge(map.get(pair[0]), map.get(pair[1]));
-            dsu.merge(map.get(pair[1]), map.get(pair[0]));
+            // dsu.merge(map.get(pair[1]), map.get(pair[0]));
         }
 
         if(Sentence1.length != Sentence2.length){
@@ -83,11 +83,15 @@ class sentence_similarity {
 
         for(i = 0;i<Sentence1.length;i++){
             if(map.containsKey(Sentence1[i]) && map.containsKey(Sentence2[i])){
+                // System.out.println("{"+Sentence1[i]+", "+Sentence2[i]+"}");
                 if(!dsu.is_same(map.get(Sentence1[i]), map.get(Sentence2[i]))){
                     return false;
                 }
             }else{
-                return Sentence1[i].equals(Sentence2[i]);
+                // System.out.println("{"+Sentence1[i]+", "+Sentence2[i]+"}");
+                if(!Sentence1[i].equals(Sentence2[i])){
+                    return false;
+                }
             }
         }
 
