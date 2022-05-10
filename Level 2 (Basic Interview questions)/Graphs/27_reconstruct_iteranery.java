@@ -32,10 +32,38 @@ fromi != toi
 
 */
 
+/*
+The solution to this question is using eularian path in a circuit
+*/
+
 import java.util.*;
 
 class Solution_iteranery {
     public List<String> findItinerary(List<List<String>> tickets) {
-        
+        HashMap<String, PriorityQueue<String>> map = new HashMap<>();
+        for(List<String> ticket:tickets){
+            String from  = ticket.get(0);
+            String to = ticket.get(1);
+
+            PriorityQueue<String> temp = map.getOrDefault(from, new PriorityQueue<>());
+            temp.add(to);
+            map.put(from, temp);
+        }
+
+        // System.out.println(map);
+
+        List<String> ans = new ArrayList<>();
+        String start = "JFK";
+        dfs(start, map, ans);
+        return ans;
+    }
+
+    private void dfs(String start, HashMap<String, PriorityQueue<String>> map, List<String> ans) {
+        PriorityQueue<String> temp = map.get(start);
+        while(temp != null && !temp.isEmpty()){
+            String to = temp.poll();
+            dfs(to, map, ans);
+        }
+        ans.add(0, start);
     }
 }

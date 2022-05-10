@@ -40,10 +40,10 @@ class bus_routes {
         int[][] arr = new int[n][m];
 
         for (int i = 0; i < n; i++) {
-        String[] st = br.readLine().split(" ");
-        for (int j = 0; j < m; j++) {
-            arr[i][j] = Integer.parseInt(st[j]);
-        }
+            String[] st = br.readLine().split(" ");
+            for (int j = 0; j < m; j++) {
+                arr[i][j] = Integer.parseInt(st[j]);
+            }
         }
 
         String[] st1 = br.readLine().split(" ");
@@ -57,13 +57,15 @@ class bus_routes {
         int n = routes.length;
         HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
 
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<routes[i].length;j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < routes[i].length; j++) {
                 ArrayList<Integer> list = map.getOrDefault(routes[i][j], new ArrayList<>());
                 list.add(i);
                 map.put(routes[i][j], list);
             }
         }
+
+        // System.out.println(map);
 
         HashSet<Integer> busStopVisited = new HashSet<>();
         HashSet<Integer> busNoVisited = new HashSet<>();
@@ -72,24 +74,24 @@ class bus_routes {
         int level = 0;
         q.add(S);
         busStopVisited.add(S);
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             int size = q.size();
-            while(size-->0){
+            while (size-- > 0) {
                 int rem = q.removeFirst();
-                if(rem == T){
+                if (rem == T) {
                     return level;
                 }
 
                 ArrayList<Integer> busFromThisStop = map.get(rem);
-                
-                for(int bus : busFromThisStop){
-                    if(busNoVisited.contains(bus)){
+
+                for (int bus : busFromThisStop) {
+                    if (busNoVisited.contains(bus)) {
                         continue;
                     }
 
-                    int [] arr = routes[bus];
-                    for(int busStop : arr){
-                        if(busStopVisited.contains(busStop)){
+                    int[] arr = routes[bus];
+                    for (int busStop : arr) {
+                        if (busStopVisited.contains(busStop)) {
                             continue;
                         }
                         q.add(busStop);

@@ -37,11 +37,13 @@ class alien_dictionary {
     }
 
     public static String alienOrder(String[] words) {
-        ArrayList<ArrayList<Character>> graph = new ArrayList<>();
+        ArrayList<boolean[]> graph = new ArrayList<>();
         Set<Character> all_letters = new HashSet<>();
 
         for(int i = 0;i<26;i++){
-            graph.add(new ArrayList<>());
+            boolean [] ar = new boolean[26];
+            Arrays.fill(ar, false);
+            graph.add(ar);
         }
 
         for(int i = 0;i<words.length;i++){
@@ -50,7 +52,24 @@ class alien_dictionary {
             }
         }
 
-        System.out.println(graph);
+        // System.out.println(graph);
+        int i = 0;
+        for(boolean [] ar:graph){
+            char ch = 'a';
+            System.out.print((char)(ch+i) + "=>");
+            boolean flag = true;
+            for(boolean val:ar){
+                if(val){
+                    flag = false;
+                    System.out.print(ch+" ");
+                }
+                ch++;
+            }
+            System.out.println(flag ? ".":"");
+            i++;
+        }
+
+        // System.out.println(all_letters);
 
         ArrayList<Character> order = new ArrayList<>();
         boolean flag = false;
@@ -58,16 +77,17 @@ class alien_dictionary {
         if(is_cyclic(graph, all_letters)){
             return "";
         }else{
-            for(int i = 0;i<26;i++){
+            for(i = 0;i<26;i++){
                 order = new ArrayList<>();
                 DFS(i, new HashSet<>(), order, graph);
+                System.out.println(order);
                 if(all_letters.size() == order.size()){
                     flag = true;
                     break;
                 }
             }
         }
-
+        
         if(flag){
             StringBuilder sb = new StringBuilder();
             for(char ch:order){
@@ -78,16 +98,26 @@ class alien_dictionary {
         return "";
     }
 
-    private static void DFS(int src, HashSet<Integer> hashSet, ArrayList<Character> order, ArrayList<ArrayList<Character>> graph) {
-        for(char ch:graph.get(src)){
-            if(!hashSet.contains(ch-'a')){
-                DFS(ch-'a', hashSet, order, graph);
+    private static void DFS(int src, HashSet<Integer> hashSet, ArrayList<Character> order, ArrayList<boolean[]> graph) {
+        // for(char ch:graph.get(src)){
+        //     if(!hashSet.contains(ch-'a')){
+        //         DFS(ch-'a', hashSet, order, graph);
+        //     }
+        // }
+
+        for(int i = 0;i<graph.get(src).length;i++){
+            if(graph.get(src)[i]){
+                char ch = ((char)(i+'a'));
+                if(!hashSet.contains(src)){
+                    DFS(ch-'a', hashSet, order, graph);
+                }
             }
         }
         order.add((char)(src+'a'));
+        hashSet.add(src);
     }
 
-    private static boolean is_cyclic(ArrayList<ArrayList<Character>> graph, Set<Character> all_letters) {
+    private static boolean is_cyclic(ArrayList<boolean[]> graph, Set<Character> all_letters) {
         Set<Integer> visited = new HashSet<>();
         int [] dfs_vis = new int[26];
 
@@ -99,16 +129,20 @@ class alien_dictionary {
         return false;
     }
 
-    private static boolean isCyclic(int ch, ArrayList<ArrayList<Character>> graph, Set<Integer> visited,int[] dfs_vis) {
+    private static boolean isCyclic(int ch, ArrayList<boolean[]> graph, Set<Integer> visited,int[] dfs_vis) {
         if(visited.contains(ch)){
             return dfs_vis[ch] == 1;
         }
 
         visited.add(ch);
         dfs_vis[ch] = 1;
-        for(char next:graph.get(ch)){
-            if(isCyclic(next, graph, visited, dfs_vis)){
-                return true;
+
+        for(int i = 0;i<graph.get(ch).length;i++){
+            if(graph.get(ch)[i]){
+                int next = i;
+                if(isCyclic(next, graph, visited, dfs_vis)){
+                    return true;
+                }
             }
         }
 
@@ -116,7 +150,7 @@ class alien_dictionary {
         return false;
     }
 
-    private static void addWords(String s1, String s2, ArrayList<ArrayList<Character>> graph, Set<Character> all_letters) {
+    private static void addWords(String s1, String s2, ArrayList<boolean[]> graph, Set<Character> all_letters) {
         int i = 0;
         int j = 0;
 
@@ -124,7 +158,7 @@ class alien_dictionary {
             all_letters.add(s1.charAt(i));
             all_letters.add(s2.charAt(j));
             if(s1.charAt(i) != s2.charAt(j)){
-                graph.get((char)(s1.charAt(i)-'a')).add((char)(s2.charAt(j)));
+                graph.get((char)(s1.charAt(i)-'a'))[(s2.charAt(j)-'a')] = true;
                 break;
             }
             i++;
