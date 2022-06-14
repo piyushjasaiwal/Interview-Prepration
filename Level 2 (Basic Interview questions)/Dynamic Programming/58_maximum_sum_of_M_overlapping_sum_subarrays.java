@@ -29,7 +29,7 @@ Sample Output
 import java.io.*;
 import java.util.*;
 
-class maximum_sum_of_overlapping_sum_subarrays {
+class maximum_sum_of_M_overlapping_sum_subarrays {
 
 	public static int solution(int[] arr, int m, int k){
 		// write your code here

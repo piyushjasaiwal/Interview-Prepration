@@ -52,7 +52,7 @@ class maximum_sum_non_decreasing_subsequence {
     	for(int i = 0;i<ar.length;i++){
     		int max = 0;
     		for(int j = 0;j<i;j++){
-    			if(ar[i] > ar[j]){
+    			if(ar[i] >= ar[j]){
     				max = Math.max(max, dp[j]);
     			}
     		}

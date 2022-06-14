@@ -36,7 +36,7 @@ class number_of_ways_of_triangulation {
             k--;
           }
         }
-        return dp[n];
+        return dp[n-2];
 	 }
 	 
 	public static void main(String[] args) {

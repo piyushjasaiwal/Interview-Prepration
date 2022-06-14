@@ -41,8 +41,14 @@ class maximum_non_overlapping_bridges{
           arr[i] = nPair;
         }
 
-        
+        for(Pair pp : arr){
+          System.out.println(pp);
+        }
         Arrays.sort(arr, new comp());
+        System.out.println("--------------------------------------------");
+        for(Pair pp : arr){
+          System.out.println(pp);
+        }
 
         int ans = 0;
 
@@ -70,6 +76,12 @@ class Pair{
   public Pair(int s, int e){
     start = s;
     end = e;
+  }
+
+  @Override
+  public String toString() {
+      // TODO Auto-generated method stub
+      return "{" + start+", "+end+"}";
   }
 }
 

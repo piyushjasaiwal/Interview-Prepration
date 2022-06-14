@@ -17,6 +17,8 @@ Sample Input
 1
 2
 3
+
+// 5 4 2 3 1 3
 Sample Output
 6
 */
@@ -60,7 +62,12 @@ class matrix_chain_multiplication {
                 j++;
             }
         }
-
+        for(int [] ar:dp){
+            for(int a : ar){
+                System.out.print(a+" ");
+            }
+            System.out.println();
+        }
 		return dp[0][n-2];
 	}
 	public static void main(String[] args) {
