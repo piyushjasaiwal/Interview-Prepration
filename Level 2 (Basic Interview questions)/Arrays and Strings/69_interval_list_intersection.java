@@ -59,14 +59,34 @@ class interval_list_intersection {
 
     public static int[][] intersection(int intervalList1[][], int intervalList2[][]) {
         // write your code here
-        LinkedList<Integer> list = new LinkedList<>();
+        ArrayList<int[]> temp = new ArrayList<>();
+
+        Arrays.sort(intervalList1, new comp());
+        Arrays.sort(intervalList2, new comp());
+
         int i = 0;
         int j = 0;
         
         while(i < intervalList1.length && j < intervalList2.length){
-            // if()
+            int csp = Math.max(intervalList1[i][0], intervalList2[j][0]);
+            int esp = Math.min(intervalList1[i][1], intervalList2[j][1]);
+
+            if(csp <= esp){
+                temp.add(new int[]{csp, esp});
+            }
+
+            if(intervalList1[i][1] < intervalList2[j][1]){
+                i++;
+            }else{
+                j++;
+            }
         }
-        return null;
+
+        int [][] ans = new int[temp.size()][2];
+        for(i = 0;i<temp.size();i++){
+            ans[i] = temp.get(i);
+        }
+        return ans;
     }
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
@@ -92,5 +112,20 @@ class interval_list_intersection {
         System.out.print(Arrays.toString(interval));
         }
         System.out.println("]");
+    }
+
+    static class comp implements Comparator<int[]>{
+
+        @Override
+        public int compare(int[] o1, int[] o2) {
+            // TODO Auto-generated method stub
+    
+            if(o1[0] != o2[0]){
+                return o1[0] - o2[0];
+            }
+    
+            return o1[1] - o2[1];
+        }
+        
     }
 }

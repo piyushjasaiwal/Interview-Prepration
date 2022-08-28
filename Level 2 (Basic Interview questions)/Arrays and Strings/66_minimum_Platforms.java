@@ -32,9 +32,24 @@ class minimum_Platforms {
     Arrays.sort(arr);
     Arrays.sort(dep);
 
-    
+    int i = 0;
+    int j = 0;
+    int max_train = 0;
+    int platform = 0;
 
-    return 0;
+    while(i < arr.length && j < dep.length){
+      if(arr[i] < dep[j]){
+        max_train++;
+        i++;
+      }else{
+        max_train--;
+        j++;
+      }
+
+      platform = Math.max(platform, max_train);
+    }
+
+    return platform;
   }
 
   static class Pair implements Comparable<Pair>{

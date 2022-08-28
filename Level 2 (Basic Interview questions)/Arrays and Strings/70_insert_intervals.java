@@ -68,6 +68,29 @@ class insert_intervals {
 
     public static int[][] insertIntervals(int intervalList[][], int newInterval[]) {
         // write your code here
+        ArrayList<int[]> list = new ArrayList<>();
+        int i = 0;
+        while(i<intervalList.length && intervalList[i][0] < newInterval[0]){
+            list.add(intervalList[i]);
+            i++;
+        }
+
+        if(list.isEmpty()){
+            list.add(newInterval);
+        }else{
+            if(newInterval[0] > list.get(list.size()-1)[1]){
+                list.add(newInterval);
+            }else{
+                list.get(list.size()-1)[1] = Math.max(list.get(list.size()-1)[1], newInterval[1]);
+            }
+        }
+        boolean flag = true;
+
+        while(i < intervalList.length){
+            if(flag){
+                // if()
+            }
+        }
         return null;
     }
     public static void main(String[] args) {

@@ -22,51 +22,42 @@ class count_of_substring_having_all_unique_characters {
 
 	public static int solution(String str) {
 		// write your code here
-
-		int i = 0;
-		int j = 0;
-
 		int ans = 0;
+		int i = -1;
+		int j = -1;
+		HashMap<Character, Integer> map = new HashMap<>();
+		while(true){
+			boolean f1 = false;
+			boolean f2 = false;
 
-		int [] freqMap = new int[26];
-
-		while(j<str.length()){
-			while(j<str.length()){
-				freqMap[str.charAt(j) - 'a']++;
-				if(!isValid(freqMap)){
-					j++;
+			while(i < str.length()-1){
+				i++;
+				f1 = true;
+				map.put(str.charAt(i), map.getOrDefault(str.charAt(i), 0)+1);
+				if(map.get(str.charAt(i)) == 2){
 					break;
 				}else{
-					int len = (j-i+1);
-					ans += len;
-					j++;
+					ans+=(i-j);
 				}
 			}
 
-			while(i<j){
-				freqMap[str.charAt(i)-'a']--;
-				if(isValid(freqMap)){
-					int len = (j-i-1);
-					ans += len;
-					i++;
+			while(j<i){
+				j++;
+				f2 = true;
+				
+				map.put(str.charAt(j), map.get(str.charAt(j))-1);
+				if(map.get(str.charAt(j)) == 1){
+					ans += (i-j);
 					break;
-				}else{
-					i++;
 				}
+			}
+
+			
+			if(f1 == false && f2 == false){
+				break;
 			}
 		}
-        
 		return ans;
-	}
-
-	private static boolean isValid(int[] freqMap) {
-		for(int val:freqMap){
-			if(val > 1){
-				return false;
-			}
-		}
-
-		return true;
 	}
 	
 	public static void main(String[] args) {
