@@ -23,6 +23,8 @@ Sample Input
 4
 1
 5
+
+// 10 1 2 3 4 5 6 7 8 9 10
 Sample Output
 5 5 1 1 4 4 6 6 9 9 
 */
@@ -41,6 +43,7 @@ class Main {
 
     public static void fold(ListNode head) {
         ListNode mid = midLinkedList(head);
+        // System.out.println(mid.val);
         ListNode newHead = mid.next;
         mid.next = null;
 
